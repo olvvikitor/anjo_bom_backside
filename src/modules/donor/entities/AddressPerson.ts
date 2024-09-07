@@ -7,7 +7,6 @@ export interface IAddressPerson extends Document {
   bairro: string;
   rua: string;
   numero: string;
-  id_Person: Types.ObjectId
 }
 
 export const AddressPersonSchema = new Schema<IAddressPerson>({
@@ -39,11 +38,6 @@ export const AddressPersonSchema = new Schema<IAddressPerson>({
     type: String,
     required: true,
   },
-  id_Person: {
-    type: Schema.Types.ObjectId,
-    ref: 'Person',
-    required: false,  // Referencia ao Person que possui esse endereço  // Este campo é obrigatório para cada endereço criado
-  }
 });
 const AddressPerson = model<IAddressPerson>('AddressPerson', AddressPersonSchema);
 

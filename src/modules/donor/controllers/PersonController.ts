@@ -1,15 +1,14 @@
 import{Request, Response} from 'express'
 import CreatePersonService from '../services/CreatePersonService';
-import AppError from '@shared/errors/AppError';
 import FindPersonService from '../services/FindPersonService';
-import { IAddressPerson } from '@modules/address/entities/AddressPerson';
+import { IAddressPerson } from '@modules/donor/entities/AddressPerson';
 class PersonConroller{
   public async createPerson(request:Request, response: Response):Promise<Response>{
     const createPersonService = new CreatePersonService;
     
-    const {name, last_name, email,phone, password, motivation, address} = request.body;
+    const {name, last_name, email,phone, password, motivation, addressPerson} = request.body;
   
-    const { cep, estado, cidade, bairro, rua, numero } = address;
+    const { cep, estado, cidade, bairro, rua, numero } = addressPerson;
 
     const personData = {
       name,
@@ -19,6 +18,7 @@ class PersonConroller{
       password,
       motivation,
       addressPerson: { cep, estado, cidade, bairro, rua, numero }as unknown as IAddressPerson,
+      
     }
 
     const person = await createPersonService.execute(personData);

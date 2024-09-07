@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import PersonController from '../controllers/PersonController';
 import { celebrate, Joi, Segments } from 'celebrate';
 import LoginController from '../controllers/LoginController';
 const loginRouter = Router();
