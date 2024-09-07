@@ -1,15 +1,16 @@
 import { Schema, model, Document, Types } from "mongoose";
 
-export interface IAddress extends Document<Types.ObjectId> {
+export interface IAddressPerson extends Document {
   cep?: string;
   estado: string;
   cidade: string;
   bairro: string;
   rua: string;
   numero: string;
+  id_Person: Types.ObjectId
 }
 
-const addressSchema = new Schema<IAddress>({
+export const AddressPersonSchema = new Schema<IAddressPerson>({
   cep: {
     type: String,
     required: false,
@@ -38,7 +39,12 @@ const addressSchema = new Schema<IAddress>({
     type: String,
     required: true,
   },
+  id_Person: {
+    type: Schema.Types.ObjectId,
+    ref: 'Person',
+    required: false,  // Referencia ao Person que possui esse endereço  // Este campo é obrigatório para cada endereço criado
+  }
 });
-const Address = model<IAddress>('Address', addressSchema);
+const AddressPerson = model<IAddressPerson>('AddressPerson', AddressPersonSchema);
 
-export default Address;
+export default AddressPerson;
