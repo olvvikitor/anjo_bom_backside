@@ -1,4 +1,4 @@
-import AddressPerson, {IAddressPerson, AddressPersonSchema} from '@modules/address/entities/AddressPerson';
+import  {IAddressPerson, AddressPersonSchema} from '@modules/donor/entities/AddressPerson';
 import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IPerson extends Document<Types.ObjectId> {
@@ -14,7 +14,7 @@ export interface IPerson extends Document<Types.ObjectId> {
   updated_at: Date;
 }
 
-const PersonSchema = new Schema<IPerson>({
+const personSchema = new Schema<IPerson>({
   name: { 
     type: String,
     required: true 
@@ -64,6 +64,6 @@ const PersonSchema = new Schema<IPerson>({
   }
 });
 
-const Person = model<IPerson>('Person', PersonSchema);
+const Person = model<IPerson>('Person', personSchema);
 
 export default Person;

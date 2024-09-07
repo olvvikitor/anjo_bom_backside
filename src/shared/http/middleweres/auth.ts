@@ -26,6 +26,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
      id: sub,
    };
    next();
+   
  } catch (err) {
    throw new AppError("Token inválido", 401);
  }

@@ -29,7 +29,7 @@ class LoginService{
     if(!confirmPassword){
       throw new AppError('Invalid password', 401);
     }
-    const token = jwt.sign({name: person.name}, SECRET_KEY, {
+    const token = jwt.sign({name: person.name, id: person._id}, SECRET_KEY, {
       expiresIn: '2 days',
       subject: person.id
     });

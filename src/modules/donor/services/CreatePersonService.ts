@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppError';
 import {IPerson, IPerson as IPersonModel} from '../entities/Person';
 import PersonRepository from '../repository/PersonRepository';
 import {hash} from 'bcryptjs'
-import {IAddressPerson} from '@modules/address/entities/AddressPerson';
+import {IAddressPerson} from '@modules/donor/entities/AddressPerson';
 
 interface IRequestPerson{
   name: string;

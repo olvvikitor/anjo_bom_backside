@@ -3,5 +3,8 @@ declare namespace Express{
     Person: {
       id:string;
     }
+    Admin:{
+      id: string
+    }
   }
 }
