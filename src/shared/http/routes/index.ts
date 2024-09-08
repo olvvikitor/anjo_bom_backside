@@ -11,9 +11,18 @@ export const routes = Router();
 routes.use('/person', personRouter);
 routes.use('/person/auth', loginRouter)
 
-
 routes.use('/admin/auth', loginAdministratorRouter)
 
 routes.use('/admin', auth ,adminRouter);
 
  export default routes;
+ /**
+  * @swagger
+  * components:
+  *     securitySchemes:
+  *       apiAuth:
+  *         type: apiKey
+  *         in: header
+  *         name: token
+  */
+

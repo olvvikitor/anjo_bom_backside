@@ -26,9 +26,9 @@ class CreatePersonService{
    throw new AppError('Phone in use', 409);
  }
     //criptografando a senha recebida da requisição
-    password = await hash(password, 8);
+    const hashPassword = await hash(password, 8);
 
-    const person = await personRepository.create({name, last_name, email, phone, password, motivation, 
+    const person = await personRepository.create({name, last_name, email, phone, password:hashPassword, motivation, 
       addressPerson} as IPerson)
       return person;
     };

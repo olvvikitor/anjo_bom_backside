@@ -26,7 +26,7 @@ const schemaAdministrator = new Schema<IAdministrator>({
   password: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 6,
   },
   created_at: {
     type: Date,

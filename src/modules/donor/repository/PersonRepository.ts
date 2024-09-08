@@ -44,7 +44,7 @@ class PersonRepository {
     return person;
   }
   async findPass(param: string): Promise<IPersonModel | null> {
-    const person = await this.model.findOne({ email: param });
+    const person = await this.model.findOne({ email: param }).select('+password');
     if(!person) {
       const personPhone  = await this.model.findOne({phone: param}).select('+password');
       return personPhone;
