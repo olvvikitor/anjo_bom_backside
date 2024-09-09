@@ -11,6 +11,11 @@ loginRouter.post('/',celebrate({
     password: Joi.string().min(6).required(),
   }
 }), loginController.login);
+
+export default loginRouter;
+
+
+//JSDOC LOGIN DOADOR 
 /**
  * @swagger
  * /person/auth/:
@@ -49,5 +54,3 @@ loginRouter.post('/',celebrate({
  *       500:
  *         description: Erro interno do servidor
  */
-
-export default loginRouter;

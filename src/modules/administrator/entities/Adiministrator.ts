@@ -27,6 +27,7 @@ const schemaAdministrator = new Schema<IAdministrator>({
     type: String,
     required: true,
     minlength: 6,
+    selected: true,
   },
   created_at: {
     type: Date,

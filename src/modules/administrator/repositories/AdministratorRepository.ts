@@ -18,6 +18,24 @@ class AdministratorRepository{
     const admin = await this.model.findOne({email});
     return admin;
   }
+
+  async findAll():Promise<IAdministrator[] | null>{
+    const admins = await this.model.find({
+      isActive: true
+    });
+    return admins
+  }
+  async findById(id:string):Promise<IAdministrator| null>{
+    console.log('repositorio');
+    console.log(id);
+    const admin = await this.model.findById({
+      _id: id
+    });
+    return admin;
+  }
+  async update(id: string, updateData: IAdministrator): Promise<void>{
+    await this.model.updateOne({_id: id}, updateData);
+  }
   
 }
 export default AdministratorRepository;

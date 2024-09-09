@@ -24,6 +24,10 @@ personRouter.post('/',celebrate({
   }
   
 }), personController.createPerson);
+
+
+export default personRouter;
+//JSDOC DA CRIAÇÂO DE UM NOVO DOADOR
 /**
  * @swagger
  * /person/:
@@ -154,5 +158,3 @@ personRouter.post('/',celebrate({
  *       500:
  *         description: Erro interno do servidor.
  */
-
-export default personRouter;

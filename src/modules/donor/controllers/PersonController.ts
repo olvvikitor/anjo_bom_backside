@@ -25,10 +25,4 @@ class PersonConroller{
     return response.status(200).json(person);
     
   }
-  public async findByEmail(request:Request, response:Response): Promise<Response> {
-    const findDonerByEmailService = new FindPersonService;
-    const {param} = request.body;
-    const person = await findDonerByEmailService.execute({param});
-    return response.status(200).json(person);
-  }
 }export default PersonConroller;
