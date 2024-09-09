@@ -13,7 +13,7 @@ personRouter.post('/',celebrate({
     phone: Joi.string().required(),
     password: Joi.string().min(8).required(),
     motivation: Joi.string().required(),
-    addressPerson: Joi.object().keys({
+    address: Joi.object().keys({
       cep: Joi.string(),
       estado: Joi.string().required().max(2),
       cidade: Joi.string().required(),
@@ -67,7 +67,7 @@ export default personRouter;
  *                 type: string
  *                 description: Motivação para ser um doador.
  *                 example: Quero ajudar pessoas em necessidade.
- *               addressPerson:
+ *               address:
  *                 type: object
  *                 properties:
  *                   cep:
@@ -126,7 +126,7 @@ export default personRouter;
  *                   type: string
  *                   description: Motivação para ser um doador.
  *                   example: Quero ajudar pessoas em necessidade.
- *                 addressPerson:
+ *                 address:
  *                   type: object
  *                   properties:
  *                     cep:

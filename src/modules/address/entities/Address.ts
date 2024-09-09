@@ -1,6 +1,6 @@
 import { Schema, model, Document, Types } from "mongoose";
 
-export interface IAddressPerson extends Document {
+export interface IAddress extends Document {
   cep?: string;
   estado: string;
   cidade: string;
@@ -9,7 +9,7 @@ export interface IAddressPerson extends Document {
   numero: string;
 }
 
-export const AddressPersonSchema = new Schema<IAddressPerson>({
+export const AddressSchema = new Schema<IAddress>({
   cep: {
     type: String,
     required: false,
@@ -39,6 +39,6 @@ export const AddressPersonSchema = new Schema<IAddressPerson>({
     required: true,
   },
 });
-const AddressPerson = model<IAddressPerson>('AddressPerson', AddressPersonSchema);
+const Address = model<IAddress>('Address', AddressSchema);
 
-export default AddressPerson;
+export default Address;

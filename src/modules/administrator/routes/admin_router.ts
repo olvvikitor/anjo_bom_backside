@@ -25,7 +25,45 @@ adminRouter.put('/revogue/:id', adminController.revogueAdmin);
 export default adminRouter;
 
 
-
+//JSDOC REVOGUE ACTIVATION
+/**
+ * @swagger
+ * /admin/revogue/{id}:
+ *   put:
+ *     summary: Inativa um administrador
+ *     description: Endpoint para inativar um administrador existente no sistema. Requer autenticação com token Bearer.
+ *     security:
+ *       - apiAuth: []
+ *     tags:
+ *       - Administrador
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: O ID do administrador que será inativado.
+ *     responses:
+ *       200:
+ *         description: Administrador inativado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensagem de sucesso.
+ *                   example: Administrador inativado com sucesso.
+ *       400:
+ *         description: Requisição inválida ou parâmetros obrigatórios ausentes.
+ *       401:
+ *         description: Não autorizado, falha na autenticação.
+ *       404:
+ *         description: Administrador não encontrado.
+ *       500:
+ *         description: Erro interno do servidor.
+ */
 
 
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
@@ -120,7 +158,7 @@ export default adminRouter;
      *     security:
      *       - BearerAuth: []
      *     tags:
-     *       - Administração
+     *       - Administrador
      *     responses:
      *       200:
      *         description: Lista de administradores ativos recuperada com sucesso.

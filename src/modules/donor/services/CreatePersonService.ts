@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppError';
 import {IPerson, IPerson as IPersonModel} from '../entities/Person';
 import PersonRepository from '../repository/PersonRepository';
 import {hash} from 'bcryptjs'
-import {IAddressPerson} from '@modules/donor/entities/AddressPerson';
+import {IAddress} from '@modules/address/entities/Address';
 
 interface IRequestPerson{
   name: string;
@@ -11,11 +11,11 @@ interface IRequestPerson{
   phone: string;
   password: string;
   motivation: string;
-  addressPerson: IAddressPerson;
+  address: IAddress;
 }
 
 class CreatePersonService{
-  public async execute({name, last_name, email, phone, password, motivation, addressPerson}:IRequestPerson):Promise<IPersonModel>{
+  public async execute({name, last_name, email, phone, password, motivation, address}:IRequestPerson):Promise<IPersonModel>{
     const personRepository = new PersonRepository();
  const emailExists = await personRepository.findByEmailOrPhone(email);
  if (emailExists) {
@@ -29,7 +29,7 @@ class CreatePersonService{
     const hashPassword = await hash(password, 8);
 
     const person = await personRepository.create({name, last_name, email, phone, password:hashPassword, motivation, 
-      addressPerson} as IPerson)
+      address} as IPerson)
       return person;
     };
 }

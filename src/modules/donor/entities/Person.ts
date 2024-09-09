@@ -1,4 +1,4 @@
-import  {IAddressPerson, AddressPersonSchema} from '@modules/donor/entities/AddressPerson';
+import  {IAddress, AddressSchema} from '@modules/address/entities/Address';
 import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IPerson extends Document<Types.ObjectId> {
@@ -9,7 +9,7 @@ export interface IPerson extends Document<Types.ObjectId> {
   password: string;
   motivation: string;
   isActive: boolean;
-  addressPerson: IAddressPerson;
+  address: IAddress;
   created_at: Date;
   updated_at: Date;
 }
@@ -48,8 +48,8 @@ const personSchema = new Schema<IPerson>({
     type: Boolean,
     default: true,
   },
-  addressPerson:{
-    type: AddressPersonSchema,
+  address:{
+    type: AddressSchema,
     required: true,  
   },
   created_at:{
