@@ -11,7 +11,6 @@ personRouter.post('/',celebrate({
     last_name: Joi.string().required(),
     email: Joi.string().email().required(),
     phone: Joi.string().required(),
-    password: Joi.string().min(8).required(),
     motivation: Joi.string().required(),
     address: Joi.object().keys({
       cep: Joi.string(),

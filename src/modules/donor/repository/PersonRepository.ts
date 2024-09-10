@@ -17,36 +17,30 @@ class PersonRepository {
      return persons;
   }
 
-  async findById(id: string): Promise<IPersonModel | null> {
-    const person = await this.model.findById(id).exec();
-    return person;
-  }
+  // async findById(phone: string): Promise<IPersonModel | null> {
+  //   const person = await this.model.findOne({
+  //     _id:id
+  //   }).select('+code');
+  //   return person;
+  // }
 
   async findAll(): Promise<IPersonModel[]> {
     const person = await this.model.find().exec();
     return person
   }
 
-  async update(id: string, updateData: Partial<IPersonModel>): Promise<IPersonModel | null> {
-    const person = await this.model.findByIdAndUpdate(id, updateData, { new: true }).exec();
-    return person;
+  async update(id: string, updateData: Partial<IPersonModel>): Promise<void> {
+    await this.model.updateOne({_id: id}, updateData);
+
   }
 
   async delete(id: string): Promise<void> {
     await this.model.findByIdAndDelete(id).exec();
   }
   async findByEmailOrPhone(param: string): Promise<IPersonModel | null> {
-    const person = await this.model.findOne({ email: param });
+    const person = await this.model.findOne({ email: param }).select('+code');
     if(!person) {
-      const personPhone  = await this.model.findOne({phone: param});
-      return personPhone;
-    }
-    return person;
-  }
-  async findPass(param: string): Promise<IPersonModel | null> {
-    const person = await this.model.findOne({ email: param }).select('+password');
-    if(!person) {
-      const personPhone  = await this.model.findOne({phone: param}).select('+password');
+      const personPhone  = await this.model.findOne({phone: param}).select('+code');
       return personPhone;
     }
     return person;

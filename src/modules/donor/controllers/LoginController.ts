@@ -1,13 +1,21 @@
 import{Request, Response} from 'express'
-import LoginService from '../services/LoginService';
+import LoginService from '../services/Login/LoginService';
+import CheckCodeService from '../services/Login/CheckCodeService';
 
 class LoginController{
 
   public async login(request: Request, response: Response): Promise<Response> {
-    const{param, password} = request.body
+    const{param} = request.body
     const loginService = new LoginService;
-    const token = await loginService.execute({param, password});
-    return response.status(200).json(token);
+    const person = await loginService.execute({param});
+    return response.status(200).json(person);
+  }
+  public async checkCode(request: Request, response:Response): Promise<Response>{
+    const{code} = request.body
+    const id = request.params.id
+    const checkCodeService = new CheckCodeService;
+    const result = await checkCodeService.execute(code, id);
+    return response.status(200).json(result);
   }
 }
 export default LoginController;

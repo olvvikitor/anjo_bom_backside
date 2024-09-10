@@ -23,6 +23,9 @@ class LoginService{
     if(!confirmPassword){
       throw new AppError('Invalid password', 401);
     }
+    if(admin.isActive == false){
+      throw new AppError('Account is inactive', 401);
+    }
     const token = jwt.sign({name: admin.name, id: admin._id}, SECRET_KEY,{
       expiresIn: '2 days',
       subject: admin.id

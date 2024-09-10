@@ -6,7 +6,7 @@ export interface IPerson extends Document<Types.ObjectId> {
   last_name: string;
   email: string;
   phone:string;
-  password: string;
+  code: string;
   motivation: string;
   isActive: boolean;
   address: IAddress;
@@ -33,13 +33,12 @@ const personSchema = new Schema<IPerson>({
     type: String,
     required: true,
     unique: true,
-    select: true,  // Exibe o número de telefone no response
+    
   },
-  password:{
+  code:{
     type: String,
-    required: true,
-    minlength: 6,
-    select: false  // Não exibe a senha no response
+    default:'0000',
+    select: false,  
   },
   motivation: { 
     type: String 

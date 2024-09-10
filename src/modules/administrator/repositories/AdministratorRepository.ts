@@ -26,8 +26,6 @@ class AdministratorRepository{
     return admins
   }
   async findById(id:string):Promise<IAdministrator| null>{
-    console.log('repositorio');
-    console.log(id);
     const admin = await this.model.findById({
       _id: id
     });

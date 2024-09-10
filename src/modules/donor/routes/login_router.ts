@@ -8,19 +8,19 @@ const loginController = new LoginController();
 loginRouter.post('/',celebrate({
     [Segments.BODY]:{
     param: Joi.string().required(),
-    password: Joi.string().min(6).required(),
+    
   }
 }), loginController.login);
-
+loginRouter.post('/code/:id', loginController.checkCode)
 export default loginRouter;
 
 
-//JSDOC LOGIN DOADOR 
+//JSDOC GERAR CODE LOGIN DOADOR 
 /**
  * @swagger
  * /person/auth/:
  *   post:
- *     summary: Realizar login de um usuário
+ *     summary: Gerar código de autenticação para um usuário.
  *     tags:
  *       - Doadores
  *     requestBody:
@@ -31,26 +31,75 @@ export default loginRouter;
  *             properties:
  *               param:
  *                 type: string
- *                 description: Parâmetro de login (por exemplo, e-mail ou nome de usuário)
+ *                 description: Parâmetro de login, que pode ser um e-mail ou telefone do usuário.
  *                 example: joao.silva@example.com
- *               password:
- *                 type: string
- *                 description: Senha do usuário
- *                 example: senha1234
+ *             required:
+ *               - param
  *     responses:
  *       200:
- *         description: Login realizado com sucesso
+ *         description: Código gerado e enviado com sucesso.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 token:
+ *                 id:
  *                   type: string
- *                   description: Token de autenticação retornado após login
- *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+ *                   description: ID do usuário retornado após a geração e envio do código.
+ *                   example: "123456"
+ *       400:
+ *         description: Parâmetro de login inválido.
  *       401:
- *         description: Credenciais inválidas
+ *         description: Credenciais inválidas.
+ *       404:
+ *         description: Usuário não encontrado.
  *       500:
- *         description: Erro interno do servidor
+ *         description: Erro interno do servidor.
+ */
+
+//JSDOC LOGIN-CODE
+/**
+ * @swagger
+ * /person/auth/code/{id}:
+ *   post:
+ *     summary: Verificar código de autenticação enviado por SMS.
+ *     tags:
+ *       - Doadores
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do usuário para verificar o código.
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
+ *                 description: Código de autenticação enviado para o telefone do usuário.
+ *                 example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRW15bGUiLCJpZCI6IjY2ZGZjYjVjZWVmYjAxNjE2MzdmOGQyZCIsImlhdCI6MTcyNTk0MzQ1MCwiZXhwIjoxNzI2MTE2MjUwLCJzdWIiOiI2NmRmY2I1Y2VlZmIwMTYxNjM3ZjhkMmQifQ.jg9GvmGEcT6Yp9K7FzwvfLG9v-WWrZ6nMJqS8SSSl2E"
+ *             required:
+ *               - code
+ *     responses:
+ *       200:
+ *         description: Código verificado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   description: Resultado da verificação do código.
+ *                   example: "Código verificado com sucesso."
+ *       400:
+ *         description: Código inválido ou expirado.
+ *       404:
+ *         description: ID do usuário não encontrado.
+ *       500:
+ *         description: Erro interno do servidor.
  */

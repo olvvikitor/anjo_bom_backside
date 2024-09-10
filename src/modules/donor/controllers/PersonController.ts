@@ -6,7 +6,7 @@ class PersonConroller{
   public async createPerson(request:Request, response: Response):Promise<Response>{
     const createPersonService = new CreatePersonService;
     
-    const {name, last_name, email,phone, password, motivation, address} = request.body;
+    const {name, last_name, email,phone, motivation, address} = request.body;
   
     const { cep, estado, cidade, bairro, rua, numero } = address;
 
@@ -15,7 +15,6 @@ class PersonConroller{
       last_name,
       email,
       phone,
-      password,
       motivation,
       address: { cep, estado, cidade, bairro, rua, numero }as unknown as IAddress,
       
