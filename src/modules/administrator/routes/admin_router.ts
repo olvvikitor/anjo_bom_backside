@@ -22,6 +22,8 @@ adminRouter.get('/show-all', adminController.showAll);
 
 adminRouter.put('/revogue/:id', adminController.revogueAdmin);
 
+adminRouter.get('/show-donors', adminController.getAllDonors);
+
 export default adminRouter;
 
 
