@@ -1,5 +1,5 @@
 import{Request, Response} from 'express'
-import LoginService from '../services/Login/LoginService';
+import LoginService from '../services/Login/GenerateCode';
 import CheckCodeService from '../services/Login/CheckCodeService';
 
 class LoginController{

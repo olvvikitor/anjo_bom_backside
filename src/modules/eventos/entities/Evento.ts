@@ -1,18 +1,17 @@
 import { Schema, model, Document, Types } from 'mongoose';
-import { IPhotoEvent, photoEventSchema } from './Photo';
-import { IAddress } from '@modules/address/entities/Address';
+import { AddressSchema, IAddress } from '@modules/address/entities/Address';
 
 export interface IEvento extends Document<Types.ObjectId>{
   titulo:string;
   descricao:string;
-  photos: IPhotoEvent[];
+  photos: Types.ObjectId[];
   address: IAddress
   data_inicio: Date;
   data_fim: Date;
   created_at: Date;
   updated_at: Date;
 }
-const eventoSchemma = new Schema<IEvento>({
+export const eventoSchemma = new Schema<IEvento>({
   titulo: {
     type: String,
     required: true,
@@ -22,13 +21,14 @@ const eventoSchemma = new Schema<IEvento>({
     required: true,
   },
   address:{
-    type: Schema.Types.ObjectId,
+    type: AddressSchema,
     ref: 'Address',
     required: true,
   },
   photos: {
-    type: [photoEventSchema],
-    required: false,
+    type: [Schema.Types.ObjectId],
+    ref: 'PhotoEvent',
+    required: false,                     
   },
   data_inicio: {
     type: Date,
@@ -47,3 +47,5 @@ const eventoSchemma = new Schema<IEvento>({
     default: Date.now(),
   },
 });
+const Event = model<IEvento>('Event', eventoSchemma);
+export default  Event;

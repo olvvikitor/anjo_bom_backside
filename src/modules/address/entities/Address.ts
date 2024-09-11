@@ -39,6 +39,3 @@ export const AddressSchema = new Schema<IAddress>({
     required: true,
   },
 });
-const Address = model<IAddress>('Address', AddressSchema);
-
-export default Address;

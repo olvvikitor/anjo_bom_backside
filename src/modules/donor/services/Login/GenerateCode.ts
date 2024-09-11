@@ -1,8 +1,8 @@
 import AppError from '@shared/errors/AppError';
 
 import PersonRepository from '../../repository/PersonRepository';
-import {hash} from 'bcryptjs'
-import { sendSms } from './SendSmsForAuth';
+
+import { sendSms } from '@shared/services/SendSms'
 
 interface IRequest{
   param: string,
@@ -35,11 +35,13 @@ class LoginService{
 
      //Enviando o telefone para a resposta
      return {phone};
+     
   }
  
   private generateFourDigitCode() {
     const code = Math.floor(1000 + Math.random() * 9000);
     return code.toString().padStart(4, '0');
   }
+  
 }
 export default LoginService;

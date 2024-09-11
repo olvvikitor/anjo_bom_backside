@@ -32,7 +32,7 @@ export default loginRouter;
  *               param:
  *                 type: string
  *                 description: Parâmetro de login, que pode ser um e-mail ou telefone do usuário.
- *                 example: joao.silva@example.com
+ *                 example: "7598563291"
  *             required:
  *               - param
  *     responses:

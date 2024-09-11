@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 import AdministratorController from '../controllers/AdministratorController';
-import { auth } from '@shared/http/middleweres/auth';
+
 
 const adminRouter = Router();
 const adminController = new AdministratorController();
@@ -35,7 +35,7 @@ export default adminRouter;
  *     summary: Inativa um administrador
  *     description: Endpoint para inativar um administrador existente no sistema. Requer autenticação com token Bearer.
  *     security:
- *       - apiAuth: []
+ *       - bearerAuth: []
  *     tags:
  *       - Administrador
  *     parameters:

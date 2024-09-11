@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { interfaces, controller, httpGet, httpPost, httpDelete, request, queryParam, response, requestParam } from "inversify-express-utils";
 import CreateAdministratorService from '../services/CreateAdministratorService';
 import ShowAllAdmin from '../services/ShowAllAdmin';
 import UpdtateStatusAdmin from '../services/UpdateStatusAdmin';

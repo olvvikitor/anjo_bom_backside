@@ -10,6 +10,7 @@ class CheckCodeService {
 
   //RECEBE UM CODIGO E UM PARAMETRO(PHONE) PARA FAZER A BUSCA DO ULTIMO CODIGO GERADO
   public async execute(code: string, param: string): Promise<IResponse> {
+    
     const personRepository = new PersonRepository();
     
     const person = await personRepository.findByEmailOrPhone(param);
@@ -27,6 +28,7 @@ class CheckCodeService {
       expiresIn: "2 days",
       subject: person.id,
     });
+    
     return { token };
   }
 }

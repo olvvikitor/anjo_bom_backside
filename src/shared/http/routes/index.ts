@@ -5,6 +5,7 @@ import loginRouter from '@modules/donor/routes/login_router';
 import personRouter from '@modules/donor/routes/person_router';
 import { Router } from 'express';
 import { auth } from '../middleweres/auth';
+import eventoRouter from '@modules/eventos/routes/eventoRouter';
 
 export const routes = Router();
 
@@ -13,16 +14,17 @@ routes.use('/person/auth', loginRouter)
 
 routes.use('/admin/auth', loginAdministratorRouter)
 
+routes. use('/events', eventoRouter)
+
 routes.use('/admin', auth ,adminRouter);
 
  export default routes;
- /**
-  * @swagger
-  * components:
-  *     securitySchemes:
-  *       apiAuth:
-  *         type: apiKey
-  *         in: header
-  *         name: token
-  */
-
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */

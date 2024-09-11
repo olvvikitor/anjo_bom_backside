@@ -11,10 +11,9 @@ export const photoEventSchema = new Schema<IPhotoEvent>({
     required: true,
   },
   event_id: {
-    type: Schema.ObjectId,
-    required: true,
+    type: Schema.Types.ObjectId,
     ref: 'Event',
   },
 })
-const Photo = model<IPhotoEvent>('PhotoEvent', photoEventSchema);
-export default Photo;
+const PhotoEvent = model<IPhotoEvent>('PhotoEvent', photoEventSchema);
+export default PhotoEvent;
