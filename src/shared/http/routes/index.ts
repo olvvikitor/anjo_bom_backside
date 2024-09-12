@@ -10,13 +10,14 @@ import eventoRouter from '@modules/eventos/routes/eventoRouter';
 export const routes = Router();
 
 routes.use('/person', personRouter);
+
 routes.use('/person/auth', loginRouter)
 
 routes.use('/admin/auth', loginAdministratorRouter)
 
-routes. use('/events', eventoRouter)
+routes. use('/admin/events', eventoRouter)
 
-routes.use('/admin', auth ,adminRouter);
+routes.use('/admin' ,adminRouter);
 
  export default routes;
 /**

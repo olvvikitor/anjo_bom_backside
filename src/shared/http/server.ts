@@ -14,6 +14,7 @@ import swaggerSpec  from '../swagger';
 
 import AppError from '@shared/errors/AppError';
 import routes from './routes';
+import upload from '@config/upload';
 
 // Middleware
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use(routes);
 app.use(errors());
 
+app.use('/uploads', express.static(upload.directory));
 //implementando swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

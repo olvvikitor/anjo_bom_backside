@@ -18,5 +18,9 @@ class EventoRepository {
     await this.model.updateOne({_id: event._id}, event);
     return event;
   }
+  async showAll():Promise<IEvento[]> {
+    const events = await this.model.find();
+    return events;
+  }
 }
 export default EventoRepository;
