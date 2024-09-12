@@ -7,6 +7,7 @@ export default{
   directory: uploadFolder,
   storage: multer.diskStorage({
     destination: uploadFolder,
+    
     filename(request, file, callback){
       const fileHash = crypto.randomBytes(10).toString('hex')
 
@@ -14,5 +15,8 @@ export default{
 
       callback(null, filename)
     }
-  })
+  }),
+  limits: {
+    fileSize: 50 * 1024 * 1024 // Limite de 10 MB
+  }
 }

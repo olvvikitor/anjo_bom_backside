@@ -24,7 +24,6 @@ personRouter.post('/',celebrate({
   
 }), personController.createPerson);
 
-
 export default personRouter;
 //JSDOC DA CRIAÇÂO DE UM NOVO DOADOR
 /**
