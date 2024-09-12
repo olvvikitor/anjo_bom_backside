@@ -9,9 +9,16 @@ import { auth } from '@shared/http/middleweres/auth';
 
 const eventoRouter = Router();
 const eventoController = new EventController();
+
+eventoRouter.get('/',eventoController.getEvents )
+
 const uploader = multer(upload)
 eventoRouter.post('/', auth ,uploader.array('photos_event'), 
 eventoController.create);
+
+
+
+
 export default eventoRouter;
 
 /**

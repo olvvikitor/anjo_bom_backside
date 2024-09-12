@@ -41,10 +41,12 @@ export const eventoSchemma = new Schema<IEvento>({
   created_at: {
     type: Date,
     default: Date.now(),
+    select: false,// Não exibe a data de criação do Evento no response
   },
   updated_at: {
     type: Date,
     default: Date.now(),
+    select: false,
   },
 });
 const Event = model<IEvento>('Event', eventoSchemma);
