@@ -6,6 +6,7 @@ import personRouter from '@modules/donor/routes/person_router';
 import { Router } from 'express';
 import { auth } from '../middleweres/auth';
 import eventoRouter from '@modules/eventos/routes/eventoRouter';
+import donatesRouter from '@modules/donates/routes/donatesRouter';
 
 export const routes = Router();
 
@@ -13,11 +14,15 @@ routes.use('/person', personRouter);
 
 routes.use('/person/auth', loginRouter)
 
+routes.use('/person/payment', donatesRouter)
+
 routes.use('/admin/auth', loginAdministratorRouter)
 
 routes. use('/admin/events', eventoRouter)
 
 routes.use('/admin' ,adminRouter);
+
+
 
  export default routes;
 /**

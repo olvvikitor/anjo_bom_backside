@@ -1,7 +1,8 @@
 import{Request, Response} from 'express'
 import CreatePersonService from '../services/CreatePersonService';
-import FindPersonService from '../services/FindPersonService';
+
 import { IAddress } from '@modules/address/entities/Address';
+import { createPayment, getPayments } from '@shared/services/Payment';
 class PersonConroller{
   public async createPerson(request:Request, response: Response):Promise<Response>{
     const createPersonService = new CreatePersonService;
@@ -24,4 +25,5 @@ class PersonConroller{
     return response.status(200).json(person);
     
   }
+  
 }export default PersonConroller;

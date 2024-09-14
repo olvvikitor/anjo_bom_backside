@@ -1,13 +1,16 @@
 import { Model } from 'mongoose';
 import Evento, { IEvento } from '../entities/Evento';
+import { paginate } from 'mongoose-paginate-v2';
 
 
 class EventoRepository {
+
   private model: Model<IEvento>
 
   constructor() {
-    this.model = Evento;;
+    this.model = Evento;
   }
+
   
   async createEvent(event: IEvento): Promise<IEvento> {
     const newEvent = await this.model.create(event);
