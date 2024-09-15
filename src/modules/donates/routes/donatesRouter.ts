@@ -81,13 +81,7 @@ donatesRouter.post(
  *     tags:
  *       - Payment
  *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: Identificador da doação a ser atualizada.
- *         schema:
- *           type: string
- *           example: 607f1f77bcf86cd799439011
+ * 
  *     requestBody:
  *       description: Dados atualizados para a doação.
  *       content:
@@ -109,7 +103,7 @@ donatesRouter.post(
  *                 example: +5511988888888
  *               message:
  *                 type: string
- *                 example: Atualização da doação
+ *                 example: Deus abençoe vocês
  *     responses:
  *       200:
  *         description: Informações da doação atualizadas com sucesso.
@@ -120,6 +114,6 @@ donatesRouter.post(
  *       404:
  *         description: Doação não encontrada.
  */
-donatesRouter.put('/:id', donatesController.updateInfoPix);
+donatesRouter.put('/', donatesController.updateInfoPix);
 
 export default donatesRouter;

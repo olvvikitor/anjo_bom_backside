@@ -22,7 +22,7 @@ public async updateInfoPix(request:Request, response: Response):Promise<Response
 
   const updateStatusWhitPix = new UpdateStatusWhitPix();
 
-  await updateStatusWhitPix.execute({ id: idParse});
+  await updateStatusWhitPix.execute();
 
   return response.status(200).json()
 }

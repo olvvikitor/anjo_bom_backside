@@ -1,30 +1,29 @@
-import { createPayment, getPayments } from '@shared/services/Payment';
-import DonateRepository from '../repositories/DonateRepository';
-import { IDonateWithPix } from '../entities/DonateWithPix';
-import AppError from '@shared/errors/AppError';
+import { createPayment, getPayments } from "@shared/services/Payment";
+import DonateRepository from "../repositories/DonateRepository";
+import { IDonateWithPix } from "../entities/DonateWithPix";
+import AppError from "@shared/errors/AppError";
 
-interface IRequest{
-  id: number;
-}
 
 class UpdateStatusWhitPix {
-  public async execute({id}: IRequest): Promise<void> {
-
+  public async execute(): Promise<void> {
     const donateRepository = new DonateRepository();
-    
-    let donate = await donateRepository.findByIdPix(id);
-    console.log(donate);
-    if(donate){
-      const getPayment = await getPayments(id as number);
-         if (!getPayment){
-            throw new AppError("Transação não encontrada");
-          }
-       donate.status = getPayment.status as string;
-       donate.name = getPayment.payer?.first_name as string;
-       console.log(donate);
 
-       await donateRepository.updateDonateWithPix(donate);
-    }
+    let allDonates = await donateRepository.findAll();
+
+    allDonates.map((donates) =>
+      getPayments(donates.id_pix as number)
+        .then(async  (donaterStatus) => {
+          const donater = await donateRepository.findByIdPix(
+            donates.id_pix as number
+          );
+          if (donater != null) {
+            donater.status = donaterStatus.status as string;
+          }
+          await donateRepository.updateDonateWithPix(donater as IDonateWithPix);
+        })
+        .catch(console.error)
+    );
   }
 }
+
 export default UpdateStatusWhitPix;

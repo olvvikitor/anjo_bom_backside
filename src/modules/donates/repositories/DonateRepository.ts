@@ -20,7 +20,10 @@ class DonateRepository{
   }
   public async updateDonateWithPix(transationData: IDonateWithPix): Promise<void>{
     const updatedExtract = await this.model.updateOne({_id : transationData._id}, transationData);
-    
+  }
+  public async findAll(){
+    const allExtracts = await this.model.find();
+    return allExtracts;
   }
 }
 export default DonateRepository;
