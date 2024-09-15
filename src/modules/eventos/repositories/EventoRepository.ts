@@ -25,5 +25,12 @@ class EventoRepository {
     const events = await this.model.find();
     return events;
   }
+  async delete(id:string):Promise<void>{
+    await this.model.deleteOne({_id: id});
+  }
+  async findById(id: string): Promise<IEvento | null>{
+    const event = await this.model.findOne({_id:id});
+    return event;
+  }
 }
 export default EventoRepository;

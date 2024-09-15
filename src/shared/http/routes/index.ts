@@ -18,7 +18,7 @@ routes.use('/person/payment', donatesRouter)
 
 routes.use('/admin/auth', loginAdministratorRouter)
 
-routes. use('/admin/events', eventoRouter)
+routes. use('/events', eventoRouter)
 
 routes.use('/admin' ,adminRouter);
 

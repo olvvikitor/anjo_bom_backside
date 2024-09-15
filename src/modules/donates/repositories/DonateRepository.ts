@@ -19,11 +19,17 @@ class DonateRepository{
     return updatedExtract;
   }
   public async updateDonateWithPix(transationData: IDonateWithPix): Promise<void>{
-    const updatedExtract = await this.model.updateOne({_id : transationData._id}, transationData);
+     await this.model.updateOne({_id : transationData._id}, transationData);
   }
-  public async findAll(){
+  public async findAll(): Promise<IDonateWithPix[] | null>{
     const allExtracts = await this.model.find();
     return allExtracts;
+  }
+  public async findAllApproved(): Promise<IDonateWithPix[] | null>{
+    const allExtactsApproved = await this.model.find({
+      status: 'approved'
+    });
+    return allExtactsApproved;
   }
 }
 export default DonateRepository;
