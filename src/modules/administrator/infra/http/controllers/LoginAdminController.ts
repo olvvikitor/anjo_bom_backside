@@ -1,5 +1,6 @@
+import LoginAdministratorService from '@modules/administrator/services/LoginAdministratorService';
 import { Request, Response } from 'express';
-import LoginAdministratorService from '../services/LoginAdministratorService';
+
 
 
 class LoginAdministratorController{

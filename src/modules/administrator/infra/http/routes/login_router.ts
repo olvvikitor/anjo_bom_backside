@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 import LoginAdministratorController from '../controllers/LoginAdminController';
 
+
 const loginAdministratorRouter = Router();
 const loginAdministratorController = new LoginAdministratorController();
 

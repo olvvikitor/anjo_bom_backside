@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
-import CreateAdministratorService from '../services/CreateAdministratorService';
-import ShowAllAdmin from '../services/ShowAllAdmin';
-import UpdtateStatusAdmin from '../services/UpdateStatusAdmin';
-import GetAllDonorService from '../services/GetAllDonorService';
 import FindAllDonatesApproved from '@modules/donates/services/FindAllDonatesApproved';
 import DeleteEventoService from '@modules/eventos/services/DeleteEventoService';
 import CreateEventoService from '@modules/eventos/services/CreateEventoService';
+import CreateAdministratorService from '@modules/administrator/services/CreateAdministratorService';
+import GetAllDonorService from '@modules/administrator/services/GetAllDonorService';
+import ShowAllAdmin from '@modules/administrator/services/ShowAllAdmin';
+import UpdtateStatusAdmin from '@modules/administrator/services/UpdateStatusAdmin';
+import { container } from 'tsyringe';
 
 
 class AdministratorController{
@@ -24,8 +25,11 @@ class AdministratorController{
   }
   public async createAdministrator(request: Request, response: Response): Promise<Response> {
     const {name, email, password} = request.body;
-    const createAdminService = new CreateAdministratorService;
+
+    const createAdminService = container.resolve(CreateAdministratorService)
+
     const admin = await createAdminService.execute({name, email, password});
+    
     return response.status(200).json(admin);
   }
   public async getAllDonors(request: Request, response: Response): Promise<Response>{

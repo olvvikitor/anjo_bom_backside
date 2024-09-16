@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
-import AdministratorController from '../controllers/AdministratorController';
+
 import multer from 'multer';
 import upload from '@config/upload';
-import { auth } from '@shared/http/middleweres/auth';
+import { auth } from '@shared/infra/http/middleweres/auth';
+import AdministratorController from '../controllers/AdministratorController';
+
 
 
 const adminRouter = Router();

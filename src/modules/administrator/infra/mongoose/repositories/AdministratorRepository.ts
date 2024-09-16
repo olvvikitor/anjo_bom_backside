@@ -1,7 +1,10 @@
 import { Model } from 'mongoose';
-import Administrator, { IAdministrator } from '../entities/Adiministrator';
 
-class AdministratorRepository{
+import Administrator from '../entities/Adiministrator';
+import { IAdministrator } from '@modules/administrator/domain/models/IAdministrator';
+import { IAdministratorRepository } from '@modules/administrator/domain/repositories/IAdministratorRepository';
+
+class AdministratorRepository implements IAdministratorRepository{
 
   private model: Model<IAdministrator>;
 

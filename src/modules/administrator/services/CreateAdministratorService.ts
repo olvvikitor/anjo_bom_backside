@@ -1,22 +1,34 @@
 import AppError from '@shared/errors/AppError';
-import AdministratorRepository from '../repositories/AdministratorRepository';
-import { IAdministrator } from '../entities/Adiministrator';
+
 import {hash} from 'bcryptjs'
-interface IRequest{
-  name: string;
-  email: string;
-  password: string;
-}
+
+import { IAdministrator } from '../domain/models/IAdministrator';
+import { ICreateAdministrator } from '../domain/models/ICreateAdministrator';
+import { IAdministratorRepository } from '../domain/repositories/IAdministratorRepository';
+
+import { inject, injectable } from 'tsyringe';
+
+@injectable()
 class CreateAdministratorService{
-  public async execute({name, email, password}:IRequest){
-    const administratorRepository = new AdministratorRepository;
-    const adminExists = await administratorRepository.findByEmail(email);
+
+  private administratorRepository : IAdministratorRepository;
+
+  constructor (
+    @inject('IAdministratorRepository')
+    administratorRepository: IAdministratorRepository) {
+    this.administratorRepository = administratorRepository;
+  }
+  public async execute({name, email, password}:ICreateAdministrator){
+
+    const adminExists = await  this.administratorRepository.findByEmail(email);
 
     if(adminExists){
       throw new AppError('Email already exists', 409)
     }
+
     password = await hash(password, 8)
-    const admin = await administratorRepository.createAdministrator({name, email, password} as IAdministrator);
+
+    const admin = await  this.administratorRepository.createAdministrator({name, email, password} as IAdministrator);
 
     return admin;
   }

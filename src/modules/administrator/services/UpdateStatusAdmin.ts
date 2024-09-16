@@ -1,5 +1,6 @@
 import AppError from '@shared/errors/AppError';
-import AdministratorRepository from '../repositories/AdministratorRepository';
+import AdministratorRepository from '../infra/mongoose/repositories/AdministratorRepository';
+
 
 interface IRequest{
   id: string
