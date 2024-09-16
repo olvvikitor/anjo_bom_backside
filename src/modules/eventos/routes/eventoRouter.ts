@@ -16,7 +16,7 @@ export default eventoRouter;
 
 /**
  * @swagger
- * /events:
+ * /events/:
  *   post:
  *     summary: Cria um novo evento
  *     description: Cria um novo evento com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.

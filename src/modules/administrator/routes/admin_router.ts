@@ -3,9 +3,11 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import AdministratorController from '../controllers/AdministratorController';
 import multer from 'multer';
 import upload from '@config/upload';
+import { auth } from '@shared/http/middleweres/auth';
 
 
 const adminRouter = Router();
+adminRouter.use(auth);
 const adminController = new AdministratorController();
 
 
@@ -197,12 +199,49 @@ adminRouter.put('/revogue/:id', adminController.revogueAdmin);
      */
 adminRouter.get('/show-donors', adminController.getAllDonors);
 
-
+/**
+ * @swagger
+ * /show-donates:
+ *   get:
+ *     summary: Exibe todas as doações aprovadas
+ *     description: Recupera uma lista de todas as doações que foram aprovadas. Requer autenticação Bearer token.
+ *     tags:
+ *       - Administrador
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de doações aprovadas.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                     description: ID da doação.
+ *                   donorName:
+ *                     type: string
+ *                     description: Nome do doador.
+ *                   amount:
+ *                     type: number
+ *                     description: Valor da doação.
+ *                   status:
+ *                     type: string
+ *                     description: Status da doação (aprovado).
+ *                     example: aprovado
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
 adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
 
 /**
  * @swagger
- * /events:
+ * /create-evento:
  *   post:
  *     summary: Cria um novo evento
  *     description: Cria um novo evento com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
@@ -297,6 +336,43 @@ const uploader = multer(upload)
 adminRouter.post('/create-evento' ,uploader.array('photos_event'), 
 adminController.createEvento);
 
+/**
+ * @swagger
+ * /delete-event/{id}:
+ *   delete:
+ *     summary: Deleta um evento
+ *     description: Remove um evento específico baseado no ID fornecido. Requer autenticação Bearer token.
+ *     tags:
+ *       - Administrador
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O ID do evento a ser deletado.
+ *     responses:
+ *       200:
+ *         description: Evento deletado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Evento deletado com sucesso.
+ *       400:
+ *         description: Erro ao deletar o evento, ID inválido.
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       404:
+ *         description: Evento não encontrado.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
 adminRouter.delete('/delete-event/:id', adminController.deleteEvento)
 
 export default adminRouter;

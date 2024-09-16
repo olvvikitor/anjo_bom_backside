@@ -13,7 +13,7 @@ public async donateWithPix(request:Request, response: Response):Promise<Response
 
   const payment = await saveDonateWithPix.execute({amount, message, email, name, phone})
 
-  return  response.status(200).json(payment)
+  return  response.status(200).json({ticket_url:payment})
 }
 public async updateInfoPix(request:Request, response: Response):Promise<Response>{
   const id = request.params.id;
