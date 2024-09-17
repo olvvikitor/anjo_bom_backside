@@ -1,10 +1,8 @@
+import { inject, injectable } from 'tsyringe';
 import { IPersonRepository } from '@modules/donor/domain/repositories/IPersonRepository';
+import { ISmsService } from '@shared/domain/models/ISmsService';
 import AppError from '@shared/errors/AppError';
 
-
-
-import { sendSms } from '@shared/services/SendSms'
-import { inject, injectable } from 'tsyringe';
 
 interface IRequest{
   param: string,
@@ -15,9 +13,15 @@ interface IResponse{
 @injectable()
 class LoginService{
   private personRepository: IPersonRepository;
-  constructor(@inject('IPersonRepository')
-    personRepository: IPersonRepository) {
+  private smsService: ISmsService;
+  constructor(
+    @inject('IPersonRepository')
+    personRepository: IPersonRepository,
+    @inject('ISmsService')
+    smsService: ISmsService
+  ) {
     this.personRepository = personRepository;
+    this.smsService = smsService;
   }
   public async execute({param}:IRequest): Promise<IResponse>{
     
@@ -28,7 +32,7 @@ class LoginService{
     }
      const code = this.generateFourDigitCode();
 
-    sendSms(code);
+    this.smsService.sendSms(code);
 
      person.code = code;
 

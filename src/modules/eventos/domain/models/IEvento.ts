@@ -1,4 +1,5 @@
-import { IAddress } from '@modules/address/entities/Address';
+import { IAddress } from '@modules/address/domain/models/IAddress';
+
 
 export interface IEvento{
   _id: any;

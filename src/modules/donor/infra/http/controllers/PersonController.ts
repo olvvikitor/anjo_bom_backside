@@ -1,8 +1,8 @@
 import{Request, Response} from 'express'
 
-import { IAddress } from '@modules/address/entities/Address';
 import CreatePersonService from '@modules/donor/services/CreatePersonService';
 import { container } from 'tsyringe';
+import { IAddress } from '@modules/address/domain/models/IAddress';
 class PersonConroller{
   public async createPerson(request:Request, response: Response):Promise<Response>{
     const createPersonService = container.resolve(CreatePersonService)
@@ -17,7 +17,7 @@ class PersonConroller{
       email,
       phone,
       motivation,
-      address: { cep, estado, cidade, bairro, rua, numero }as unknown as IAddress,
+      address: { cep, estado, cidade, bairro, rua, numero } as IAddress,
       
     }
 

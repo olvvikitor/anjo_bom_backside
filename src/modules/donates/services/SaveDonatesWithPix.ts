@@ -1,8 +1,7 @@
-import { createPayment, getPayments } from '@shared/services/Payment';
-import AppError from '@shared/errors/AppError';
-import { IDonateWithPix } from '../domain/models/IDonateWithPix';
 import { inject, injectable } from 'tsyringe';
+import { IDonateWithPix } from '../domain/models/IDonateWithPix';
 import { IDonateWithPixRepository } from '../domain/repositories/IDonateWithPixRepository';
+import { IPayment } from '@shared/domain/models/IPaymentService';
 
 
 interface IRequest{
@@ -16,20 +15,28 @@ interface IRequest{
 @injectable()
 class SavePixTransactionService {
   private donateRepository: IDonateWithPixRepository;
+  private paymentService: IPayment;;
 
-  constructor(@inject('IDonateWithPixRepository')
-    donateRepository: IDonateWithPixRepository){
+  constructor(
+    @inject('IDonateWithPixRepository')
+    donateRepository: IDonateWithPixRepository,
+    @inject('IPayment')
+    paymentService: IPayment
+  ){
     this.donateRepository = donateRepository;
+    this.paymentService = paymentService;
   }
+
+
   public async execute({ amount, message, email, name, phone }: IRequest): Promise<string | undefined> {
 
     if(!email){
       email = "usertest322134@gmail.com";
     }
 
-    const payment  = await createPayment(amount, 'payment', 'pix', email);
+    const payment  = await this.paymentService.createPayment(amount, 'payment', 'pix', email);
 
-    const getPayment = await getPayments(payment as number);
+    const getPayment = await this.paymentService.getPayments(payment as number);
     
     await this.donateRepository
     .saveDonateWithPix({ name : name, id_pix: payment, status: 

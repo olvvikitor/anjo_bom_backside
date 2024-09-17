@@ -1,9 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { IAddress } from '@modules/address/entities/Address';
 import { IEventoRepository } from '../domain/repositories/IEventoRepository';
 import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
+import { IAddress } from '@modules/address/domain/models/IAddress';
 
 interface IResponse {
   titulo: string;

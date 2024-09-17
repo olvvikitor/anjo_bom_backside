@@ -8,6 +8,10 @@ import { IEventoRepository } from '@modules/eventos/domain/repositories/IEventoR
 import { IPhotoRepository } from '@modules/eventos/domain/repositories/IPhotoRepository';
 import EventoRepository from '@modules/eventos/infra/mongoose/repositories/EventoRepository';
 import PhotoRepository from '@modules/eventos/infra/mongoose/repositories/PhotoRepository';
+import { IPayment } from '@shared/domain/models/IPaymentService';
+import { ISmsService } from '@shared/domain/models/ISmsService';
+import { MercadoPagoService } from '@shared/infra/services/MercadoPagoService';
+import { TwilloSmsService } from '@shared/infra/services/TwilloSmsService';
 
 import {container} from 'tsyringe';
 
@@ -16,3 +20,5 @@ container.register<IDonateWithPixRepository>('IDonateWithPixRepository', DonateW
 container.register<IPersonRepository>('IPersonRepository', PersonRepository);
 container.register<IEventoRepository>('IEventoRepository', EventoRepository);
 container.register<IPhotoRepository>('IPhotoRepository', PhotoRepository);
+container.register<IPayment>('IPaymentService',MercadoPagoService);
+container.register<ISmsService>('ISmsService', TwilloSmsService);

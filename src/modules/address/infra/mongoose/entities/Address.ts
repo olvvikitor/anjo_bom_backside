@@ -1,13 +1,5 @@
-import { Schema, model, Document, Types } from "mongoose";
-
-export interface IAddress extends Document {
-  cep?: string;
-  estado: string;
-  cidade: string;
-  bairro: string;
-  rua: string;
-  numero: string;
-}
+import { IAddress } from '@modules/address/domain/models/IAddress';
+import { Schema } from 'mongoose';
 
 export const AddressSchema = new Schema<IAddress>({
   cep: {

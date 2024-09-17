@@ -1,5 +1,4 @@
 import{Request, Response} from 'express'
-import { createPayment, getPayments } from '@shared/services/Payment';
 import SavePixTransactionService from '@modules/donates/services/SaveDonatesWithPix';
 import UpdateStatusWhitPix from '@modules/donates/services/UpdatePixDonateService';
 import { container } from 'tsyringe';

@@ -1,10 +1,9 @@
 import AppError from '@shared/errors/AppError';
 
-import {hash} from 'bcryptjs'
-import {IAddress} from '@modules/address/entities/Address';
 import { IPerson } from '../domain/models/IPerson';
 import { inject, injectable } from 'tsyringe';
 import { IPersonRepository } from '../domain/repositories/IPersonRepository';
+import { IAddress } from '@modules/address/domain/models/IAddress';
 
 interface IRequestPerson{
   name: string;

@@ -1,4 +1,3 @@
-import { IAddress } from '@modules/address/entities/Address';
 import { IEvento } from '../domain/models/IEvento';
 import { IPhotoEvent } from '../domain/models/IPhotoEvent';
 import EventoRepository from '../infra/mongoose/repositories/EventoRepository';
@@ -6,6 +5,7 @@ import PhotoRepository from '../infra/mongoose/repositories/PhotoRepository';
 import { IEventoRepository } from '../domain/repositories/IEventoRepository';
 import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
 import { inject, injectable } from 'tsyringe';
+import { IAddress } from '@modules/address/domain/models/IAddress';
 
 interface IRequest {
   titulo: string;

@@ -4,9 +4,8 @@ import { SECRET_KEY } from "@shared/infra/http/middleweres/auth";
 import jwt from "jsonwebtoken";
 import { IPersonRepository } from '@modules/donor/domain/repositories/IPersonRepository';
 import { inject, injectable } from 'tsyringe';
-interface IResponse {
-  token: string;
-}
+import { IAddress } from '@modules/address/domain/models/IAddress';
+
 @injectable()
 class CheckCodeService {
   private personRepository: IPersonRepository;
@@ -15,7 +14,7 @@ class CheckCodeService {
     this.personRepository = personRepository;
   }
   //RECEBE UM CODIGO E UM PARAMETRO(PHONE) PARA FAZER A BUSCA DO ULTIMO CODIGO GERADO
-  public async execute(code: string, param: string): Promise<IResponse> {
+  public async execute(code: string, param: string): Promise<IAddress> {
     
     
     const person = await this.personRepository.findByEmailOrPhone(param);
@@ -29,12 +28,8 @@ class CheckCodeService {
       throw new AppError("Invalid code", 401);
     }
 
-    const token = jwt.sign({ name: person.name, id: person.email }, SECRET_KEY, {
-      expiresIn: "2 days",
-      subject: person.email,
-    });
+    return person.address;
     
-    return { token };
   }
 }
 export default CheckCodeService;

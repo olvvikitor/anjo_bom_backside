@@ -1,5 +1,4 @@
 import AppError from '@shared/errors/AppError';
-import DonateRepository from '../infra/mongoose/repositories/DonateRepository';
 import { IDonateWithPix } from '../domain/models/IDonateWithPix';
 import { inject, injectable } from 'tsyringe';
 import { IDonateWithPixRepository } from '../domain/repositories/IDonateWithPixRepository';

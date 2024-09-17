@@ -1,22 +1,30 @@
-import { getPayments } from "@shared/services/Payment";
 import { IDonateWithPixRepository } from '../domain/repositories/IDonateWithPixRepository';
 import { inject, injectable } from 'tsyringe';
 import { IDonateWithPix } from '../domain/models/IDonateWithPix';
+import { IPayment } from '@shared/domain/models/IPaymentService';
 
 @injectable()
 class UpdateStatusWhitPix {
+  
   private donateRepository: IDonateWithPixRepository;
+  private paymentService: IPayment;
 
-  constructor(@inject('IDonateWithPixRepository')
-    donateRepository: IDonateWithPixRepository){
+  constructor(
+    @inject('IDonateWithPixRepository')
+    donateRepository: IDonateWithPixRepository,
+    @inject('IPayment')
+    paymentService: IPayment
+  ){
     this.donateRepository = donateRepository;
+    this.paymentService = paymentService;
+
   }
   public async execute(id: string): Promise<void> {
 
     let allDonates = await  this.donateRepository.findAll();
     if (allDonates) {
       allDonates.map((donates) =>
-        getPayments(donates.id_pix as number)
+        this.paymentService.getPayments(donates.id_pix as number)
           .then(async (donaterStatus) => {
             const donater = await  this.donateRepository.findByIdPix(
               donates.id_pix as number

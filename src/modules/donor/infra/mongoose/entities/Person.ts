@@ -1,6 +1,6 @@
-import  {IAddress, AddressSchema} from '@modules/address/entities/Address';
+import { AddressSchema } from '@modules/address/infra/mongoose/entities/Address';
 import { IPerson } from '@modules/donor/domain/models/IPerson';
-import { Schema, model, Document, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const personSchema = new Schema<IPerson>({
   name: { 

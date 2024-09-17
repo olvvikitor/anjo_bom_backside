@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
-import { AddressSchema } from '@modules/address/entities/Address';
 import { IEvento } from '@modules/eventos/domain/models/IEvento';
+import { AddressSchema } from '@modules/address/infra/mongoose/entities/Address';
 
 export const eventoSchemma = new Schema<IEvento>({
   titulo: {

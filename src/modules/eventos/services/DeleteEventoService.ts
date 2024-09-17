@@ -1,5 +1,4 @@
 import AppError from '@shared/errors/AppError';
-import EventoRepository from '../infra/mongoose/repositories/EventoRepository';
 import { inject, injectable } from 'tsyringe';
 import { IEventoRepository } from '../domain/repositories/IEventoRepository';
 
