@@ -10,12 +10,12 @@ import { errors } from 'celebrate';
 import cors from 'cors';
 
 import swaggerUi from 'swagger-ui-express'
-import swaggerSpec  from '../swagger';
+import swaggerSpec  from '../../swagger';
 
 import AppError from '@shared/errors/AppError';
 import routes from './routes';
 import upload from '@config/upload';
-
+import '@shared/container'
 // Middleware
 const app = express();
 connectDB();

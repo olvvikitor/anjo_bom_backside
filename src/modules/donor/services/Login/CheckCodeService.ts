@@ -1,6 +1,6 @@
 import PersonRepository from "@modules/donor/repository/PersonRepository";
 import AppError from "@shared/errors/AppError";
-import { SECRET_KEY } from "@shared/http/middleweres/auth";
+import { SECRET_KEY } from "@shared/infra/http/middleweres/auth";
 import jwt from "jsonwebtoken";
 import compare from 'bcryptjs'
 interface IResponse {

@@ -1,4 +1,5 @@
 import { Schema, model, Document, Types } from 'mongoose';
+
 import { AddressSchema, IAddress } from '@modules/address/entities/Address';
 
 export interface IEvento extends Document<Types.ObjectId>{
@@ -49,5 +50,6 @@ export const eventoSchemma = new Schema<IEvento>({
     select: false,
   },
 });
+
 const Event = model<IEvento>('Event', eventoSchemma);
 export default  Event;

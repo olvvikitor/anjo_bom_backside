@@ -1,9 +1,11 @@
 import { IPerson } from '@modules/donor/entities/Person';
-import AdministratorRepository from '../repositories/AdministratorRepository';
+
 import AppError from '@shared/errors/AppError';
-import {auth, SECRET_KEY} from '@shared/http/middleweres/auth'
+
 import { compare } from 'bcryptjs';
 import jwt  from 'jsonwebtoken';
+import AdministratorRepository from '../infra/mongoose/repositories/AdministratorRepository';
+import { SECRET_KEY } from '@shared/infra/http/middleweres/auth';
 
 export interface IRequest {
   email:string;

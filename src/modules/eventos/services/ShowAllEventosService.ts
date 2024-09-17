@@ -30,13 +30,13 @@ class ShowAllEventosService {
 
     // Adicionar fotos aos eventos e formatar a resposta
     const eventsWithPhotos: IResponse[] = events.map((event, index) => {
-      const photos = photosResults[index].map(photo => photo.url); // Ajuste a propriedade conforme necessário
+      const photos = photosResults[index].map(photo => photo.url);
 
       return {
         titulo: event.titulo,
         descricao: event.descricao,
         photos,
-        address: event.address, // Certifique-se de que o evento possui a propriedade address
+        address: event.address, 
         data_inicio: event.data_inicio,
         data_fim: event.data_fim
       };

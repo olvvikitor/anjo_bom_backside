@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
-import { IAdministrator } from '../entities/Adiministrator';
-import AdministratorRepository from '../repositories/AdministratorRepository';
+import { IAdministrator } from '../domain/models/IAdministrator';
+import AdministratorRepository from '../infra/mongoose/repositories/AdministratorRepository';
 
 
 class ShowAllAdmin{
