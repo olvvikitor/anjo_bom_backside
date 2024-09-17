@@ -1,8 +1,11 @@
 import { IAddress } from '@modules/address/entities/Address';
-import { IEvento } from '@modules/eventos/entities/Evento';
-import EventoRepository from '../repositories/EventoRepository';
-import PhotoRepository from '../repositories/PhotoRepository';
-import { IPhotoEvent } from '../entities/Photo';
+import { IEvento } from '../domain/models/IEvento';
+import { IPhotoEvent } from '../domain/models/IPhotoEvent';
+import EventoRepository from '../infra/mongoose/repositories/EventoRepository';
+import PhotoRepository from '../infra/mongoose/repositories/PhotoRepository';
+import { IEventoRepository } from '../domain/repositories/IEventoRepository';
+import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
+import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   titulo: string;
@@ -11,10 +14,22 @@ interface IRequest {
   address: IAddress;
   data_inicio: Date;
   data_fim: Date;
-
 }
-
+@injectable()
 class CreateEventoService {
+  private eventoRepository : IEventoRepository;
+  private photoRepository : IPhotoRepository;
+  
+  constructor(
+    @inject('IEventoRepository')
+    eventoRepository : IEventoRepository, 
+    @inject('IPhotoRepository')
+    photoRepository : IPhotoRepository) {
+
+    this.eventoRepository = eventoRepository
+    this.photoRepository = photoRepository;
+  }
+
   public async execute({
     titulo,
     descricao,
@@ -23,10 +38,8 @@ class CreateEventoService {
     data_inicio,
     data_fim,
   }: IRequest): Promise<IEvento> {
-    const eventoRepository = new EventoRepository();
-    const photoRepository = new PhotoRepository();
     
-    const evento = await eventoRepository.createEvent({
+    const evento = await this.eventoRepository.createEvent({
       titulo,
       descricao,
       address,
@@ -36,7 +49,7 @@ class CreateEventoService {
 
     // Salvar as fotos do evento
     const photosSave = await Promise.all(
-      photos.map(p => photoRepository.createPhotoEvent({
+      photos.map(p => this.photoRepository.createPhotoEvent({
         url: p,
         event_id: evento._id,
       } as IPhotoEvent)));
@@ -45,7 +58,7 @@ class CreateEventoService {
    
     evento.photos = photosSave.map(p => p._id);
 
-    await eventoRepository.uploadEvent(evento); // Atualizando o evento com as fotos salvas
+    await this.eventoRepository.uploadEvent(evento); // Atualizando o evento com as fotos salvas
     
     return evento;
   }

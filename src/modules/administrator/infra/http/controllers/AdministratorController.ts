@@ -11,14 +11,14 @@ import { container } from 'tsyringe';
 
 class AdministratorController{
   public async revogueAdmin(request:Request, response:Response):Promise<Response> {
-    const updtateStatusAdmin = new UpdtateStatusAdmin();
+    const updtateStatusAdmin = container.resolve(UpdtateStatusAdmin)
     const id = request.params.id;
     await updtateStatusAdmin.execute({id});
     return response.status(200).json();
   }
 
   public async showAll(request: Request, response:Response):Promise<Response>{ 
-    const showAllAdminService = new ShowAllAdmin;
+    const showAllAdminService = container.resolve(ShowAllAdmin)
     const admins = await showAllAdminService.showAll();
     return response.status(200).json(admins);
 
@@ -33,24 +33,24 @@ class AdministratorController{
     return response.status(200).json(admin);
   }
   public async getAllDonors(request: Request, response: Response): Promise<Response>{
-    const getAllDonorsService = new GetAllDonorService;
+    const getAllDonorsService = container.resolve(GetAllDonorService);
     const donors = await getAllDonorsService.showAll();
     return response.status(200).json(donors);
   }
   public async findAllDonatesApproved(request: Request, response: Response):Promise<Response>{
-    const findAllDonatesApproved = new FindAllDonatesApproved();
+    const findAllDonatesApproved = container.resolve(FindAllDonatesApproved);
     const donations = await findAllDonatesApproved.execute();
     return response.status(200).json(donations);
   }
   public async deleteEvento(request: Request, response: Response):Promise<Response>{
     const id = request.params.id;
-    const deleteEventService = new DeleteEventoService();
+    const deleteEventService = container.resolve(DeleteEventoService);
     const dletedEvent =  await deleteEventService.execute({id});
     return response.status(200).json(dletedEvent);
   }
   public async createEvento(request:Request, response:Response): Promise<Response>{
 
-    const createEventoService = new CreateEventoService();
+    const createEventoService = container.resolve(CreateEventoService);
 
     const {titulo, descricao, address, data_inicio, data_fim} = request.body;
 

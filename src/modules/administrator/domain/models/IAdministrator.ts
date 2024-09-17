@@ -1,5 +1,4 @@
 export interface IAdministrator{
-  id: string | undefined;
   _id: any;
   name: string;
   email: string;

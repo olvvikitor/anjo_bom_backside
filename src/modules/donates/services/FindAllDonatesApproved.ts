@@ -1,12 +1,20 @@
 import AppError from '@shared/errors/AppError';
-import { IDonateWithPix } from '../entities/DonateWithPix';
-import DonateRepository from '../repositories/DonateRepository';
+import DonateRepository from '../infra/mongoose/repositories/DonateRepository';
+import { IDonateWithPix } from '../domain/models/IDonateWithPix';
+import { inject, injectable } from 'tsyringe';
+import { IDonateWithPixRepository } from '../domain/repositories/IDonateWithPixRepository';
 
-
+@injectable()
 class FindAllDonatesApproved{
+  private donateRepository: IDonateWithPixRepository;
+
+  constructor(@inject('IDonateWithPixRepository')
+    donateRepository: IDonateWithPixRepository){
+    this.donateRepository = donateRepository;
+  }
+
   public async execute(): Promise<IDonateWithPix[]|null> {
-    const donateRepository = new DonateRepository();
-    const donates = await donateRepository.findAllApproved();
+    const donates = await this.donateRepository.findAllApproved();
     if(!donates){
       throw new AppError('Not found donates', 404)
     }

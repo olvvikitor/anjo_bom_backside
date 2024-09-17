@@ -1,16 +1,22 @@
 import AppError from '@shared/errors/AppError';
-import {IPerson as IPersonModel} from '../entities/Person';
-import PersonRepository from '../repository/PersonRepository';
+import { IPerson } from '../domain/models/IPerson';
+import { IPersonRepository } from '../domain/repositories/IPersonRepository';
+import { inject, injectable } from 'tsyringe';
+
 
 interface IRequest{
   param: string
 }
-
+@injectable()
 class FindPersonService{
-  public async execute({param}:IRequest): Promise<IPersonModel>{
-    const personRepository = new PersonRepository();
+  private personRepository: IPersonRepository;
+  constructor(@inject('IPersonRepository')
+    personRepository: IPersonRepository){
+    this.personRepository = personRepository;
+  }
+  public async execute({param}:IRequest): Promise<IPerson>{
     
-    const person = await personRepository.findByEmailOrPhone(param);
+    const person = await this.personRepository.findByEmailOrPhone(param);
     if(!person){
       throw new AppError('No Person found', 404);
     }

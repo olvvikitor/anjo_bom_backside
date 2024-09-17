@@ -1,12 +1,13 @@
 
-import loginRouter from '@modules/donor/routes/login_router';
-import personRouter from '@modules/donor/routes/person_router';
+
 import { Router } from 'express';
 
-import eventoRouter from '@modules/eventos/routes/eventoRouter';
-import donatesRouter from '@modules/donates/routes/donatesRouter';
 import loginAdministratorRouter from '@modules/administrator/infra/http/routes/login_router';
 import adminRouter from '@modules/administrator/infra/http/routes/admin_router';
+import donatesRouter from '@modules/donates/infra/http/routes/donatesRouter';
+import loginRouter from '@modules/donor/infra/http/routes/login_router';
+import personRouter from '@modules/donor/infra/http/routes/person_router';
+import eventoRouter from '@modules/eventos/infra/http/routes/eventoRouter';
 
 export const routes = Router();
 

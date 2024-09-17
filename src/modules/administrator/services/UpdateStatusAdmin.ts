@@ -1,15 +1,24 @@
 import AppError from '@shared/errors/AppError';
-import AdministratorRepository from '../infra/mongoose/repositories/AdministratorRepository';
+import { inject, injectable } from 'tsyringe';
+import { IAdministratorRepository } from '../domain/repositories/IAdministratorRepository';
 
 
 interface IRequest{
   id: string
 }
+@injectable()
 class UpdtateStatusAdmin{
-  public async execute({id}: IRequest):Promise<void>{
-    const adminRepository = new AdministratorRepository();
+  private administratorRepository : IAdministratorRepository;
 
-    const admin = await adminRepository.findById(id);
+  constructor (
+    @inject('IAdministratorRepository')
+    administratorRepository: IAdministratorRepository) {
+    this.administratorRepository = administratorRepository;
+  }
+  public async execute({id}: IRequest):Promise<void>{
+
+
+    const admin = await this.administratorRepository.findById(id);
 
     if(!admin){
       throw new AppError('No admin found', 404);
@@ -17,7 +26,8 @@ class UpdtateStatusAdmin{
     
     admin.isActive = !admin.isActive;
 
-    await adminRepository.update(id, admin);
+    await this.administratorRepository.update(id, admin);
+    
   }
 }
 export default UpdtateStatusAdmin;

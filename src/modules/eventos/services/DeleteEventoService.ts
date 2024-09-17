@@ -1,22 +1,32 @@
 import AppError from '@shared/errors/AppError';
-import EventoRepository from '../repositories/EventoRepository';
+import EventoRepository from '../infra/mongoose/repositories/EventoRepository';
+import { inject, injectable } from 'tsyringe';
+import { IEventoRepository } from '../domain/repositories/IEventoRepository';
+
 
 interface IRequest{
   id: string;
 }
 
+@injectable()
 class DeleteEventoService {
-  public async execute({id}: IRequest): Promise<void> {
-    const eventoRepository = new EventoRepository();
+  private eventoRepository: IEventoRepository;
+  constructor(
+    @inject('IEventoRepository')
+    eventoRepository: IEventoRepository) {
 
-    const event = await eventoRepository.findById(id);
+    this.eventoRepository = eventoRepository;
+  }
+  public async execute({id}: IRequest): Promise<void> {
+
+    const event = await this.eventoRepository.findById(id);
     
     if(!event){
  
       throw new AppError('Evento não encontrado', 404);
     }
 
-    await eventoRepository.delete(id);
+    await this.eventoRepository.delete(id);
   }
 
 } export default DeleteEventoService;
