@@ -73,10 +73,10 @@ donatesRouter.post(
 
 /**
  * @swagger
- * /donates/{id}:
+ * /donates/:
  *   put:
  *     summary: Atualiza informações de uma doação existente.
- *     description: Atualiza os detalhes de uma doação via Pix com base no ID fornecido.
+ *     description: Atualiza os detalhes de todas as doações.
  *     security:
  *       - bearerAuth: []
  *     tags:
@@ -112,8 +112,6 @@ donatesRouter.post(
  *         description: Parâmetros inválidos fornecidos na requisição.
  *       401:
  *         description: Não autorizado.
- *       404:
- *         description: Doação não encontrada.
  */
 donatesRouter.put('/', donatesController.updateInfoPix);
 

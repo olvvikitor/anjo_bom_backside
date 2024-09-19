@@ -12,7 +12,7 @@ class UpdateStatusWhitPix {
   constructor(
     @inject('IDonateWithPixRepository')
     donateRepository: IDonateWithPixRepository,
-    @inject('IPayment')
+    @inject('IPaymentService')
     paymentService: IPayment
   ){
     this.donateRepository = donateRepository;
@@ -32,7 +32,7 @@ class UpdateStatusWhitPix {
             if (donater != null) {
               donater.status = donaterStatus.status as string;
             }
-            await  this.donateRepository.updateDonateWithPix(id,
+            await  this.donateRepository.updateDonateWithPix(donates._id,
               donater as IDonateWithPix
             );
           })

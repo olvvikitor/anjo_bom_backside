@@ -1,8 +1,5 @@
 import { IAdministrator } from '@modules/administrator/domain/models/IAdministrator';
-import { model, Schema, Types, Document } from 'mongoose';
-
-
-
+import { model, Schema } from 'mongoose';
 
 const schemaAdministrator = new Schema<IAdministrator>({
   name: {

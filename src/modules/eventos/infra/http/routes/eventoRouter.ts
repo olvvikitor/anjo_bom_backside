@@ -3,7 +3,6 @@ import EventController  from '../controllers/EventController';
 import { celebrate, Joi, Segments } from 'celebrate';
 import multer from 'multer'
 import upload from '@config/upload';
-import { auth } from '@shared/http/middleweres/auth';
 
 
 

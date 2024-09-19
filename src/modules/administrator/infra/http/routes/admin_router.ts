@@ -5,12 +5,14 @@ import multer from 'multer';
 import upload from '@config/upload';
 import { auth } from '@shared/infra/http/middleweres/auth';
 import AdministratorController from '../controllers/AdministratorController';
+import ProductController from '@modules/products/infra/http/controllers/ProductController';
 
 
 
 const adminRouter = Router();
 adminRouter.use(auth);
 const adminController = new AdministratorController();
+const productController = new ProductController();
 
 
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
@@ -376,6 +378,9 @@ adminController.createEvento);
  *         description: Erro interno no servidor.
  */
 adminRouter.delete('/delete-event/:id', adminController.deleteEvento)
+
+
+adminRouter.post('/create-product', productController.createProduct)
 
 export default adminRouter;
 

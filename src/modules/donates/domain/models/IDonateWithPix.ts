@@ -1,4 +1,5 @@
 export interface IDonateWithPix {
+  _id?: any;
   name: string
   id_pix: number;
   status: string;

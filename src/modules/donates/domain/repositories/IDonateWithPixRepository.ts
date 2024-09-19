@@ -6,7 +6,7 @@ export interface IDonateWithPixRepository{
 
    findByIdPix(id:number):Promise<IDonateWithPix | null>
 
-   updateDonateWithPix(id:string , transationData: IDonateWithPix): Promise<void>
+   updateDonateWithPix(id:any , transationData: IDonateWithPix): Promise<void>
 
    findAll(): Promise<IDonateWithPix[] | null>
 

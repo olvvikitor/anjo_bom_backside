@@ -20,7 +20,7 @@ class SavePixTransactionService {
   constructor(
     @inject('IDonateWithPixRepository')
     donateRepository: IDonateWithPixRepository,
-    @inject('IPayment')
+    @inject('IPaymentService')
     paymentService: IPayment
   ){
     this.donateRepository = donateRepository;

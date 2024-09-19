@@ -19,9 +19,11 @@ routes.use('/person/payment', donatesRouter)
 
 routes.use('/admin/auth', loginAdministratorRouter)
 
+routes.use('/admin' ,adminRouter);
+
 routes. use('/events', eventoRouter)
 
-routes.use('/admin' ,adminRouter);
+
 
 
 
