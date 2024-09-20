@@ -18,12 +18,12 @@ const productController = new ProductController();
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
 /**
  * @swagger
- * /admin/:
+ * http://localhost:5000/admin/:
  *   post:
  *     summary: Cria um novo administrador
  *     description: Endpoint para criar um novo administrador no sistema. Requer autenticação com um token Bearer.
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     tags:
  *       - Administrador
  *     requestBody:
@@ -95,12 +95,12 @@ adminRouter.post(
 
   }}),adminController.createAdministrator);
 
-adminRouter.get('/show-all', adminController.showAll);
+adminRouter.get('/admin//show-all', adminController.showAll);
 
 //JSDOC REVOGUE ACTIVATION
 /**
  * @swagger
- * /admin/revogue/{id}:
+ * http://localhost:5000/admin/revogue/{id}:
  *   put:
  *     summary: Inativa um administrador
  *     description: Endpoint para inativar um administrador existente no sistema. Requer autenticação com token Bearer.
@@ -141,12 +141,12 @@ adminRouter.put('/revogue/:id', adminController.revogueAdmin);
 //JSDOC PARA A CONSULTA DE TODOS OS ADMINIS
 /**
      * @swagger
-     * /show-all:
+     * http://localhost:5000/admin/show-all:
      *   get:
      *     summary: Recupera todos os administradores com status ativo
      *     description: Esta rota recupera todos os administradores ativos no sistema. Requer autenticação com um token Bearer.
      *     security:
-     *       - BearerAuth: []
+     *       - bearerAuth: []
      *     tags:
      *       - Administrador
      *     responses:
@@ -203,9 +203,10 @@ adminRouter.put('/revogue/:id', adminController.revogueAdmin);
      */
 adminRouter.get('/show-donors', adminController.getAllDonors);
 
+//JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES
 /**
  * @swagger
- * /show-donates:
+ * http://localhost:5000/admin/show-donates:
  *   get:
  *     summary: Exibe todas as doações aprovadas
  *     description: Recupera uma lista de todas as doações que foram aprovadas. Requer autenticação Bearer token.
@@ -243,9 +244,10 @@ adminRouter.get('/show-donors', adminController.getAllDonors);
  */
 adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
 
+//JSDOC PARA A CRIAÇÂO DE UM  EVENTO
 /**
  * @swagger
- * /create-evento:
+ * http://localhost:5000/admin/create-evento:
  *   post:
  *     summary: Cria um novo evento
  *     description: Cria um novo evento com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
@@ -340,9 +342,10 @@ const uploader = multer(upload)
 adminRouter.post('/create-evento' ,uploader.array('photos_event'), 
 adminController.createEvento);
 
+//JSDOC PARA A EXCLUSÃO DE UM EVENTO
 /**
  * @swagger
- * /delete-event/{id}:
+ * http://localhost:5000/admin/delete-event/{id}:
  *   delete:
  *     summary: Deleta um evento
  *     description: Remove um evento específico baseado no ID fornecido. Requer autenticação Bearer token.
@@ -379,7 +382,7 @@ adminController.createEvento);
  */
 adminRouter.delete('/delete-event/:id', adminController.deleteEvento)
 
-
+//JSDOC PARA A CRIAÇÂO DE UM PRODUCT
 adminRouter.post('/create-product', productController.createProduct)
 
 export default adminRouter;

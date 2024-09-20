@@ -8,14 +8,12 @@ const donatesController = new DonatesController();
 
 /**
  * @swagger
- * /donates:
+ * http://localhost:5000//person/payment:
  *   post:
- *     summary: Realiza uma doação via Pix.
- *     description: Cria uma nova transação Pix com os dados fornecidos.
- *     security:
- *       - bearerAuth: []
+ *     summary: Cria um link para fazer uma doação via Pix.
+ *     description: Cria uma nova transação Pix com os dados fornecidos. 
  *     tags:
- *       - Payment
+ *       - PersonPayment
  *     requestBody:
  *       description: Dados necessários para realizar a doação via Pix.
  *       content:
@@ -43,7 +41,7 @@ const donatesController = new DonatesController();
  *         - email
  *     responses:
  *       200:
- *         description: Doação realizada com sucesso. Retorna a URL do ticket para a transação Pix.
+ *         description: Transação registrada com sucesso. Retorna a URL do ticket para a transação Pix.
  *         content:
  *           application/json:
  *             schema:
@@ -73,38 +71,12 @@ donatesRouter.post(
 
 /**
  * @swagger
- * /donates/:
+ * http://localhost:5000//person/payment:
  *   put:
  *     summary: Atualiza informações de uma doação existente.
  *     description: Atualiza os detalhes de todas as doações.
- *     security:
- *       - bearerAuth: []
  *     tags:
- *       - Payment
- *     parameters:
- * 
- *     requestBody:
- *       description: Dados atualizados para a doação.
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               amount:
- *                 type: number
- *                 example: 150.00
- *               email:
- *                 type: string
- *                 example: example@updated.com
- *               name:
- *                 type: string
- *                 example: João Silva Atualizado
- *               phone:
- *                 type: string
- *                 example: +5511988888888
- *               message:
- *                 type: string
- *                 example: Deus abençoe vocês
+ *       - PersonPayment
  *     responses:
  *       200:
  *         description: Informações da doação atualizadas com sucesso.

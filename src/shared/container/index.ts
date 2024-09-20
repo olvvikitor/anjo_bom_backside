@@ -24,6 +24,5 @@ container.register<IEventoRepository>('IEventoRepository', EventoRepository);
 container.register<IPhotoRepository>('IPhotoRepository', PhotoRepository);
 container.register<IProductRepository>('IProductRepository', ProductRepository);
 
-
 container.register<IPayment>('IPaymentService', MercadoPagoService);
 container.register<ISmsService>('ISmsService', TwilloSmsService);

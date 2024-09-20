@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model,Types } from 'mongoose';
 import Person from '../entities/Person';
 import { IPerson } from '@modules/donor/domain/models/IPerson';
 import { IPersonRepository } from '@modules/donor/domain/repositories/IPersonRepository';
@@ -29,8 +29,8 @@ class PersonRepository implements IPersonRepository{
 
   }
 
-  async delete(id: string): Promise<void> {
-    await this.model.findByIdAndDelete(id).exec();
+  async delete(id: Types.ObjectId): Promise<void> {
+    await this.model.findByIdAndDelete({_id: id}).exec();
   }
   async findByEmailOrPhone(param: string): Promise<IPerson | null> {
     const person = await this.model.findOne({ email: param }).select('+code');
