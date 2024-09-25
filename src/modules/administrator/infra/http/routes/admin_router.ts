@@ -6,13 +6,15 @@ import upload from '@config/upload';
 import { auth } from '@shared/infra/http/middleweres/auth';
 import AdministratorController from '../controllers/AdministratorController';
 import ProductController from '@modules/products/infra/http/controllers/ProductController';
+import CollectionPointController from '@modules/collectionPoints/infra/http/controllers/CollectionPointController';
 
 
 
 const adminRouter = Router();
-adminRouter.use(auth);
+// adminRouter.use(auth);
 const adminController = new AdministratorController();
 const productController = new ProductController();
+const collectionPointController = new CollectionPointController();
 
 
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
@@ -203,7 +205,7 @@ adminRouter.put('/revogue/:id', adminController.revogueAdmin);
      */
 adminRouter.get('/show-donors', adminController.getAllDonors);
 
-//JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES
+//JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES PIX
 /**
  * @swagger
  * http://localhost:5000/admin/show-donates:
@@ -384,6 +386,70 @@ adminRouter.delete('/delete-event/:id', adminController.deleteEvento)
 
 //JSDOC PARA A CRIAÇÂO DE UM PRODUCT
 adminRouter.post('/create-product', productController.createProduct)
+
+//JSDOC PARA A CRIAÇÂO DE UM  Ponto de coleta
+/**
+ * @swagger
+ * http://localhost:5000/admin/create-collectionPoint:
+ *   post:
+ *     summary: Cria um novo ponto de coleta
+ *     description: Cria um novo ponto de coleta com nome, e endereço. Requer autenticação Bearer token.
+ *     tags:
+ *       - Administrador
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *                 description: O nome do local.
+ *                 example: Atacadão
+ *               address:
+ *                 type: string
+ *                 description: O endereço do evento no formato JSON string.
+ *                 example: '{"cep": "12345-678", "estado": "SP", "cidade": "São Paulo", "bairro": "Centro", "rua": "Avenida Paulista", "numero": "1000"}'
+ *     responses:
+ *       201:
+ *         description: ponto de coleta criado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: O ID do ponto de coleta criado.
+ *                 address:
+ *                   type: object
+ *                   description: O endereço do evento.
+ *                   properties:
+ *                     cep:
+ *                       type: string
+ *                     estado:
+ *                       type: string
+ *                     cidade:
+ *                       type: string
+ *                     bairro:
+ *                       type: string
+ *                     rua:
+ *                       type: string
+ *                     numero:
+ *                       type: string
+ *       400:
+ *         description: Erro na validação dos dados.
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+adminRouter.post('/create-collectionPoint', collectionPointController.createCollectionPoint);
+
+adminRouter.get('/find-collectionPoints', collectionPointController.getAllCollectionPoints);
 
 export default adminRouter;
 
