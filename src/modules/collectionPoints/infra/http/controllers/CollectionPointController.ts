@@ -8,10 +8,11 @@ import { container } from 'tsyringe';
 export default class CollectionPointController {
   public async createCollectionPoint(request: Request, response: Response): Promise<Response> {
     const createCollectionPointService = container.resolve(CreateCollectionPointService);
-    const { name, address } = request.body
+    const { name, urlMap,address } = request.body
     const { cep, estado, cidade, bairro, rua, numero, } = address;
     const collectionPointData = {
       name,
+      urlMap,
       address: {
         cep,
         estado,

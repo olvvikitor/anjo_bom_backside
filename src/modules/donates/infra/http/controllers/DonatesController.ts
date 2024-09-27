@@ -16,12 +16,10 @@ public async donateWithPix(request:Request, response: Response):Promise<Response
   return  response.status(200).json({ticket_url:payment})
 }
 public async updateInfoPix(request:Request, response: Response):Promise<Response>{
-  const id = request.params.id;
-
 
   const updateStatusWhitPix = container.resolve(UpdateStatusWhitPix)
 
-  await updateStatusWhitPix.execute(id);
+  await updateStatusWhitPix.execute();
 
   return response.status(200).json()
 }

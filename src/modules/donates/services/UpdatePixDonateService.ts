@@ -19,7 +19,7 @@ class UpdateStatusWhitPix {
     this.paymentService = paymentService;
 
   }
-  public async execute(id: string): Promise<void> {
+  public async execute(): Promise<void> {
 
     let allDonates = await  this.donateRepository.findAll();
     if (allDonates) {

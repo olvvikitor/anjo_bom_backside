@@ -17,6 +17,11 @@ const schemaCollectionPoint = new Schema<ICollectionPoint>({
     type: Boolean,
     default: true,
   },
+  urlMap:{
+    type: String,
+    required: true,
+    select: true,
+  },
   created_at:{
     type: Date,
     default: Date.now(),

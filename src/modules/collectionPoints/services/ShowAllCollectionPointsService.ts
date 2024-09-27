@@ -19,6 +19,7 @@ class ShowAllCollectionPointsService {
     const showCollectionsPoints = collectionsPoints.map((col)=>{
       return {
         name: col.name,
+        urlMap: col.urlMap,
         address: col.address,
       }
     })

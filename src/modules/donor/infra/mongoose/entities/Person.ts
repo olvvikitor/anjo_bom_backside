@@ -23,11 +23,6 @@ const personSchema = new Schema<IPerson>({
     unique: true,
     
   },
-  code:{
-    type: String,
-    default:'0000',
-    select: false,  
-  },
   motivation: { 
     type: String 
   },

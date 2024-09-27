@@ -28,15 +28,10 @@ const eventoController = new EventController();
  *                     example: "60d5f4842f8fb63a1c0a6b1f"
  *                   titulo:
  *                     type: string
- *                     example: "Evento de Doação"
+ *                     example: "Meu Evento"
  *                   descricao:
  *                     type: string
- *                     example: "Venha participar do nosso evento de doação."
- *                   photos:
- *                     type: array
- *                     items:
- *                       type: string
- *                       example: "https://example.com/photo1.jpg"
+ *                     example: "Este é um evento incrível"
  *                   address:
  *                     type: object
  *                     properties:
@@ -54,18 +49,23 @@ const eventoController = new EventController();
  *                         example: "Centro"
  *                       rua:
  *                         type: string
- *                         example: "Rua Exemplo"
+ *                         example: "Avenida Paulista"
  *                       numero:
  *                         type: string
- *                         example: "123"
+ *                         example: "1000"
  *                   data_inicio:
  *                     type: string
  *                     format: date-time
- *                     example: "2023-10-01T10:00:00Z"
+ *                     example: "2024-09-01T10:00:00Z"
  *                   data_fim:
  *                     type: string
  *                     format: date-time
- *                     example: "2023-10-01T18:00:00Z"
+ *                     example: "2024-09-01T18:00:00Z"
+ *                   photos_event:
+ *                     type: array
+ *                     items:
+ *                       type: string
+ *                       example: "https://example.com/photo1.jpg"
  *                   created_at:
  *                     type: string
  *                     format: date-time

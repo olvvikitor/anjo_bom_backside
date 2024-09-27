@@ -5,6 +5,7 @@ export interface ICollectionPoint{
   name: string;
   address: IAddress;
   isActive: boolean;
+  urlMap: string;
   created_at: Date;
   updated_at: Date;
 }

@@ -6,7 +6,6 @@ export interface IPerson{
   last_name: string;
   email: string;
   phone:string;
-  code: string;
   motivation: string;
   isActive: boolean;
   address: IAddress;

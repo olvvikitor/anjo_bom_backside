@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 import ICollectionPointRepository from '../domain/repositories/ICollectionPointRepository';
-import { ICollectionPoint } from '../domain/models/ICollectionPoints';
 import AppError from '@shared/errors/AppError';
 import { ICreateCollectionPoint } from '../domain/models/ICreateCollectionPoint';
 import { IShowCollectionPoint } from '@modules/address/domain/models/IShowCollectionPoint';
@@ -22,6 +21,7 @@ export default class CreateCollectionPointService{
 
     const showPoint: IShowCollectionPoint = {
       name: createdPoint.name,
+      urlMap: createdPoint.urlMap,
       address: createdPoint.address,
     }
     

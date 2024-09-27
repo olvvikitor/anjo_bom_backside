@@ -13,6 +13,7 @@ class FindAllDonatesApproved{
   }
 
   public async execute(): Promise<IDonateWithPix[]|null> {
+    
     const donates = await this.donateRepository.findAllApproved();
     if(!donates){
       throw new AppError('Not found donates', 404)

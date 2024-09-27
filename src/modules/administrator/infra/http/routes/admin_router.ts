@@ -7,6 +7,8 @@ import { auth } from '@shared/infra/http/middleweres/auth';
 import AdministratorController from '../controllers/AdministratorController';
 import ProductController from '@modules/products/infra/http/controllers/ProductController';
 import CollectionPointController from '@modules/collectionPoints/infra/http/controllers/CollectionPointController';
+import EventController from '@modules/eventos/infra/http/controllers/EventController';
+import e from 'cors';
 
 
 
@@ -15,7 +17,7 @@ const adminRouter = Router();
 const adminController = new AdministratorController();
 const productController = new ProductController();
 const collectionPointController = new CollectionPointController();
-
+const eventoController = new EventController();
 
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
 /**
@@ -99,7 +101,7 @@ adminRouter.post(
 
 adminRouter.get('/admin//show-all', adminController.showAll);
 
-//JSDOC REVOGUE ACTIVATION
+//JSDOC REVOGUE ADMIN
 /**
  * @swagger
  * http://localhost:5000/admin/revogue/{id}:
@@ -246,6 +248,9 @@ adminRouter.get('/show-donors', adminController.getAllDonors);
  */
 adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
 
+
+
+
 //JSDOC PARA A CRIAÇÂO DE UM  EVENTO
 /**
  * @swagger
@@ -342,7 +347,7 @@ adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
  */
 const uploader = multer(upload)
 adminRouter.post('/create-evento' ,uploader.array('photos_event'), 
-adminController.createEvento);
+eventoController.createEvento);
 
 //JSDOC PARA A EXCLUSÃO DE UM EVENTO
 /**
@@ -382,12 +387,18 @@ adminController.createEvento);
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.delete('/delete-event/:id', adminController.deleteEvento)
+adminRouter.delete('/delete-event/:id', eventoController.deleteEvento)
+
+
+
 
 //JSDOC PARA A CRIAÇÂO DE UM PRODUCT
 adminRouter.post('/create-product', productController.createProduct)
 
 adminRouter.put('/update-products/:id', productController.updateProduct)
+
+
+
 
 //JSDOC PARA A CRIAÇÂO DE UM  PONTO DE COLETA
 /**
@@ -490,6 +501,8 @@ adminRouter.post('/create-collectionPoint', collectionPointController.createColl
  *         description: Erro interno no servidor.
  */
 adminRouter.get('/find-collectionPoints', collectionPointController.getAllCollectionPoints);
+
+
 
 export default adminRouter;
 
