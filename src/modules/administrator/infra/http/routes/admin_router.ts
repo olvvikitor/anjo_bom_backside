@@ -387,7 +387,9 @@ adminRouter.delete('/delete-event/:id', adminController.deleteEvento)
 //JSDOC PARA A CRIAÇÂO DE UM PRODUCT
 adminRouter.post('/create-product', productController.createProduct)
 
-//JSDOC PARA A CRIAÇÂO DE UM  Ponto de coleta
+adminRouter.put('/update-products/:id', productController.updateProduct)
+
+//JSDOC PARA A CRIAÇÂO DE UM  PONTO DE COLETA
 /**
  * @swagger
  * http://localhost:5000/admin/create-collectionPoint:
@@ -449,6 +451,44 @@ adminRouter.post('/create-product', productController.createProduct)
  */
 adminRouter.post('/create-collectionPoint', collectionPointController.createCollectionPoint);
 
+//JSDOC PARA A EXIBIÇÃO DE TODOS OS PONTOS DE COLETA
+/**
+ * @swagger
+ * http://localhost:5000/admin/show-collectionPoints:
+ *   get:
+ *     summary: Exibe todos os pontos de coleta
+ *     description: Recupera uma lista de todos os pontos de coleta.
+ *     tags:
+ *       - Administrador
+ *     responses:
+ *       200:
+ *         description: Lista de todos os pontos de coleta.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  name:
+ *                   type: string
+ *                   description: Nome do local
+ *                  address:
+ *                    type: object
+ *                    properties:
+ *                     cep:
+ *                       type: string
+ *                     estado:
+ *                       type: string
+ *                     cidade:
+ *                       type: string
+ *                     bairro:
+ *                       type: string
+ *                     rua:
+ *                       type: string
+ *                     numero:
+ *                       type: string
+ *       500:
+ *         description: Erro interno no servidor.
+ */
 adminRouter.get('/find-collectionPoints', collectionPointController.getAllCollectionPoints);
 
 export default adminRouter;

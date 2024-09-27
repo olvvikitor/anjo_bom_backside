@@ -1,6 +1,6 @@
-export enum Requirement{
-  CRITICO,
-  MEDIO,
-  BAIXO,
-  ALTO
+export enum Requirement {
+  CRITICO = 'CRITICO',
+  MEDIO = 'MEDIO',
+  BAIXO = 'BAIXO',
+  ALTO = 'ALTO'
 }

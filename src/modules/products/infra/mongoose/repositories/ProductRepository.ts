@@ -15,8 +15,9 @@ class ProductRepository implements IProductRepository{
   async getProducts(): Promise<IProduct[]> {
     throw new Error('Method not implemented.');
   }
-  async getProductById(id: string): Promise<IProduct> {
-    throw new Error('Method not implemented.');
+  async getProductById(id: string): Promise<IProduct | null> {
+    const product = await this.model.findOne({ _id: id });
+    return product;
   }
   async createProduct(product: IProduct): Promise<IProduct> {
     const createdProduct = await this.model.create(product);
@@ -24,7 +25,7 @@ class ProductRepository implements IProductRepository{
     return createdProduct;
   }
   async  updateProduct(id: string, product: IProduct): Promise<void> {
-    throw new Error('Method not implemented.');
+    await this.model.updateOne({_id: id}, product);
   }
   async deleteProduct(id: string): Promise<void> {
     throw new Error('Method not implemented.');
