@@ -1,7 +1,9 @@
 import { Schema, model } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
 
 import { IEvento } from '@modules/eventos/domain/models/IEvento';
 import { AddressSchema } from '@modules/address/infra/mongoose/entities/Address';
+
 
 export const eventoSchemma = new Schema<IEvento>({
   titulo: {
@@ -41,6 +43,6 @@ export const eventoSchemma = new Schema<IEvento>({
     select: false,
   },
 });
-
+eventoSchemma.plugin(paginate)
 const Event = model<IEvento>('Event', eventoSchemma);
 export default  Event;

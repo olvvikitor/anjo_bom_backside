@@ -2,6 +2,7 @@ import { IDonateWithPixRepository } from '../domain/repositories/IDonateWithPixR
 import { inject, injectable } from 'tsyringe';
 import { IDonateWithPix } from '../domain/models/IDonateWithPix';
 import { IPayment } from '@shared/domain/models/IPaymentService';
+import { IPaginate } from '@shared/domain/paginate/IPaginate';
 
 @injectable()
 class UpdateStatusWhitPix {

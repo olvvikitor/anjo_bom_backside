@@ -1,6 +1,7 @@
 import CreateEventoService from '@modules/eventos/services/CreateEventoService';
 import DeleteEventoService from '@modules/eventos/services/DeleteEventoService';
 import ShowAllEventosService from '@modules/eventos/services/ShowAllEventosService';
+import { IPaginate } from '@shared/domain/paginate/IPaginate';
 import{Request, Response} from 'express'
 import { container } from 'tsyringe';
 
@@ -8,7 +9,15 @@ import { container } from 'tsyringe';
 export default class EventoController{
     public async getEvents(request:Request, response:Response) :Promise<Response>{
     const showAllEventosService = container.resolve(ShowAllEventosService)
-    const eventos = await showAllEventosService.execute();
+    const { page, perPage} = request.query;
+    
+      const options:IPaginate = {
+        page: parseInt(page as string, 10),
+        limit: parseInt(perPage as string, 10) 
+      }
+    
+    const eventos = await showAllEventosService.execute(options);
+    
     return response.status(200).json(eventos);
   }
   public async createEvento(request:Request, response:Response): Promise<Response>{

@@ -2,6 +2,7 @@ import { Model } from 'mongoose';
 import { IDonateWithPixRepository } from '@modules/donates/domain/repositories/IDonateWithPixRepository';
 import { IDonateWithPix } from '@modules/donates/domain/models/IDonateWithPix';
 import DonateWithPix from '../entities/DonateWithPix';
+import { IPaginate } from '@shared/domain/paginate/IPaginate';
 
 
 class DonateWithPixRepository implements IDonateWithPixRepository{
@@ -24,14 +25,14 @@ class DonateWithPixRepository implements IDonateWithPixRepository{
      await this.model.updateOne({_id : id}, transationData);
   }
   public async findAll(): Promise<IDonateWithPix[] | null>{
-    const allExtracts = await this.model.find();
+    const allExtracts = (await this.model.find());
     return allExtracts;
   }
-  public async findAllApproved(): Promise<IDonateWithPix[] | null>{
+  public async findAllApproved(options:IPaginate): Promise<IDonateWithPix[] | null>{
     const allExtactsApproved = await this.model.find({
       status: 'approved'
-    });
-    return allExtactsApproved;
+    }).paginate(options);
+    return allExtactsApproved.docs;
   }
 }
 export default DonateWithPixRepository;

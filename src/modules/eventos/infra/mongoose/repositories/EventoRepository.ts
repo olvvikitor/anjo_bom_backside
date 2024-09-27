@@ -1,8 +1,9 @@
 import { IEvento } from '@modules/eventos/domain/models/IEvento';
-import { Model } from 'mongoose';
+import { Model, PaginateResult } from 'mongoose';
 
 import Evento from '../entities/Evento';
 import { IEventoRepository } from '@modules/eventos/domain/repositories/IEventoRepository';
+import { IPaginate } from '@shared/domain/paginate/IPaginate';
 
 
 class EventoRepository implements IEventoRepository {
@@ -23,9 +24,9 @@ class EventoRepository implements IEventoRepository {
     await this.model.updateOne({_id: event._id}, event);
     return event;
   }
-  async showAll():Promise<IEvento[]> {
-    const events = await this.model.find();
-    return events;
+  async showAll(options:IPaginate):Promise<IEvento[]> {
+    const events = (await this.model.find().paginate(options)).docs;
+    return events
   }
   async delete(id:string):Promise<void>{
     await this.model.deleteOne({_id: id});

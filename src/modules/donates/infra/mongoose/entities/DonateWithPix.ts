@@ -1,5 +1,6 @@
 import { IDonateWithPix } from '@modules/donates/domain/models/IDonateWithPix';
 import { Schema, model } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
 
 export const donatePixSchemma = new Schema<IDonateWithPix>({
   name:{
@@ -32,5 +33,6 @@ export const donatePixSchemma = new Schema<IDonateWithPix>({
   },
  
 })
+donatePixSchemma.plugin(paginate)
 const DonateWithPix = model<IDonateWithPix>('DonateWithPix', donatePixSchemma);
 export default DonateWithPix;

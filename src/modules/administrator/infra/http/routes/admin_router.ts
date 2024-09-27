@@ -210,7 +210,7 @@ adminRouter.get('/show-donors', adminController.getAllDonors);
 //JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES PIX
 /**
  * @swagger
- * http://localhost:5000/admin/show-donates:
+ * http://localhost:5000/admin/show-donates/:
  *   get:
  *     summary: Exibe todas as doações aprovadas
  *     description: Recupera uma lista de todas as doações que foram aprovadas. Requer autenticação Bearer token.
@@ -218,29 +218,64 @@ adminRouter.get('/show-donors', adminController.getAllDonors);
  *       - Administrador
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: Número da página a ser recuperada (início em 1).
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *           example: 2
+ *       - in: query
+ *         name: perPage
+ *         required: false
+ *         description: Número máximo de doações a serem retornadas por página.
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *           example: 5
  *     responses:
  *       200:
  *         description: Lista de doações aprovadas.
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     description: ID da doação.
- *                   donorName:
- *                     type: string
- *                     description: Nome do doador.
- *                   amount:
- *                     type: number
- *                     description: Valor da doação.
- *                   status:
- *                     type: string
- *                     description: Status da doação (aprovado).
- *                     example: aprovado
+ *               type: object
+ *               properties:
+ *                 currentPage:
+ *                   type: integer
+ *                   description: Página atual da lista de doações.
+ *                   example: 2
+ *                 totalPages:
+ *                   type: integer
+ *                   description: Número total de páginas disponíveis.
+ *                   example: 5
+ *                 totalDonations:
+ *                   type: integer
+ *                   description: Total de doações aprovadas.
+ *                   example: 50
+ *                 donations:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: ID da doação.
+ *                         example: "60d5f4842f8fb63a1c0a6b1f"
+ *                       donorName:
+ *                         type: string
+ *                         description: Nome do doador.
+ *                         example: "João da Silva"
+ *                       amount:
+ *                         type: number
+ *                         description: Valor da doação.
+ *                         example: 100.00
+ *                       status:
+ *                         type: string
+ *                         description: Status da doação (aprovado).
+ *                         example: "aprovado"
  *       401:
  *         description: Não autorizado, token de autenticação inválido ou ausente.
  *       500:

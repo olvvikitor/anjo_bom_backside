@@ -1,3 +1,4 @@
+import { IPaginate } from '@shared/domain/paginate/IPaginate'
 import { IDonateWithPix } from '../models/IDonateWithPix'
 
 export interface IDonateWithPixRepository{
@@ -10,5 +11,5 @@ export interface IDonateWithPixRepository{
 
    findAll(): Promise<IDonateWithPix[] | null>
 
-   findAllApproved(): Promise<IDonateWithPix[] | null>
+   findAllApproved(options:IPaginate): Promise<IDonateWithPix[] | null>
 }
