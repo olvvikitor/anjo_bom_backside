@@ -2,11 +2,12 @@
   "name": "ts",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/shared/infra/http/server.js",
   "scripts": {
-    "start": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts"
+    "start": "node dist/shared/infra/http/server.js", 
+    "build": "tsc",
+    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
