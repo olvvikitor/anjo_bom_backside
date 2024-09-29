@@ -1,12 +1,11 @@
-import AppError from '@shared/errors/AppError';
-
 import {hash} from 'bcryptjs'
+import { inject, injectable } from 'tsyringe';
 
+import AppError from '@shared/errors/AppError';
 import { IAdministrator } from '../domain/models/IAdministrator';
 import { ICreateAdministrator } from '../domain/models/ICreateAdministrator';
 import { IAdministratorRepository } from '../domain/repositories/IAdministratorRepository';
 
-import { inject, injectable } from 'tsyringe';
 
 @injectable()
 class CreateAdministratorService{

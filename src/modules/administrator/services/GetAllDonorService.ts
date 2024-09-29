@@ -1,14 +1,18 @@
-import AppError from '@shared/errors/AppError';
+import { IPerson } from '@modules/donor/domain/models/IPerson';
+import { IPersonRepository } from '@modules/donor/domain/repositories/IPersonRepository';
+import { inject, injectable } from 'tsyringe';
 
-import PersonRepository from '@modules/donor/repository/PersonRepository';
-import { IPerson } from '@modules/donor/entities/Person';
-
-
+@injectable()
 class GetAllDonorService{
+  private personRepository: IPersonRepository;
+  constructor(
+    @inject('IPersonRepository') 
+    personRepository: IPersonRepository){
+    this.personRepository = personRepository;
+  }
   public async showAll(): Promise<IPerson[] | null>{
-    const personRepository = new PersonRepository();
     
-    const admins = await personRepository.findAll();
+    const admins = await this.personRepository.findAll();
 
     return admins;
   }

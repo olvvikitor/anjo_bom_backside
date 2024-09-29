@@ -5,22 +5,10 @@ import LoginAdministratorController from '../controllers/LoginAdminController';
 
 const loginAdministratorRouter = Router();
 const loginAdministratorController = new LoginAdministratorController();
-
-loginAdministratorRouter.post(
-  '/',
-  celebrate({
-    [Segments.BODY]: {
-      email: Joi.string().email().required(),
-      password: Joi.string().min(6).required(),
-    },
-  }),
-  loginAdministratorController.loginAdmin
-);
-
-export default loginAdministratorRouter;
+//JSDOC PARA O LOGIN DE UM ADMIN
 /**
  * @swagger
- * /admin/auth:
+ * http://localhost:5000/admin/auth:
  *   post:
  *     summary: Login de administrador
  *     description: Endpoint para login de administradores. Retorna um token JWT se as credenciais estiverem corretas.
@@ -61,3 +49,15 @@ export default loginAdministratorRouter;
  *       500:
  *         description: Erro interno do servidor.
  */
+loginAdministratorRouter.post(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      email: Joi.string().email().required(),
+      password: Joi.string().min(6).required(),
+    },
+  }),
+  loginAdministratorController.loginAdmin
+);
+
+export default loginAdministratorRouter;

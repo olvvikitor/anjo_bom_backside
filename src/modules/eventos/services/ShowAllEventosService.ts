@@ -1,8 +1,10 @@
+import { inject, injectable } from 'tsyringe';
+
 import AppError from '@shared/errors/AppError';
-import { IEvento } from '../entities/Evento';
-import EventoRepository from '../repositories/EventoRepository';
-import PhotoRepository from '../repositories/PhotoRepository';
-import { IAddress } from '@modules/address/entities/Address';
+import { IEventoRepository } from '../domain/repositories/IEventoRepository';
+import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
+import { IAddress } from '@modules/address/domain/models/IAddress';
+import { IPaginate } from '@shared/domain/paginate/IPaginate';
 
 interface IResponse {
   titulo: string;
@@ -13,19 +15,30 @@ interface IResponse {
   data_fim: Date;
 }
 
+@injectable()
 class ShowAllEventosService {
-  public async execute(): Promise<IResponse[]> {
-    const eventoRepository = new EventoRepository();
-    const photoRepository = new PhotoRepository();
+  private eventoRepository : IEventoRepository;
+  private photoRepository : IPhotoRepository;
+  
+  constructor(
+    @inject('IEventoRepository')
+    eventoRepository : IEventoRepository, 
+    @inject('IPhotoRepository')
+    photoRepository : IPhotoRepository) {
+
+    this.eventoRepository = eventoRepository
+    this.photoRepository = photoRepository;
+  }
+  public async execute(options: IPaginate): Promise<IResponse[]> {
 
     // Buscar todos os eventos
-    const events = await eventoRepository.showAll();
+    const events = await this.eventoRepository.showAll(options);
     if (!events) {
       throw new AppError('Eventos não encontrados', 404);
     }
 
     // Buscar fotos associadas a cada evento
-    const photoPromises = events.map(event => photoRepository.findAllPhotosByEventId(event._id));
+    const photoPromises = events.map(event => this.photoRepository.findAllPhotosByEventId(event._id));
     const photosResults = await Promise.all(photoPromises);
 
     // Adicionar fotos aos eventos e formatar a resposta

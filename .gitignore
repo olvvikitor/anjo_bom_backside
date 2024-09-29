@@ -1,3 +1,8 @@
-node_modules
+node_modules/
 .env
-uploads
+uploads/
+.idea/
+build/
+temp/
+coverage
+dist

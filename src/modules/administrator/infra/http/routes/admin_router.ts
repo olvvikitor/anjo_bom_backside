@@ -5,23 +5,29 @@ import multer from 'multer';
 import upload from '@config/upload';
 import { auth } from '@shared/infra/http/middleweres/auth';
 import AdministratorController from '../controllers/AdministratorController';
+import ProductController from '@modules/products/infra/http/controllers/ProductController';
+import CollectionPointController from '@modules/collectionPoints/infra/http/controllers/CollectionPointController';
+import EventController from '@modules/eventos/infra/http/controllers/EventController';
+import e from 'cors';
 
 
 
 const adminRouter = Router();
-adminRouter.use(auth);
+// adminRouter.use(auth);
 const adminController = new AdministratorController();
-
+const productController = new ProductController();
+const collectionPointController = new CollectionPointController();
+const eventoController = new EventController();
 
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
 /**
  * @swagger
- * /admin/:
+ * http://localhost:5000/admin/:
  *   post:
  *     summary: Cria um novo administrador
  *     description: Endpoint para criar um novo administrador no sistema. Requer autenticação com um token Bearer.
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     tags:
  *       - Administrador
  *     requestBody:
@@ -93,12 +99,12 @@ adminRouter.post(
 
   }}),adminController.createAdministrator);
 
-adminRouter.get('/show-all', adminController.showAll);
+adminRouter.get('/admin//show-all', adminController.showAll);
 
-//JSDOC REVOGUE ACTIVATION
+//JSDOC REVOGUE ADMIN
 /**
  * @swagger
- * /admin/revogue/{id}:
+ * http://localhost:5000/admin/revogue/{id}:
  *   put:
  *     summary: Inativa um administrador
  *     description: Endpoint para inativar um administrador existente no sistema. Requer autenticação com token Bearer.
@@ -139,12 +145,12 @@ adminRouter.put('/revogue/:id', adminController.revogueAdmin);
 //JSDOC PARA A CONSULTA DE TODOS OS ADMINIS
 /**
      * @swagger
-     * /show-all:
+     * http://localhost:5000/admin/show-all:
      *   get:
      *     summary: Recupera todos os administradores com status ativo
      *     description: Esta rota recupera todos os administradores ativos no sistema. Requer autenticação com um token Bearer.
      *     security:
-     *       - BearerAuth: []
+     *       - bearerAuth: []
      *     tags:
      *       - Administrador
      *     responses:
@@ -201,9 +207,10 @@ adminRouter.put('/revogue/:id', adminController.revogueAdmin);
      */
 adminRouter.get('/show-donors', adminController.getAllDonors);
 
+//JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES PIX
 /**
  * @swagger
- * /show-donates:
+ * http://localhost:5000/admin/show-donates/:
  *   get:
  *     summary: Exibe todas as doações aprovadas
  *     description: Recupera uma lista de todas as doações que foram aprovadas. Requer autenticação Bearer token.
@@ -211,29 +218,64 @@ adminRouter.get('/show-donors', adminController.getAllDonors);
  *       - Administrador
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: Número da página a ser recuperada (início em 1).
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *           example: 2
+ *       - in: query
+ *         name: perPage
+ *         required: false
+ *         description: Número máximo de doações a serem retornadas por página.
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *           example: 5
  *     responses:
  *       200:
  *         description: Lista de doações aprovadas.
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     description: ID da doação.
- *                   donorName:
- *                     type: string
- *                     description: Nome do doador.
- *                   amount:
- *                     type: number
- *                     description: Valor da doação.
- *                   status:
- *                     type: string
- *                     description: Status da doação (aprovado).
- *                     example: aprovado
+ *               type: object
+ *               properties:
+ *                 currentPage:
+ *                   type: integer
+ *                   description: Página atual da lista de doações.
+ *                   example: 2
+ *                 totalPages:
+ *                   type: integer
+ *                   description: Número total de páginas disponíveis.
+ *                   example: 5
+ *                 totalDonations:
+ *                   type: integer
+ *                   description: Total de doações aprovadas.
+ *                   example: 50
+ *                 donations:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: ID da doação.
+ *                         example: "60d5f4842f8fb63a1c0a6b1f"
+ *                       donorName:
+ *                         type: string
+ *                         description: Nome do doador.
+ *                         example: "João da Silva"
+ *                       amount:
+ *                         type: number
+ *                         description: Valor da doação.
+ *                         example: 100.00
+ *                       status:
+ *                         type: string
+ *                         description: Status da doação (aprovado).
+ *                         example: "aprovado"
  *       401:
  *         description: Não autorizado, token de autenticação inválido ou ausente.
  *       500:
@@ -241,9 +283,13 @@ adminRouter.get('/show-donors', adminController.getAllDonors);
  */
 adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
 
+
+
+
+//JSDOC PARA A CRIAÇÂO DE UM  EVENTO
 /**
  * @swagger
- * /create-evento:
+ * http://localhost:5000/admin/create-evento:
  *   post:
  *     summary: Cria um novo evento
  *     description: Cria um novo evento com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
@@ -336,11 +382,12 @@ adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
  */
 const uploader = multer(upload)
 adminRouter.post('/create-evento' ,uploader.array('photos_event'), 
-adminController.createEvento);
+eventoController.createEvento);
 
+//JSDOC PARA A EXCLUSÃO DE UM EVENTO
 /**
  * @swagger
- * /delete-event/{id}:
+ * http://localhost:5000/admin/delete-event/{id}:
  *   delete:
  *     summary: Deleta um evento
  *     description: Remove um evento específico baseado no ID fornecido. Requer autenticação Bearer token.
@@ -375,7 +422,122 @@ adminController.createEvento);
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.delete('/delete-event/:id', adminController.deleteEvento)
+adminRouter.delete('/delete-event/:id', eventoController.deleteEvento)
+
+
+
+
+//JSDOC PARA A CRIAÇÂO DE UM PRODUCT
+adminRouter.post('/create-product', productController.createProduct)
+
+adminRouter.put('/update-products/:id', productController.updateProduct)
+
+
+
+
+//JSDOC PARA A CRIAÇÂO DE UM  PONTO DE COLETA
+/**
+ * @swagger
+ * http://localhost:5000/admin/create-collectionPoint:
+ *   post:
+ *     summary: Cria um novo ponto de coleta
+ *     description: Cria um novo ponto de coleta com nome, e endereço. Requer autenticação Bearer token.
+ *     tags:
+ *       - Administrador
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *                 description: O nome do local.
+ *                 example: Atacadão
+ *               address:
+ *                 type: string
+ *                 description: O endereço do evento no formato JSON string.
+ *                 example: '{"cep": "12345-678", "estado": "SP", "cidade": "São Paulo", "bairro": "Centro", "rua": "Avenida Paulista", "numero": "1000"}'
+ *     responses:
+ *       201:
+ *         description: ponto de coleta criado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: O ID do ponto de coleta criado.
+ *                 address:
+ *                   type: object
+ *                   description: O endereço do evento.
+ *                   properties:
+ *                     cep:
+ *                       type: string
+ *                     estado:
+ *                       type: string
+ *                     cidade:
+ *                       type: string
+ *                     bairro:
+ *                       type: string
+ *                     rua:
+ *                       type: string
+ *                     numero:
+ *                       type: string
+ *       400:
+ *         description: Erro na validação dos dados.
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+adminRouter.post('/create-collectionPoint', collectionPointController.createCollectionPoint);
+
+//JSDOC PARA A EXIBIÇÃO DE TODOS OS PONTOS DE COLETA
+/**
+ * @swagger
+ * http://localhost:5000/admin/show-collectionPoints:
+ *   get:
+ *     summary: Exibe todos os pontos de coleta
+ *     description: Recupera uma lista de todos os pontos de coleta.
+ *     tags:
+ *       - Administrador
+ *     responses:
+ *       200:
+ *         description: Lista de todos os pontos de coleta.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  name:
+ *                   type: string
+ *                   description: Nome do local
+ *                  address:
+ *                    type: object
+ *                    properties:
+ *                     cep:
+ *                       type: string
+ *                     estado:
+ *                       type: string
+ *                     cidade:
+ *                       type: string
+ *                     bairro:
+ *                       type: string
+ *                     rua:
+ *                       type: string
+ *                     numero:
+ *                       type: string
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+adminRouter.get('/find-collectionPoints', collectionPointController.getAllCollectionPoints);
+
+
 
 export default adminRouter;
 

@@ -1,11 +1,11 @@
-import { IPerson } from '@modules/donor/entities/Person';
-
 import AppError from '@shared/errors/AppError';
 
 import { compare } from 'bcryptjs';
 import jwt  from 'jsonwebtoken';
-import AdministratorRepository from '../infra/mongoose/repositories/AdministratorRepository';
+
 import { SECRET_KEY } from '@shared/infra/http/middleweres/auth';
+import { IAdministratorRepository } from '../domain/repositories/IAdministratorRepository';
+import { inject, injectable } from 'tsyringe';
 
 export interface IRequest {
   email:string;
@@ -14,10 +14,18 @@ export interface IRequest {
 interface IResponse{
   token: string
 }
+@injectable()
 class LoginService{
+  private administratorRepository : IAdministratorRepository;
+
+  constructor (
+    @inject('IAdministratorRepository')
+    administratorRepository: IAdministratorRepository) {
+    this.administratorRepository = administratorRepository;
+  }
   public async execute({email, password}: IRequest): Promise<IResponse>{
-    const administratorRepository = new AdministratorRepository();
-    const admin = await administratorRepository.findByEmail(email);
+    
+    const admin = await this.administratorRepository.findByEmail(email);
     if(!admin){
       throw new AppError('No Person found', 404);
     }
@@ -28,11 +36,10 @@ class LoginService{
     if(admin.isActive == false){
       throw new AppError('Account is inactive', 401);
     }
-    const token = jwt.sign({name: admin.name, id: admin._id}, SECRET_KEY,{
+    const token = jwt.sign({name: admin.name, id: admin.email}, SECRET_KEY,{
       expiresIn: '2 days',
-      subject: admin.id
+      subject: admin.email as string
     });
-
     return {token};
 }
 }

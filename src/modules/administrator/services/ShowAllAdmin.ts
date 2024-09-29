@@ -1,13 +1,20 @@
 import AppError from '@shared/errors/AppError';
 import { IAdministrator } from '../domain/models/IAdministrator';
 import AdministratorRepository from '../infra/mongoose/repositories/AdministratorRepository';
+import { IAdministratorRepository } from '../domain/repositories/IAdministratorRepository';
+import { inject, injectable } from 'tsyringe';
 
-
+@injectable()
 class ShowAllAdmin{
+  private administratorRepository : IAdministratorRepository;
+
+  constructor (
+    @inject('IAdministratorRepository')
+    administratorRepository: IAdministratorRepository) {
+    this.administratorRepository = administratorRepository;
+  }
   public async showAll(): Promise<IAdministrator[] | null>{
-    const adminRepository = new AdministratorRepository();
-    
-    const admins = await adminRepository.findAll();
+    const admins = await this.administratorRepository.findAll();
     return admins;
   }
 }
