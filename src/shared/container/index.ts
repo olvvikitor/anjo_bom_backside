@@ -14,8 +14,10 @@ import EventoRepository from '@modules/eventos/infra/mongoose/repositories/Event
 import PhotoRepository from '@modules/eventos/infra/mongoose/repositories/PhotoRepository';
 import { IProductRepository } from '@modules/products/domain/repositories/IproductRepository';
 import ProductRepository from '@modules/products/infra/mongoose/repositories/ProductRepository';
+import { ICacheService } from '@shared/domain/models/ICacheService';
 import { IPayment } from '@shared/domain/models/IPaymentService';
 import { ISmsService } from '@shared/domain/models/ISmsService';
+import RedisCache from '@shared/infra/cache/RedisCache';
 import { MercadoPagoService } from '@shared/infra/services/MercadoPagoService';
 import { TwilloSmsService } from '@shared/infra/services/TwilloSmsService';
 
@@ -31,3 +33,4 @@ container.register<ICollectionPointRepository>('ICollectionPointRepository', Col
 
 container.register<IPayment>('IPaymentService', MercadoPagoService);
 container.register<ISmsService>('ISmsService', TwilloSmsService);
+container.register<ICacheService>('ICacheService', RedisCache);

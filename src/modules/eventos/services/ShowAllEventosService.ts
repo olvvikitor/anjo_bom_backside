@@ -5,6 +5,8 @@ import { IEventoRepository } from '../domain/repositories/IEventoRepository';
 import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
 import { IAddress } from '@modules/address/domain/models/IAddress';
 import { IPaginate } from '@shared/domain/paginate/IPaginate';
+import RedisCache from '@shared/infra/cache/RedisCache';
+import { ICacheService } from '@shared/domain/models/ICacheService';
 
 interface IResponse {
   titulo: string;
@@ -19,18 +21,29 @@ interface IResponse {
 class ShowAllEventosService {
   private eventoRepository : IEventoRepository;
   private photoRepository : IPhotoRepository;
+  private cache: ICacheService;
   
   constructor(
     @inject('IEventoRepository')
     eventoRepository : IEventoRepository, 
     @inject('IPhotoRepository')
-    photoRepository : IPhotoRepository) {
-
+    photoRepository : IPhotoRepository,
+    @inject('ICacheService')
+    cacheSercvice: ICacheService){
+      
     this.eventoRepository = eventoRepository
     this.photoRepository = photoRepository;
+    this.cache = cacheSercvice;
   }
+
+
   public async execute(options: IPaginate): Promise<IResponse[]> {
 
+    let eventsCache = await this.cache.recover<IResponse[]>(
+      'api_anjobom_EVENTS_LIST',
+    ) as IResponse[]
+
+    if(!eventsCache){
     // Buscar todos os eventos
     const events = await this.eventoRepository.showAll(options);
     if (!events) {
@@ -54,8 +67,11 @@ class ShowAllEventosService {
         data_fim: event.data_fim
       };
     });
+      await this.cache.save('api_anjobom_EVENTS_LIST',eventsWithPhotos);
+      return eventsWithPhotos
+    }
 
-    return eventsWithPhotos;
+    return eventsCache;
   }
 }
 

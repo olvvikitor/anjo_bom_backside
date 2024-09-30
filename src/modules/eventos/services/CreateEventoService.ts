@@ -1,11 +1,10 @@
 import { IEvento } from '../domain/models/IEvento';
 import { IPhotoEvent } from '../domain/models/IPhotoEvent';
-import EventoRepository from '../infra/mongoose/repositories/EventoRepository';
-import PhotoRepository from '../infra/mongoose/repositories/PhotoRepository';
 import { IEventoRepository } from '../domain/repositories/IEventoRepository';
 import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
 import { inject, injectable } from 'tsyringe';
 import { IAddress } from '@modules/address/domain/models/IAddress';
+import { ICacheService } from '@shared/domain/models/ICacheService';
 
 interface IRequest {
   titulo: string;
@@ -19,15 +18,20 @@ interface IRequest {
 class CreateEventoService {
   private eventoRepository : IEventoRepository;
   private photoRepository : IPhotoRepository;
-  
+  private cacheService:ICacheService
+
   constructor(
     @inject('IEventoRepository')
     eventoRepository : IEventoRepository, 
     @inject('IPhotoRepository')
-    photoRepository : IPhotoRepository) {
+    photoRepository : IPhotoRepository,
+    @inject('ICacheService')
+    cacheService:ICacheService
+  ) {
 
     this.eventoRepository = eventoRepository
     this.photoRepository = photoRepository;
+    this.cacheService = cacheService
   }
 
   public async execute({
@@ -60,6 +64,8 @@ class CreateEventoService {
 
     await this.eventoRepository.uploadEvent(evento); // Atualizando o evento com as fotos salvas
     
+    //apagando do cache apos a criação
+    await this.cacheService.invalidate('api_anjobom_EVENTS_LIST');
     return evento;
   }
 }
