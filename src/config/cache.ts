@@ -15,4 +15,3 @@ export default {
 },
   driver: 'redis'
   } as ICacheConfig
-console.log('teste')
