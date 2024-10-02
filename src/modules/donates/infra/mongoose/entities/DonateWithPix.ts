@@ -5,7 +5,6 @@ import paginate from 'mongoose-paginate-v2';
 export const donatePixSchemma = new Schema<IDonateWithPix>({
   name:{
     type: String,
-    
   },
   id_pix: {
     type: Number,

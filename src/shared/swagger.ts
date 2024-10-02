@@ -13,6 +13,10 @@ const options: swaggerJSDoc.Options = {
       {
         url: 'http://localhost:5000',
         description: 'Local development server'
+      },
+      {
+        url: 'https://api_anjobom.victordev.shop',
+        description: 'Production server'
       }
     ]
   },

@@ -9,6 +9,8 @@ import ProductController from '@modules/products/infra/http/controllers/ProductC
 import CollectionPointController from '@modules/collectionPoints/infra/http/controllers/CollectionPointController';
 import EventController from '@modules/eventos/infra/http/controllers/EventController';
 import e from 'cors';
+import PersonConroller from '@modules/donor/infra/http/controllers/PersonController';
+import DonatesController from '@modules/donates/infra/http/controllers/DonatesController';
 
 
 
@@ -18,6 +20,8 @@ const adminController = new AdministratorController();
 const productController = new ProductController();
 const collectionPointController = new CollectionPointController();
 const eventoController = new EventController();
+const personController = new PersonConroller()
+const donatesPixController = new DonatesController();
 
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
 /**
@@ -205,7 +209,7 @@ adminRouter.put('/revogue/:id', adminController.revogueAdmin);
      *           type: string
      *           example: "Bearer <seu-token-aqui>"
      */
-adminRouter.get('/show-donors', adminController.getAllDonors);
+adminRouter.get('/show-donors', personController.getAllDonors);
 
 //JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES PIX
 /**
@@ -281,9 +285,7 @@ adminRouter.get('/show-donors', adminController.getAllDonors);
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
-
-
+adminRouter.get('/show-donates', donatesPixController.findAllDonatesApproved)
 
 
 //JSDOC PARA A CRIAÇÂO DE UM  EVENTO
@@ -383,7 +385,6 @@ adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
 const uploader = multer(upload)
 adminRouter.post('/create-evento' ,uploader.array('photos_event'), 
 eventoController.createEvento);
-
 //JSDOC PARA A EXCLUSÃO DE UM EVENTO
 /**
  * @swagger
@@ -424,7 +425,7 @@ eventoController.createEvento);
  */
 adminRouter.delete('/delete-event/:id', eventoController.deleteEvento)
 
-
+adminRouter.get('/findAll-event', eventoController.getEvents);
 
 
 //JSDOC PARA A CRIAÇÂO DE UM PRODUCT

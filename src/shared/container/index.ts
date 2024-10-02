@@ -1,9 +1,9 @@
 import { IAdministratorRepository } from '@modules/administrator/domain/repositories/IAdministratorRepository';
 import AdministratorRepository from '@modules/administrator/infra/mongoose/repositories/AdministratorRepository';
-import { ICollectionPoint } from '@modules/collectionPoints/domain/models/ICollectionPoints';
 import ICollectionPointRepository from '@modules/collectionPoints/domain/repositories/ICollectionPointRepository';
-import ICollectionPointsRepository from '@modules/collectionPoints/domain/repositories/ICollectionPointRepository';
 import CollectionPointRepository from '@modules/collectionPoints/infra/mongoose/repositories/CollectionPointRepository';
+import { ICestaRepository } from '@modules/donateProduct/domain/repositories/ICestaRepository';
+import CestaRepository from '@modules/donateProduct/infra/mongoose/repositories/CestaRepository';
 import { IDonateWithPixRepository } from '@modules/donates/domain/repositories/IDonateWithPixRepository';
 import DonateWithPixRepository from '@modules/donates/infra/mongoose/repositories/DonateRepository';
 import { IPersonRepository } from '@modules/donor/domain/repositories/IPersonRepository';
@@ -30,6 +30,7 @@ container.register<IEventoRepository>('IEventoRepository', EventoRepository);
 container.register<IPhotoRepository>('IPhotoRepository', PhotoRepository);
 container.register<IProductRepository>('IProductRepository', ProductRepository);
 container.register<ICollectionPointRepository>('ICollectionPointRepository', CollectionPointRepository);
+container.register<ICestaRepository>('ICestaRepository',CestaRepository);
 
 container.register<IPayment>('IPaymentService', MercadoPagoService);
 container.register<ISmsService>('ISmsService', TwilloSmsService);
