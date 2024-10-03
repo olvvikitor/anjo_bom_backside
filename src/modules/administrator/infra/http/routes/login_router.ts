@@ -50,7 +50,7 @@ const loginAdministratorController = new LoginAdministratorController();
  *         description: Erro interno do servidor.
  */
 loginAdministratorRouter.post(
-  '/',
+  '/a',
   celebrate({
     [Segments.BODY]: {
       email: Joi.string().email().required(),
