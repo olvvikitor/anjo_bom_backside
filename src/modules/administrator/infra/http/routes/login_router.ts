@@ -8,7 +8,7 @@ const loginAdministratorController = new LoginAdministratorController();
 //JSDOC PARA O LOGIN DE UM ADMIN
 /**
  * @swagger
- *  /admin/auth/teste:
+ *  /admin/auth/:
  *   post:
  *     summary: Login de administrador
  *     description: Endpoint para login de administradores. Retorna um token JWT se as credenciais estiverem corretas.
