@@ -11,7 +11,7 @@ import cestaRouter from '@modules/donateProduct/infra/http/routes/cestaRouter';
 
 export const routes = Router();
 
-routes.use('/doador', personRouter);
+routes.use('/doador/teste', personRouter);
 
 routes.use('/doador/doarPix', donatesRouter)
 
