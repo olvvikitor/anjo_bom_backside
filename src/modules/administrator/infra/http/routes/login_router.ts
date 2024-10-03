@@ -5,7 +5,7 @@ import LoginAdministratorController from '../controllers/LoginAdminController';
 
 const loginAdministratorRouter = Router();
 const loginAdministratorController = new LoginAdministratorController();
-//JSDOC PARA O LOGIN DE UM ADMIN
+//JSDOC PARA O LOGIN DE UM ADMINISTRADOR
 /**
  * @swagger
  *  /admin/auth/:
