@@ -8,7 +8,7 @@ const cestaController = new CestaController();
 
 /**
  * @swagger
- * http://localhost:5000/person/donate/create-cesta/6534239abf742dd12b2f1a59:
+ * /doador/doarProduto/CriarCesta/6534239abf742dd12b2f1a59:
  *   post:
  *     summary: Criação de uma nova Cesta
  *     description: Endpoint para criar uma nova cesta com itens e associar a uma pessoa através do ID passado como parâmetro.
@@ -98,5 +98,5 @@ const cestaController = new CestaController();
  *       500:
  *         description: Erro interno do servidor.
  */
-cestaRouter.post('/create-cesta/:person_id', cestaController.createCesta);
+cestaRouter.post('/criarCesta/:person_id', cestaController.createCesta);
 export default cestaRouter

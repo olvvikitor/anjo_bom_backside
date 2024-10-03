@@ -20,7 +20,7 @@ export default class CollectionPointRepository implements ICollectionPointReposi
  async getCollectionPointById(id: string): Promise<ICollectionPoint | null> {
     const collectionPoint = this.model.findById({_id: id});
     return collectionPoint;
-  }
+}
  async createCollectionPoint(point: ICreateCollectionPoint): Promise<ICollectionPoint> {
     const pontoDeColeta = await this.model.create(point);
     await pontoDeColeta.save();

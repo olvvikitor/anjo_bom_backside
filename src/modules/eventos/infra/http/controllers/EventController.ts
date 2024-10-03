@@ -3,6 +3,7 @@ import DeleteEventoService from '@modules/eventos/services/DeleteEventoService';
 import ShowAllEventosService from '@modules/eventos/services/ShowAllEventosService';
 import { IPaginate } from '@shared/domain/paginate/IPaginate';
 import{Request, Response} from 'express'
+import { isValidObjectId } from 'mongoose';
 import { container } from 'tsyringe';
 
 
@@ -35,7 +36,13 @@ export default class EventoController{
     return response.status(201).json(evento);                
   }
   public async deleteEvento(request: Request, response: Response):Promise<Response>{
+
     const id = request.params.id;
+
+    if (!isValidObjectId(id)) {
+      return response.status(400).json({ error: 'Invalid ObjectId' });
+    }
+    
     const deleteEventService = container.resolve(DeleteEventoService);
     const dletedEvent =  await deleteEventService.execute({id});
     return response.status(200).json(dletedEvent);

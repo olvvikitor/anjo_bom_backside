@@ -1,6 +1,7 @@
 import CreateProductService from '@modules/products/domain/services/CreateProductService';
 import UpdateProductService from '@modules/products/domain/services/UpdateProductService';
 import{Request, Response} from 'express'
+import { isValidObjectId } from 'mongoose';
 import { container } from 'tsyringe';
 
 class ProductController{
@@ -12,6 +13,11 @@ class ProductController{
   }
   public async updateProduct(request: Request, response:Response):Promise<Response>{
     const id = request.params.id;
+
+    if (!isValidObjectId(id)) {
+      return response.status(400).json({ error: 'Invalid ObjectId' });
+    }
+
     const requirement = request.body.requirement;
     const updateProductService = container.resolve(UpdateProductService);
     await updateProductService.execute({id, requirement});

@@ -6,7 +6,7 @@ const eventoController = new EventController();
 
 /**
  * @swagger
- * http://localhost:5000/events/:
+ * /eventos/:
  *   get:
  *     summary: Recupera todos os eventos.
  *     description: Retorna uma lista de todos os eventos registrados no sistema. Permite paginação.

@@ -3,12 +3,18 @@ import CreateAdministratorService from '@modules/administrator/services/CreateAd
 import ShowAllAdmin from '@modules/administrator/services/ShowAllAdmin';
 import UpdtateStatusAdmin from '@modules/administrator/services/UpdateStatusAdmin';
 import { container } from 'tsyringe';
+import { isValidObjectId } from 'mongoose';
 
 
 class AdministratorController {
   public async revogueAdmin(request: Request, response: Response): Promise<Response> {
     const updtateStatusAdmin = container.resolve(UpdtateStatusAdmin)
     const id = request.params.id;
+
+    if(!isValidObjectId(id)){
+      return response.status(400).json({message: 'Id inválido'})
+    }
+    
     await updtateStatusAdmin.execute({ id });
     return response.status(200).json();
   }

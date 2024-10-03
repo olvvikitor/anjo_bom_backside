@@ -4,6 +4,7 @@ import DeleteCollectionService from '@modules/collectionPoints/services/DeleteCo
 import ShowAllCollectionPointsService from '@modules/collectionPoints/services/ShowAllCollectionPointsService';
 import { Request, Response } from 'express'
 import { container } from 'tsyringe';
+import { isValidObjectId } from 'mongoose';
 
 
 export default class CollectionPointController {
@@ -31,10 +32,15 @@ export default class CollectionPointController {
     const collectionPoints = await showAllCollectionPointsService.execute();
     return response.status(200).json(collectionPoints);
   }
-  public async deleteCollectionPoints(request: Request, response: Response): Promise<void> {
+  public async deleteCollectionPoints(request: Request, response: Response): Promise<Response> {
     const id : string  = request.params.id;
+
+    if(!isValidObjectId(id)){
+      return response.status(400).json({message: 'Id inválido'})
+    }
     const deleteColectionPointService = container.resolve(DeleteCollectionService);
     await deleteColectionPointService.execute(id)
-    response.status(200).json()
+    
+    return response.status(200).json()
   }
 }

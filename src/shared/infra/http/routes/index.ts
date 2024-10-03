@@ -11,17 +11,17 @@ import cestaRouter from '@modules/donateProduct/infra/http/routes/cestaRouter';
 
 export const routes = Router();
 
-routes.use('/person', personRouter);
+routes.use('/doador', personRouter);
 
-routes.use('/person/donate/payment', donatesRouter)
+routes.use('/doador/doarPix', donatesRouter)
 
-routes.use('/person/donate', cestaRouter)
-
-routes.use('/admin/auth', loginAdministratorRouter)
+routes.use('/doador/doarProduto', cestaRouter)
 
 routes.use('/admin' ,adminRouter);
 
-routes. use('/events', eventoRouter)
+routes.use('/admin/auth', loginAdministratorRouter)
+
+routes. use('/eventos', eventoRouter)
 
 
 

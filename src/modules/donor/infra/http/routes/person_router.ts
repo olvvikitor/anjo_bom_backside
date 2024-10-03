@@ -8,7 +8,7 @@ const personController = new PersonController();
 //JSDOC PARA CRIAÇÂO DE UM NOVO USUÁRIO
 /**
  * @swagger
- * http://localhost:5000/person/:
+ * /doador/:
  *   post:
  *     summary: Cria uma nova pessoa.
  *     description: Registra uma nova pessoa com os dados fornecidos.
@@ -94,7 +94,7 @@ personRouter.post(
 //JSDOC PARA CRIAÇÂO DE CODIGO
 /**
  * @swagger
- * http://localhost:5000/person/code/:
+ *  /doador/codigo/:
  *   get:
  *     summary: Gera um código para validação.
  *     description: Retorna um código de validação para o usuário.
