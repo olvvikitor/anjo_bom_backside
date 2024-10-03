@@ -1,4 +1,4 @@
-import { IPaginate } from '@shared/paginate/IPaginate'
+import { IPaginate } from '@shared/domain/paginate/IPaginate'
 import { IEvento } from '../models/IEvento'
 
 export interface IEventoRepository{

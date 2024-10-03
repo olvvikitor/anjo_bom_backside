@@ -1,5 +1,6 @@
 import { IAddress } from '@modules/address/domain/models/IAddress';
 import CreateCollectionPointService from '@modules/collectionPoints/services/CreateCollectionPointService';
+import DeleteCollectionService from '@modules/collectionPoints/services/DeleteCollectionService';
 import ShowAllCollectionPointsService from '@modules/collectionPoints/services/ShowAllCollectionPointsService';
 import { Request, Response } from 'express'
 import { container } from 'tsyringe';
@@ -29,5 +30,11 @@ export default class CollectionPointController {
     const showAllCollectionPointsService = container.resolve(ShowAllCollectionPointsService);
     const collectionPoints = await showAllCollectionPointsService.execute();
     return response.status(200).json(collectionPoints);
+  }
+  public async deleteCollectionPoints(request: Request, response: Response): Promise<void> {
+    const id : string  = request.params.id;
+    const deleteColectionPointService = container.resolve(DeleteCollectionService);
+    await deleteColectionPointService.execute(id)
+    response.status(200).json()
   }
 }

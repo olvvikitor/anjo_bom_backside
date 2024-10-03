@@ -31,6 +31,6 @@ export default class CollectionPointRepository implements ICollectionPointReposi
     await this.model.updateOne({ _id: id }, pontoDeColeta);
   }
   async deleteCollectionPoint(id: any): Promise<void> {
-    throw new Error('Method not implemented.');
+    await this.model.deleteOne({ _id: id });
   }
 }

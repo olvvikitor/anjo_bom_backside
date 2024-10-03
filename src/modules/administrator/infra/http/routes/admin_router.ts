@@ -26,7 +26,7 @@ const donatesPixController = new DonatesController();
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
 /**
  * @swagger
- * http://localhost:5000/admin/:
+    /admin/:
  *   post:
  *     summary: Cria um novo administrador
  *     description: Endpoint para criar um novo administrador no sistema. Requer autenticação com um token Bearer.
@@ -103,12 +103,75 @@ adminRouter.post(
 
   }}),adminController.createAdministrator);
 
-adminRouter.get('/admin//show-all', adminController.showAll);
+//JSDOC PARA A CONSULTA DE TODOS OS ADMINIS
+/**
+ * @swagger
+ *    /admin/mostrarAdmins:
+ *   get:
+ *     summary: Recupera todos os administradores com status ativo
+ *     description: Esta rota recupera todos os administradores ativos no sistema. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador
+ *     responses:
+ *       200:
+ *         description: Lista de administradores ativos recuperada com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: Identificador único do administrador.
+ *                     example: "66dbf6aa5904b4954bddc1b6"
+ *                   name:
+ *                     type: string
+ *                     description: Nome do administrador.
+ *                     example: "João Victor"
+ *                   email:
+ *                     type: string
+ *                     format: email
+ *                     description: Email do administrador.
+ *                     example: "victor@gmail.com"
+ *                   isActive:
+ *                     type: boolean
+ *                     description: Indica se o administrador está ativo.
+ *                     example: true
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Data e hora em que o administrador foi criado.
+ *                     example: "2024-09-07T06:46:02.613Z"
+ *                   updated_at:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Data e hora da última atualização do administrador.
+ *                     example: "2024-09-07T06:46:02.613Z"
+ *                   __v:
+ *                     type: integer
+ *                     description: Versão do documento no banco de dados.
+ *                     example: 0
+ *       401:
+ *         description: Não autorizado, token de autenticação ausente ou inválido.
+ *       500:
+ *         description: Erro interno do servidor.
+ *     headers:
+ *       authorization:
+ *         description: Token JWT necessário para autenticação.
+ *         schema:
+ *           type: string
+ *           example: "Bearer <seu-token-aqui>"
+ */
+adminRouter.get('/admin/mostrarAdmins', adminController.showAll);
 
 //JSDOC REVOGUE ADMIN
 /**
  * @swagger
- * http://localhost:5000/admin/revogue/{id}:
+ * /admin/revogarAcesso/{id}:
  *   put:
  *     summary: Inativa um administrador
  *     description: Endpoint para inativar um administrador existente no sistema. Requer autenticação com token Bearer.
@@ -144,77 +207,115 @@ adminRouter.get('/admin//show-all', adminController.showAll);
  *       500:
  *         description: Erro interno do servidor.
  */
-adminRouter.put('/revogue/:id', adminController.revogueAdmin);
+adminRouter.put('/revogarAcesso/:id', adminController.revogueAdmin);
 
-//JSDOC PARA A CONSULTA DE TODOS OS ADMINIS
-/**
-     * @swagger
-     * http://localhost:5000/admin/show-all:
-     *   get:
-     *     summary: Recupera todos os administradores com status ativo
-     *     description: Esta rota recupera todos os administradores ativos no sistema. Requer autenticação com um token Bearer.
-     *     security:
-     *       - bearerAuth: []
-     *     tags:
-     *       - Administrador
-     *     responses:
-     *       200:
-     *         description: Lista de administradores ativos recuperada com sucesso.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: array
-     *               items:
-     *                 type: object
-     *                 properties:
-     *                   _id:
-     *                     type: string
-     *                     description: Identificador único do administrador.
-     *                     example: "66dbf6aa5904b4954bddc1b6"
-     *                   name:
-     *                     type: string
-     *                     description: Nome do administrador.
-     *                     example: "João Victor"
-     *                   email:
-     *                     type: string
-     *                     format: email
-     *                     description: Email do administrador.
-     *                     example: "victor@gmail.com"
-     *                   isActive:
-     *                     type: boolean
-     *                     description: Indica se o administrador está ativo.
-     *                     example: true
-     *                   created_at:
-     *                     type: string
-     *                     format: date-time
-     *                     description: Data e hora em que o administrador foi criado.
-     *                     example: "2024-09-07T06:46:02.613Z"
-     *                   updated_at:
-     *                     type: string
-     *                     format: date-time
-     *                     description: Data e hora da última atualização do administrador.
-     *                     example: "2024-09-07T06:46:02.613Z"
-     *                   __v:
-     *                     type: integer
-     *                     description: Versão do documento no banco de dados.
-     *                     example: 0
-     *       401:
-     *         description: Não autorizado, token de autenticação ausente ou inválido.
-     *       500:
-     *         description: Erro interno do servidor.
-     *     headers:
-     *       authorization:
-     *         description: Token JWT necessário para autenticação.
-     *         schema:
-     *           type: string
-     *           example: "Bearer <seu-token-aqui>"
-     */
-adminRouter.get('/show-donors', personController.getAllDonors);
-
-//JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES PIX
 /**
  * @swagger
- * http://localhost:5000/admin/show-donates/:
+ * /admin/mostrarDoadores:
+ *   get:
+ *     summary: Recupera todos os doadores
+ *     description: Esta rota recupera todos os doadores ativos no sistema. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador
+ *     parameters:
+ *       - in: query
+ *         name: perPage
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *         description: Número de doadores por página.
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: Página atual a ser retornada.
+ *     responses:
+ *       200:
+ *         description: Lista de doadores ativos recuperada com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: Identificador único do doador.
+ *                     example: "66dbf6aa5904b4954bddc1b6"
+ *                   name:
+ *                     type: string
+ *                     description: Nome do doador.
+ *                     example: "Pedro Paulo"
+ *                   last_name:
+ *                     type: string
+ *                     description: Sobrenome do doador.
+ *                     example: "Silva"
+ *                   email:
+ *                     type: string
+ *                     format: email
+ *                     description: Email do doador.
+ *                     example: "Pedro@gmail.com"
+ *                   phone:
+ *                     type: string
+ *                     description: Telefone do doador.
+ *                     example: "313"
+ *                   motivation:
+ *                     type: string
+ *                     description: Motivação do doador.
+ *                     example: "Ajudar pessoas necessitadas"
+ *                   isActive:
+ *                     type: boolean
+ *                     description: Indica se o doador está ativo.
+ *                     example: true
+ *                   address:
+ *                     type: object
+ *                     description: Endereço do doador.
+ *                     properties:
+ *                       cep:
+ *                         type: string
+ *                         description: O CEP do endereço.
+ *                         example: "44444-444"
+ *                       estado:
+ *                         type: string
+ *                         description: O estado do endereço.
+ *                         example: "BA"
+ *                       cidade:
+ *                         type: string
+ *                         description: A cidade do endereço.
+ *                         example: "Santo Antônio de Jesus"
+ *                       bairro:
+ *                         type: string
+ *                         description: O bairro do endereço.
+ *                         example: "Nossa Senhora das Graças"
+ *                       rua:
+ *                         type: string
+ *                         description: A rua do endereço.
+ *                         example: "Rua Via Coletora B"
+ *                       numero:
+ *                         type: string
+ *                         description: O número do endereço.
+ *                         example: "12"
+ *       401:
+ *         description: Não autorizado, token de autenticação ausente ou inválido.
+ *       500:
+ *         description: Erro interno do servidor.
+ *     headers:
+ *       authorization:
+ *         description: Token JWT necessário para autenticação.
+ *         schema:
+ *           type: string
+ *           example: "Bearer <seu-token-aqui>"
+ */
+adminRouter.get('/mostrarDoadores', personController.getAllDonors);
+
+//JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES PIX
+/*
+ * @swagger
+ *  /admin/mostrarDoacoesPix/:
  *   get:
  *     summary: Exibe todas as doações aprovadas
  *     description: Recupera uma lista de todas as doações que foram aprovadas. Requer autenticação Bearer token.
@@ -285,13 +386,12 @@ adminRouter.get('/show-donors', personController.getAllDonors);
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.get('/show-donates', donatesPixController.findAllDonatesApproved)
-
+adminRouter.get('/mostrarDoacoesPix', donatesPixController.findAllDonatesApproved)
 
 //JSDOC PARA A CRIAÇÂO DE UM  EVENTO
 /**
  * @swagger
- * http://localhost:5000/admin/create-evento:
+ *  admin/criarEvento:
  *   post:
  *     summary: Cria um novo evento
  *     description: Cria um novo evento com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
@@ -383,12 +483,13 @@ adminRouter.get('/show-donates', donatesPixController.findAllDonatesApproved)
  *         description: Erro interno no servidor.
  */
 const uploader = multer(upload)
-adminRouter.post('/create-evento' ,uploader.array('photos_event'), 
+adminRouter.post('/criarEvento' ,uploader.array('photos_event'), 
 eventoController.createEvento);
+
 //JSDOC PARA A EXCLUSÃO DE UM EVENTO
 /**
  * @swagger
- * http://localhost:5000/admin/delete-event/{id}:
+ *  /admin/deletarEvento/{id}:
  *   delete:
  *     summary: Deleta um evento
  *     description: Remove um evento específico baseado no ID fornecido. Requer autenticação Bearer token.
@@ -425,21 +526,159 @@ eventoController.createEvento);
  */
 adminRouter.delete('/delete-event/:id', eventoController.deleteEvento)
 
-adminRouter.get('/findAll-event', eventoController.getEvents);
-
+adminRouter.get('/buscarTodosEventos', eventoController.getEvents);
 
 //JSDOC PARA A CRIAÇÂO DE UM PRODUCT
-adminRouter.post('/create-product', productController.createProduct)
+/**
+ * @swagger
+ * /admin/criarProduto:
+ *   post:
+ *     summary: Cria um novo produto
+ *     description: Endpoint para criar um novo produto com nome e nível de necessidade. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nome do produto a ser criado.
+ *                 example: "Brinquedo2erssssp"
+ *               requirement:
+ *                 type: string
+ *                 enum: [CRITICO, ALTO, MEDIO, BAIXO]
+ *                 description: Nível de necessidade do produto.
+ *                 example: "CRITICO"
+ *     responses:
+ *       201:
+ *         description: Produto criado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   description: ID do produto criado.
+ *                   example: "66dbf6aa5904b4954bddc1b6"
+ *                 name:
+ *                   type: string
+ *                   description: Nome do produto criado.
+ *                   example: "Brinquedo"
+ *                 requirement:
+ *                   type: string
+ *                   description: Nível de necessidade do produto.
+ *                   example: "CRITICO"
+ *                 created_at:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Data e hora da criação do produto.
+ *                   example: "2024-10-03T06:46:02.613Z"
+ *                 updated_at:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Data e hora da última atualização do produto.
+ *                   example: "2024-10-03T06:46:02.613Z"
+ *       400:
+ *         description: Requisição inválida, parâmetros obrigatórios ausentes ou inválidos.
+ *       401:
+ *         description: Não autorizado, token de autenticação ausente ou inválido.
+ *       500:
+ *         description: Erro interno do servidor.
+ *       409:
+ *         description: Já existe um produto com esse nome
+ *     headers:
+ *       authorization:
+ *         description: Token JWT necessário para autenticação.
+ *         schema:
+ *           type: string
+ *           example: "Bearer <seu-token-aqui>"
+ */
+adminRouter.post('/criarProduto', productController.createProduct)
 
-adminRouter.put('/update-products/:id', productController.updateProduct)
-
-
-
+//JSDOC PARA ATUALIZAR NIVEL DE CARENCIA DE UM PRODUTO
+/**
+ * @swagger
+ * /admin/atualizarProduto/{id}:
+ *   put:
+ *     summary: Atualiza um produto existente
+ *     description: Atualiza o nível de necessidade de um produto. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID do produto a ser atualizado.
+ *         schema:
+ *           type: string
+ *           example: "66dbf6aa5904b4954bddc1b6"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               requirement:
+ *                 type: string
+ *                 enum: [CRITICO, ALTO, MEDIO, BAIXO]
+ *                 description: Novo nível de necessidade do produto.
+ *                 example: "MEDIO"
+ *     responses:
+ *       200:
+ *         description: Produto atualizado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   description: ID do produto atualizado.
+ *                   example: "66dbf6aa5904b4954bddc1b6"
+ *                 name:
+ *                   type: string
+ *                   description: Nome do produto.
+ *                   example: "Brinquedo"
+ *                 requirement:
+ *                   type: string
+ *                   description: Novo nível de necessidade do produto.
+ *                   example: "MEDIO"
+ *                 updated_at:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Data e hora da última atualização do produto.
+ *                   example: "2024-10-03T06:46:02.613Z"
+ *       400:
+ *         description: Requisição inválida, parâmetros obrigatórios ausentes ou inválidos.
+ *       401:
+ *         description: Não autorizado, token de autenticação ausente ou inválido.
+ *       404:
+ *         description: Produto não encontrado.
+ *       500:
+ *         description: Erro interno do servidor.
+ *     headers:
+ *       authorization:
+ *         description: Token JWT necessário para autenticação.
+ *         schema:
+ *           type: string
+ *           example: "Bearer <seu-token-aqui>"
+ */
+adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
 
 //JSDOC PARA A CRIAÇÂO DE UM  PONTO DE COLETA
 /**
  * @swagger
- * http://localhost:5000/admin/create-collectionPoint:
+ * /admin/criarPontoDeColeta:
  *   post:
  *     summary: Cria um novo ponto de coleta
  *     description: Cria um novo ponto de coleta com nome, e endereço. Requer autenticação Bearer token.
@@ -496,12 +735,12 @@ adminRouter.put('/update-products/:id', productController.updateProduct)
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.post('/create-collectionPoint', collectionPointController.createCollectionPoint);
+adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollectionPoint);
 
 //JSDOC PARA A EXIBIÇÃO DE TODOS OS PONTOS DE COLETA
 /**
  * @swagger
- * http://localhost:5000/admin/show-collectionPoints:
+ *  /admin/buscarPontosDeColeta:
  *   get:
  *     summary: Exibe todos os pontos de coleta
  *     description: Recupera uma lista de todos os pontos de coleta.
@@ -536,8 +775,47 @@ adminRouter.post('/create-collectionPoint', collectionPointController.createColl
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.get('/find-collectionPoints', collectionPointController.getAllCollectionPoints);
+adminRouter.get('/buscarPontosDeColeta', collectionPointController.getAllCollectionPoints);
 
+//JSDOC PARA A EXCLUSÃO DE UM EVENTO
+/**
+ * @swagger
+ *  /admin/deletarPontoDeColeta/{id}:
+ *   delete:
+ *     summary: Deleta um Ponto de coleta
+ *     description: Remove um Ponto de coleta específico baseado no ID fornecido. Requer autenticação Bearer token.
+ *     tags:
+ *       - Administrador
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O ID do Ponto de coleta a ser deletado.
+ *     responses:
+ *       200:
+ *         description: Ponto de coleta deletado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Evento deletado com sucesso.
+ *       400:
+ *         description: Erro ao deletar o Ponto de coleta, ID inválido.
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       404:
+ *         description: Ponto de coleta não encontrado.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+adminRouter.delete('/deletarPontoDeColeta/:id', collectionPointController.deleteCollectionPoints);
 
 
 export default adminRouter;
