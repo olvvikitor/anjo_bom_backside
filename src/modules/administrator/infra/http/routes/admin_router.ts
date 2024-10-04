@@ -166,7 +166,7 @@ adminRouter.post(
  *           type: string
  *           example: "Bearer <seu-token-aqui>"
  */
-adminRouter.get('/admin/mostrarAdmins', adminController.showAll);
+adminRouter.get('/mostrarAdmins', adminController.showAll);
 
 //JSDOC REVOGUE ADMIN
 /**
@@ -675,13 +675,12 @@ adminRouter.post('/criarProduto', productController.createProduct)
  */
 adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
 
-//JSDOC PARA A CRIAÇÂO DE UM  PONTO DE COLETA
 /**
  * @swagger
  * /admin/criarPontoDeColeta:
  *   post:
  *     summary: Cria um novo ponto de coleta
- *     description: Cria um novo ponto de coleta com nome, e endereço. Requer autenticação Bearer token.
+ *     description: Cria um novo ponto de coleta com nome, URL do mapa e endereço. Requer autenticação Bearer token.
  *     tags:
  *       - Administrador
  *     security:
@@ -693,17 +692,45 @@ adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
  *           schema:
  *             type: object
  *             properties:
- *               nome:
+ *               name:
  *                 type: string
  *                 description: O nome do local.
- *                 example: Atacadão
- *               address:
+ *                 example: Atakarejo
+ *               urlMap:
  *                 type: string
+ *                 description: URL do mapa do local.
+ *                 example: https://www.google.com/maps/place/Atakad%C3%A3o+Atakarejo+-+Feira+de+Santana/@-12.2412767,-38.9642868,15z
+ *               address:
+ *                 type: object
  *                 description: O endereço do evento no formato JSON string.
- *                 example: '{"cep": "12345-678", "estado": "SP", "cidade": "São Paulo", "bairro": "Centro", "rua": "Avenida Paulista", "numero": "1000"}'
+ *                 properties:
+ *                   cep:
+ *                     type: string
+ *                     description: Código postal.
+ *                     example: "444444444"
+ *                   estado:
+ *                     type: string
+ *                     description: Estado.
+ *                     example: "Ba"
+ *                   cidade:
+ *                     type: string
+ *                     description: Cidade.
+ *                     example: "Feira de Santana"
+ *                   bairro:
+ *                     type: string
+ *                     description: Bairro.
+ *                     example: "Novo Horizonte"
+ *                   rua:
+ *                     type: string
+ *                     description: Rua.
+ *                     example: "Central"
+ *                   numero:
+ *                     type: string
+ *                     description: Número da residência.
+ *                     example: "53A"
  *     responses:
  *       201:
- *         description: ponto de coleta criado com sucesso.
+ *         description: Ponto de coleta criado com sucesso.
  *         content:
  *           application/json:
  *             schema:
@@ -712,9 +739,15 @@ adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
  *                 id:
  *                   type: string
  *                   description: O ID do ponto de coleta criado.
+ *                 name:
+ *                   type: string
+ *                   description: O nome do local.
+ *                 urlMap:
+ *                   type: string
+ *                   description: URL do mapa do local.
  *                 address:
  *                   type: object
- *                   description: O endereço do evento.
+ *                   description: O endereço do ponto de coleta.
  *                   properties:
  *                     cep:
  *                       type: string
@@ -735,6 +768,7 @@ adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
  *       500:
  *         description: Erro interno no servidor.
  */
+
 adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollectionPoint);
 
 //JSDOC PARA A EXIBIÇÃO DE TODOS OS PONTOS DE COLETA

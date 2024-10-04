@@ -1,4 +1,4 @@
 
 export interface ISmsService{
-  sendSms(code: string): Promise<void>
+  sendSms(code: string, phone:string): Promise<void>
 }

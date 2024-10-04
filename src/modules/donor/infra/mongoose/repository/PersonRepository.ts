@@ -24,8 +24,9 @@ class PersonRepository implements IPersonRepository{
     return person
   }
 
-  async update(id: string, updateData: Partial<IPerson>): Promise<void> {
+  async update(id: string, updateData: IPerson): Promise<void> {
     await this.model.updateOne({_id: id}, updateData);
+    console.log(updateData)
 
   }
 

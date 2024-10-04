@@ -12,12 +12,11 @@ export class TwilloSmsService implements ISmsService {
 
     this.client = new Twilio(accountSid, authToken);
   }
-  public async sendSms(code: string): Promise<void>{
-
+  public async sendSms(code: string, phone: string): Promise<void>{
   const message = await this.client.messages
       .create({
         from: this.twilioNumber,
-        to: myNumber as string,
+        to: phone as string,
         body: `Seu código de verificação: ${code}!`,
       });
     return console.log(message.sid);

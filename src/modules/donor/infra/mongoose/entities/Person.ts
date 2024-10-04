@@ -23,6 +23,9 @@ const personSchema = new Schema<IPerson>({
     unique: true,
     
   },
+  code:{
+    type: String, 
+  },
   motivation: { 
     type: String 
   },

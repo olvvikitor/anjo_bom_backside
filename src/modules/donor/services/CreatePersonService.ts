@@ -31,7 +31,6 @@ class CreatePersonService {
 		phone,
 		motivation,
 		address,
-
 	}: IRequestPerson): Promise<IPerson> {
 		const emailExists = await this.personRepository.findByEmailOrPhone(email);
 		if (emailExists) {
