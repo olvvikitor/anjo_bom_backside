@@ -15,10 +15,11 @@ const options: swaggerJSDoc.Options = {
         description: 'Local development server'
       },
       {
-        url: 'https://api_anjobom.victordev.shop',
+        url: 'https://apianjobom.victordev.shop',
         description: 'Production server'
       }
     ]
+  
   },
   apis:[`${path.join(__dirname, '../**/**/routes/*')}`]
 }

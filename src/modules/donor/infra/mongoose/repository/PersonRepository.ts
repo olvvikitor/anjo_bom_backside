@@ -26,8 +26,6 @@ class PersonRepository implements IPersonRepository{
 
   async update(id: string, updateData: IPerson): Promise<void> {
     await this.model.updateOne({_id: id}, updateData);
-    console.log(updateData)
-
   }
 
   async delete(id: Types.ObjectId): Promise<void> {

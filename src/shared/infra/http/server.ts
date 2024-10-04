@@ -29,7 +29,7 @@ app.use(errors());
 
 app.use('/uploads', express.static(upload.directory));
 //implementando swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', cors(), swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use((err:Error, req:Request, res:Response, next:NextFunction) => {
   if (err instanceof AppError) {
