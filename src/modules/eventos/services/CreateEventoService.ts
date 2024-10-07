@@ -5,6 +5,10 @@ import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
 import { inject, injectable } from 'tsyringe';
 import { IAddress } from '@modules/address/domain/models/IAddress';
 import { ICacheService } from '@shared/domain/models/ICacheService';
+import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvider';
+import upload from '@config/upload';
+import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvider';
+import IStorageService from '@shared/domain/models/IStorageService';
 
 interface IRequest {
   titulo: string;
@@ -19,19 +23,22 @@ class CreateEventoService {
   private eventoRepository : IEventoRepository;
   private photoRepository : IPhotoRepository;
   private cacheService:ICacheService
-
+  private storageService: IStorageService;
   constructor(
     @inject('IEventoRepository')
     eventoRepository : IEventoRepository, 
     @inject('IPhotoRepository')
     photoRepository : IPhotoRepository,
     @inject('ICacheService')
-    cacheService:ICacheService
+    cacheService:ICacheService,
+    @inject('IStorageService')
+    storageService:IStorageService
   ) {
 
     this.eventoRepository = eventoRepository
     this.photoRepository = photoRepository;
     this.cacheService = cacheService
+    this.storageService = storageService
   }
 
   public async execute({
@@ -42,7 +49,10 @@ class CreateEventoService {
     data_inicio,
     data_fim,
   }: IRequest): Promise<IEvento> {
-    
+  
+    const storageProvider = new DiskStorageProvider();
+    const s3Storage = new S3StorageProvider()
+
     const evento = await this.eventoRepository.createEvent({
       titulo,
       descricao,
@@ -58,8 +68,11 @@ class CreateEventoService {
         event_id: evento._id,
       } as IPhotoEvent)));
 
+      //salvando foto no servidor configurado, atualmente s3 
+      await Promise.all(photosSave.map(e=>{
+      this.storageService.saveFile(e.url)
+      }))
 
-   
     evento.photos = photosSave.map(p => p._id);
 
     await this.eventoRepository.uploadEvent(evento); // Atualizando o evento com as fotos salvas

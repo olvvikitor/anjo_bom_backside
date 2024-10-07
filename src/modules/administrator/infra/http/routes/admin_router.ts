@@ -8,7 +8,6 @@ import AdministratorController from '../controllers/AdministratorController';
 import ProductController from '@modules/products/infra/http/controllers/ProductController';
 import CollectionPointController from '@modules/collectionPoints/infra/http/controllers/CollectionPointController';
 import EventController from '@modules/eventos/infra/http/controllers/EventController';
-import e from 'cors';
 import PersonConroller from '@modules/donor/infra/http/controllers/PersonController';
 import DonatesController from '@modules/donates/infra/http/controllers/DonatesController';
 import { JWTTokenService } from '@shared/infra/services/JWTService';
@@ -483,7 +482,7 @@ adminRouter.get('/mostrarDoacoesPix', donatesPixController.findAllDonatesApprove
  *       500:
  *         description: Erro interno no servidor.
  */
-const uploader = multer(upload)
+const uploader = multer(upload.multer)
 adminRouter.post('/criarEvento' ,uploader.array('photos_event'), 
 eventoController.createEvento);
 
@@ -525,7 +524,7 @@ eventoController.createEvento);
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.delete('/delete-event/:id', eventoController.deleteEvento)
+adminRouter.delete('/deletarEvento/:id', eventoController.deleteEvento)
 
 adminRouter.get('/buscarTodosEventos', eventoController.getEvents);
 

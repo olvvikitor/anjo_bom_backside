@@ -17,11 +17,14 @@ import ProductRepository from '@modules/products/infra/mongoose/repositories/Pro
 import { ICacheService } from '@shared/domain/models/ICacheService';
 import { IPayment } from '@shared/domain/models/IPaymentService';
 import { ISmsService } from '@shared/domain/models/ISmsService';
+import IStorageService from '@shared/domain/models/IStorageService';
 import { IToken } from '@shared/domain/models/IToken';
 import RedisCache from '@shared/infra/cache/RedisCache';
 import { JWTTokenService } from '@shared/infra/services/JWTService';
 import { MercadoPagoService } from '@shared/infra/services/MercadoPagoService';
 import { TwilloSmsService } from '@shared/infra/services/TwilloSmsService';
+import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvider';
+import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvider';
 
 import {container} from 'tsyringe';
 
@@ -38,3 +41,4 @@ container.register<IToken>('ITokenService', JWTTokenService)
 container.register<IPayment>('IPaymentService', MercadoPagoService);
 container.register<ISmsService>('ISmsService', TwilloSmsService);
 container.register<ICacheService>('ICacheService', RedisCache);
+container.register<IStorageService>('IStorageService', DiskStorageProvider);

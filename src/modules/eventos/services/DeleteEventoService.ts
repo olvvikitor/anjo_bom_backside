@@ -2,10 +2,12 @@ import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { IEventoRepository } from '../domain/repositories/IEventoRepository';
 import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvider';
+import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvider';
 import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
-import { IPhotoEvent } from '../domain/models/IPhotoEvent';
+import upload from '@config/upload';
+import IStorageService from '@shared/domain/models/IStorageService';
 
-interface IRequest{
+interface IRequest {
   id: string;
 }
 
@@ -13,33 +15,40 @@ interface IRequest{
 class DeleteEventoService {
   private eventoRepository: IEventoRepository;
   private photoRepository: IPhotoRepository;
+  private storageService: IStorageService
   constructor(
     @inject('IEventoRepository')
     eventoRepository: IEventoRepository,
     @inject('IPhotoRepository')
     photoRepository: IPhotoRepository,
+    @inject('IStorageService')
+    storageService: IStorageService
   ) {
     this.eventoRepository = eventoRepository;
     this.photoRepository = photoRepository;
+    this.storageService = storageService;
   }
-  
-  public async execute({id}: IRequest): Promise<void> {
-    const storageProvider = new DiskStorageProvider();
+
+  public async execute({ id }: IRequest): Promise<void> {
     const event = await this.eventoRepository.findById(id);
-    
-    if(!event){
+
+    if (!event) {
       throw new AppError('Evento não encontrado', 404);
     }
-     const photoEvents: any[] = event.photos;
-     
-     const deletar = await Promise.all(photoEvents.map(photos => this.photoRepository.findById(photos)))
+    if (event.photos != null) {
+      const photoEvents: any[] = event.photos;
 
-       Promise.all(deletar.map(photo =>{
-        if(photo) storageProvider.deleteFile(photo.url)
+      const deletar = await Promise.all(photoEvents.map(photos => this.photoRepository.findById(photos)))
+
+      Promise.all(deletar.map(photo => {
+        if (photo) this.storageService.deleteFile(photo.url)
+
       }))
-     
-     await this.eventoRepository.delete(id);
+      await this.eventoRepository.delete(id);
+    }
+    await this.eventoRepository.delete(id);
   }
 }
+
 
 export default DeleteEventoService;

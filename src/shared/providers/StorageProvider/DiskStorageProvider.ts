@@ -1,15 +1,13 @@
-import upload from '@config/upload';
 import uploadConfig from '@config/upload';
+import IStorageService from '@shared/domain/models/IStorageService';
 import fs from 'fs';
 import path from 'path';
-export default class DiskStorageProvider {
+export default class DiskStorageProvider implements IStorageService {
   public async saveFile(file: string): Promise<string> {
     await fs.promises.rename(
       path.resolve(uploadConfig.tempFolder, file),
       path.resolve(uploadConfig.directory, file)
-
     )
-
     return file
   }
   public async deleteFile(file: string): Promise<void> {
