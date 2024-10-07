@@ -17,7 +17,9 @@ import ProductRepository from '@modules/products/infra/mongoose/repositories/Pro
 import { ICacheService } from '@shared/domain/models/ICacheService';
 import { IPayment } from '@shared/domain/models/IPaymentService';
 import { ISmsService } from '@shared/domain/models/ISmsService';
+import { IToken } from '@shared/domain/models/IToken';
 import RedisCache from '@shared/infra/cache/RedisCache';
+import { JWTTokenService } from '@shared/infra/services/JWTService';
 import { MercadoPagoService } from '@shared/infra/services/MercadoPagoService';
 import { TwilloSmsService } from '@shared/infra/services/TwilloSmsService';
 
@@ -32,6 +34,7 @@ container.register<IProductRepository>('IProductRepository', ProductRepository);
 container.register<ICollectionPointRepository>('ICollectionPointRepository', CollectionPointRepository);
 container.register<ICestaRepository>('ICestaRepository',CestaRepository);
 
+container.register<IToken>('ITokenService', JWTTokenService)
 container.register<IPayment>('IPaymentService', MercadoPagoService);
 container.register<ISmsService>('ISmsService', TwilloSmsService);
 container.register<ICacheService>('ICacheService', RedisCache);

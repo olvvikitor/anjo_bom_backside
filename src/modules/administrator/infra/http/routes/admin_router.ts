@@ -11,11 +11,12 @@ import EventController from '@modules/eventos/infra/http/controllers/EventContro
 import e from 'cors';
 import PersonConroller from '@modules/donor/infra/http/controllers/PersonController';
 import DonatesController from '@modules/donates/infra/http/controllers/DonatesController';
+import { JWTTokenService } from '@shared/infra/services/JWTService';
 
-
+const jwtService = new JWTTokenService()
 
 const adminRouter = Router();
-// adminRouter.use(auth);
+adminRouter.use(auth(jwtService));
 const adminController = new AdministratorController();
 const productController = new ProductController();
 const collectionPointController = new CollectionPointController();

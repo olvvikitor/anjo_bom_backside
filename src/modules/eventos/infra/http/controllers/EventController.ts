@@ -11,7 +11,6 @@ export default class EventoController{
     public async getEvents(request:Request, response:Response) :Promise<Response>{
     const showAllEventosService = container.resolve(ShowAllEventosService)
     const { page, perPage} = request.query;
-    
       const options:IPaginate = {
         page: parseInt(page as string, 10),
         limit: parseInt(perPage as string, 10) 

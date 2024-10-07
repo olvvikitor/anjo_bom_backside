@@ -6,6 +6,7 @@ import jwt  from 'jsonwebtoken';
 import { SECRET_KEY } from '@shared/infra/http/middleweres/auth';
 import { IAdministratorRepository } from '../domain/repositories/IAdministratorRepository';
 import { inject, injectable } from 'tsyringe';
+import { IToken } from '@shared/domain/models/IToken';
 
 export interface IRequest {
   email:string;
@@ -17,11 +18,15 @@ interface IResponse{
 @injectable()
 class LoginService{
   private administratorRepository : IAdministratorRepository;
-
+  private tokenService : IToken
   constructor (
     @inject('IAdministratorRepository')
-    administratorRepository: IAdministratorRepository) {
+    administratorRepository: IAdministratorRepository,
+    @inject('ITokenService')
+    tokenService: IToken
+  ) {
     this.administratorRepository = administratorRepository;
+    this.tokenService = tokenService;
   }
   public async execute({email, password}: IRequest): Promise<IResponse>{
     
@@ -36,10 +41,11 @@ class LoginService{
     if(admin.isActive == false){
       throw new AppError('Account is inactive', 401);
     }
-    const token = jwt.sign({name: admin.name, id: admin.email}, SECRET_KEY,{
-      expiresIn: '2 days',
-      subject: admin.email as string
-    });
+    const adminId = admin._id.toString()
+    
+    const token = this.tokenService.generateToken({name: admin.name, id: admin._id, isActive: admin.isActive},
+      adminId
+    );
     return {token};
 }
 }

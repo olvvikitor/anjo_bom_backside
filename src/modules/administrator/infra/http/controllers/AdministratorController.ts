@@ -14,12 +14,13 @@ class AdministratorController {
     if(!isValidObjectId(id)){
       return response.status(400).json({message: 'Id inválido'})
     }
-    
+
     await updtateStatusAdmin.execute({ id });
     return response.status(200).json();
   }
 
   public async showAll(request: Request, response: Response): Promise<Response> {
+
     const showAllAdminService = container.resolve(ShowAllAdmin)
     const admins = await showAllAdminService.showAll();
     return response.status(200).json(admins);
@@ -31,7 +32,6 @@ class AdministratorController {
     const createAdminService = container.resolve(CreateAdministratorService)
 
     const admin = await createAdminService.execute({ name, email, password });
-
     return response.status(200).json(admin);
   }
 

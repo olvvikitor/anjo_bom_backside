@@ -17,7 +17,7 @@ class CreateAdministratorService{
     administratorRepository: IAdministratorRepository) {
     this.administratorRepository = administratorRepository;
   }
-  public async execute({name, email, password}:ICreateAdministrator){
+ public async execute({name, email, password}:ICreateAdministrator){
 
     const adminExists = await  this.administratorRepository.findByEmail(email);
 

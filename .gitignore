@@ -3,6 +3,7 @@ node_modules/
 uploads/
 .idea/
 build/
+.vscode
 temp/
 coverage
 dist

@@ -17,11 +17,12 @@ routes.use('/doador/doarPix', donatesRouter)
 
 routes.use('/doador/doarProduto', cestaRouter)
 
-routes.use('/admin' ,adminRouter);
-
 routes.use('/admin/auth', loginAdministratorRouter)
 
 routes. use('/eventos', eventoRouter)
+
+
+routes.use('/admin' ,adminRouter);
 
 
 
