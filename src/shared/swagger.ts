@@ -15,7 +15,7 @@ const options: swaggerJSDoc.Options = {
         description: 'Local development server'
       },
       {
-        url: 'http://apianjobom.victordev.shop',
+        url: 'https://apianjobom.victordev.shop',
         
         description: 'Production server'
       }

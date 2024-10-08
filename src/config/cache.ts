@@ -1,4 +1,5 @@
 import {RedisOptions} from 'ioredis'
+
 interface ICacheConfig{
   config:{
     redis: RedisOptions,

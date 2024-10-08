@@ -3,6 +3,7 @@ import path from 'path';
 import crypto from 'crypto'
 const uploadFolder = path.resolve(__dirname, '..', '..','uploads');
 const tempFolder = path.resolve(__dirname, '..', '..','temp');
+
 export interface IUploadConfig {
   tempFolder: string;
   directory: string;
