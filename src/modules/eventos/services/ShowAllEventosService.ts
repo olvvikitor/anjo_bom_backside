@@ -45,7 +45,7 @@ class ShowAllEventosService {
 
     if(!eventsCache){
     // Buscar todos os eventos
-    const events = await this.eventoRepository.showAll(options);
+    const events = await this.eventoRepository.showAll();
     if (!events) {
       throw new AppError('Eventos não encontrados', 404);
     }
@@ -67,11 +67,15 @@ class ShowAllEventosService {
         data_fim: event.data_fim
       };
     });
+      
       await this.cache.save('api_anjobom_EVENTS_LIST',eventsWithPhotos);
       return eventsWithPhotos
     }
+     if(options.page && options.limit){
+       return eventsCache.slice((options.page - 1 ) * options.limit, options.page + options.limit);
+     }
 
-    return eventsCache;
+     return eventsCache
   }
 }
 

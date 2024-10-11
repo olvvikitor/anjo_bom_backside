@@ -10,10 +10,10 @@ import { container } from 'tsyringe';
 export default class EventoController{
     public async getEvents(request:Request, response:Response) :Promise<Response>{
     const showAllEventosService = container.resolve(ShowAllEventosService)
-    const { page, perPage} = request.query;
+    const { page, limit} = request.query;
       const options:IPaginate = {
         page: parseInt(page as string, 10),
-        limit: parseInt(perPage as string, 10) 
+        limit: parseInt(limit as string, 10) 
       }
     
     const eventos = await showAllEventosService.execute(options);
@@ -29,6 +29,7 @@ export default class EventoController{
     const adressJson = JSON.parse(address)
 
     const files =  request.files as Express.Multer.File[]; // Tipagem explícita para request.files
+
     const photos =  files?.map((file: Express.Multer.File) => file.filename); // Tipagem explícita para o parâmetro file
 
     const evento = await createEventoService.execute({titulo, descricao, photos , address: adressJson, data_inicio, data_fim});   

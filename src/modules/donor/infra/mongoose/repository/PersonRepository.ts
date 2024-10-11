@@ -2,6 +2,7 @@ import { Model,Types } from 'mongoose';
 import Person from '../entities/Person';
 import { IPerson } from '@modules/donor/domain/models/IPerson';
 import { IPersonRepository } from '@modules/donor/domain/repositories/IPersonRepository';
+import { IPaginate } from '@shared/domain/paginate/IPaginate';
 
 
 
@@ -19,9 +20,9 @@ class PersonRepository implements IPersonRepository{
      return persons;
   }
 
-  async findAll(): Promise<IPerson[]> {
-    const person = await this.model.find().exec();
-    return person
+  async findAll(options:IPaginate): Promise<IPerson[]> {
+    const person = await this.model.find().paginate(options);
+    return person.docs
   }
 
   async update(id: string, updateData: IPerson): Promise<void> {

@@ -22,7 +22,7 @@ const eventoController = new EventController();
  *           default: 1
  *           example: 2
  *       - in: query
- *         name: perPage
+ *         name: limit
  *         required: false
  *         description: Número máximo de eventos a serem retornados por página.
  *         schema:

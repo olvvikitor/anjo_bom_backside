@@ -221,7 +221,7 @@ adminRouter.put('/revogarAcesso/:id', adminController.revogueAdmin);
  *       - Administrador
  *     parameters:
  *       - in: query
- *         name: perPage
+ *         name: limit
  *         schema:
  *           type: integer
  *           example: 10
@@ -771,45 +771,7 @@ adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
 
 adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollectionPoint);
 
-//JSDOC PARA A EXIBIÇÃO DE TODOS OS PONTOS DE COLETA
-/**
- * @swagger
- *  /admin/buscarPontosDeColeta:
- *   get:
- *     summary: Exibe todos os pontos de coleta
- *     description: Recupera uma lista de todos os pontos de coleta.
- *     tags:
- *       - Administrador
- *     responses:
- *       200:
- *         description: Lista de todos os pontos de coleta.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                  name:
- *                   type: string
- *                   description: Nome do local
- *                  address:
- *                    type: object
- *                    properties:
- *                     cep:
- *                       type: string
- *                     estado:
- *                       type: string
- *                     cidade:
- *                       type: string
- *                     bairro:
- *                       type: string
- *                     rua:
- *                       type: string
- *                     numero:
- *                       type: string
- *       500:
- *         description: Erro interno no servidor.
- */
-adminRouter.get('/buscarPontosDeColeta', collectionPointController.getAllCollectionPoints);
+
 
 //JSDOC PARA A EXCLUSÃO DE UM EVENTO
 /**

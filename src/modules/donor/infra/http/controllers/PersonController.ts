@@ -4,10 +4,11 @@ import CreatePersonService from '@modules/donor/services/CreatePersonService';
 import { container } from 'tsyringe';
 import { IAddress } from '@modules/address/domain/models/IAddress';
 import { GenerateCodeService } from '@modules/donor/services/GenerateCodeService';
-import GetAllDonorService from '@modules/administrator/services/GetAllDonorService';
 import SendCodeSmsService from '@modules/donor/services/SendCodeSmsService';
 import CheckPhoneExistService from '@modules/donor/services/login/CheckPhoneExists';
 import AuthDonorService from '@modules/donor/services/login/AuthDonorService';
+import GetAllDonorsService from '@modules/donor/services/GetAllDonorsService';
+import { IPaginate } from '@shared/domain/paginate/IPaginate';
 
 class PersonConroller{
   public async createPerson(request:Request, response: Response):Promise<Response>{
@@ -57,8 +58,15 @@ class PersonConroller{
     return response.status(200).json(donor)
   }
   public async getAllDonors(request: Request, response: Response): Promise<Response> {
-    const getAllDonorsService = container.resolve(GetAllDonorService);
-    const donors = await getAllDonorsService.showAll();
+    const getAllDonorsService = container.resolve(GetAllDonorsService);
+
+    const { page, limit} = request.query;
+      const options:IPaginate = {
+        page: parseInt(page as string, 10),
+        limit: parseInt(limit as string, 10) 
+      }
+      
+    const donors = await getAllDonorsService.execute(options);
     return response.status(200).json(donors);
   }
 }export default PersonConroller;

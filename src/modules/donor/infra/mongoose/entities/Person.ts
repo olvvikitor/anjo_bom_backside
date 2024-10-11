@@ -1,6 +1,7 @@
 import { AddressSchema } from '@modules/address/infra/mongoose/entities/Address';
 import { IPerson } from '@modules/donor/domain/models/IPerson';
 import { Schema, model } from 'mongoose';
+import paginate  from 'mongoose-paginate-v2';
 
 const personSchema = new Schema<IPerson>({
   name: { 
@@ -48,7 +49,7 @@ const personSchema = new Schema<IPerson>({
     select: false,  // Não exibe a data de atualização do Person no response
   }
 });
-
+personSchema.plugin(paginate)
 const Person = model<IPerson>('Person', personSchema);
 
 export default Person;
