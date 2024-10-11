@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import ICollectionPointRepository from '../domain/repositories/ICollectionPointRepository';
 import AppError from '@shared/errors/AppError';
 import { ICreateCollectionPoint } from '../domain/models/ICreateCollectionPoint';
-import { IShowCollectionPoint } from '@modules/address/domain/models/IShowCollectionPoint';
+import { IShowCollectionPoint } from '@modules/collectionPoints/domain/models/IShowCollectionPoint';
 
 @injectable()
 export default class CreateCollectionPointService{

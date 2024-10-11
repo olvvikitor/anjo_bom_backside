@@ -1,6 +1,4 @@
-
-
-export interface IAddress {
+export type IAddress = {
   cep?: string;
   estado: string;
   cidade: string;

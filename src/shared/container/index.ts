@@ -1,5 +1,7 @@
 import { IAdministratorRepository } from '@modules/administrator/domain/repositories/IAdministratorRepository';
 import AdministratorRepository from '@modules/administrator/infra/mongoose/repositories/AdministratorRepository';
+import BcryptHashProvider from '@modules/administrator/providers/HashProviders/implementations/BcryptHashProvider';
+import { IHashProvider } from '@modules/administrator/providers/HashProviders/models/IHashProvider';
 import ICollectionPointRepository from '@modules/collectionPoints/domain/repositories/ICollectionPointRepository';
 import CollectionPointRepository from '@modules/collectionPoints/infra/mongoose/repositories/CollectionPointRepository';
 import { ICestaRepository } from '@modules/donateProduct/domain/repositories/ICestaRepository';
@@ -28,7 +30,7 @@ import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvid
 
 import {container} from 'tsyringe';
 
-container.register<IAdministratorRepository>('IAdministratorRepository', AdministratorRepository);
+container.register<Omit<IAdministratorRepository, 'save'>>('IAdministratorRepository', AdministratorRepository);
 container.register<IDonateWithPixRepository>('IDonateWithPixRepository', DonateWithPixRepository);
 container.register<IPersonRepository>('IPersonRepository', PersonRepository);
 container.register<IEventoRepository>('IEventoRepository', EventoRepository);
@@ -42,3 +44,4 @@ container.register<IPayment>('IPaymentService', MercadoPagoService);
 container.register<ISmsService>('ISmsService', TwilloSmsService);
 container.register<ICacheService>('ICacheService', RedisCache);
 container.register<IStorageService>('IStorageService', DiskStorageProvider);
+container.register<IHashProvider>('IHashProvider', BcryptHashProvider)

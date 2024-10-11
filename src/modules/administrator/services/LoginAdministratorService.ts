@@ -7,6 +7,7 @@ import { SECRET_KEY } from '@shared/infra/http/middleweres/auth';
 import { IAdministratorRepository } from '../domain/repositories/IAdministratorRepository';
 import { inject, injectable } from 'tsyringe';
 import { IToken } from '@shared/domain/models/IToken';
+import { IHashProvider } from '../providers/HashProviders/models/IHashProvider';
 
 export interface IRequest {
   email:string;
@@ -19,14 +20,18 @@ interface IResponse{
 class LoginService{
   private administratorRepository : IAdministratorRepository;
   private tokenService : IToken
+  private hashprovider: IHashProvider;
   constructor (
     @inject('IAdministratorRepository')
     administratorRepository: IAdministratorRepository,
     @inject('ITokenService')
-    tokenService: IToken
+    tokenService: IToken,
+    @inject('IHashProvider')
+    hashprovider:IHashProvider
   ) {
     this.administratorRepository = administratorRepository;
     this.tokenService = tokenService;
+    this.hashprovider= hashprovider
   }
   public async execute({email, password}: IRequest): Promise<IResponse>{
     
@@ -34,7 +39,8 @@ class LoginService{
     if(!admin){
       throw new AppError('No Person found', 404);
     }
-    const confirmPassword = await compare(password, admin.password);
+    const confirmPassword = await this.hashprovider.compareHash(password, admin.password)
+    
     if(!confirmPassword){
       throw new AppError('Invalid password', 401);
     }

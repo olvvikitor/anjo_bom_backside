@@ -3,8 +3,9 @@ import { Model } from 'mongoose';
 import Administrator from '../entities/Adiministrator';
 import { IAdministrator } from '@modules/administrator/domain/models/IAdministrator';
 import { IAdministratorRepository } from '@modules/administrator/domain/repositories/IAdministratorRepository';
+import { ICreateAdministrator } from '@modules/administrator/domain/models/ICreateAdministrator';
 
-class AdministratorRepository implements IAdministratorRepository{
+class AdministratorRepository implements Omit<IAdministratorRepository, 'save'>{
 
   private model: Model<IAdministrator>;
 
@@ -12,12 +13,13 @@ class AdministratorRepository implements IAdministratorRepository{
     this.model = Administrator;
   }
 
-  async createAdministrator(administrator: IAdministrator): Promise<IAdministrator>{
+
+  async createAdministrator(administrator: ICreateAdministrator): Promise<IAdministrator>{
     const admin = await this.model.create(administrator);
     await admin.save();
     return admin;
   }
-  async findByEmail(email: string): Promise<IAdministrator | null>{
+  async findByEmail(email: string): Promise<IAdministrator | undefined | null>{
     const admin = await this.model.findOne({email});
     return admin;
   }
@@ -28,7 +30,7 @@ class AdministratorRepository implements IAdministratorRepository{
     });
     return admins
   }
-  async findById(id:string):Promise<IAdministrator| null>{
+  async findById(id:string):Promise<IAdministrator| null | undefined>{
     const admin = await this.model.findById({
       _id: id
     });

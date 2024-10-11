@@ -1,5 +1,6 @@
-import CreateProductService from '@modules/products/domain/services/CreateProductService';
-import UpdateProductService from '@modules/products/domain/services/UpdateProductService';
+
+import CreateProductService from '@modules/products/services/CreateProductService';
+import UpdateProductService from '@modules/products/services/UpdateProductService';
 import{Request, Response} from 'express'
 import { isValidObjectId } from 'mongoose';
 import { container } from 'tsyringe';

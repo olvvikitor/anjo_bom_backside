@@ -5,19 +5,23 @@ import AppError from '@shared/errors/AppError';
 import { IAdministrator } from '../domain/models/IAdministrator';
 import { ICreateAdministrator } from '../domain/models/ICreateAdministrator';
 import { IAdministratorRepository } from '../domain/repositories/IAdministratorRepository';
+import { IHashProvider } from '../providers/HashProviders/models/IHashProvider';
 
 
 @injectable()
 class CreateAdministratorService{
 
   private administratorRepository : IAdministratorRepository;
-
+  private hashprovider: IHashProvider;
   constructor (
     @inject('IAdministratorRepository')
-    administratorRepository: IAdministratorRepository) {
+    administratorRepository: IAdministratorRepository,
+    @inject('IHashProvider')
+    hashprovider:IHashProvider) {
     this.administratorRepository = administratorRepository;
+    this.hashprovider = hashprovider
   }
- public async execute({name, email, password}:ICreateAdministrator){
+ public async execute({name, email, password}:ICreateAdministrator):Promise<IAdministrator>{
 
     const adminExists = await  this.administratorRepository.findByEmail(email);
 
@@ -25,9 +29,9 @@ class CreateAdministratorService{
       throw new AppError('Email already exists', 409)
     }
 
-    password = await hash(password, 8)
+    password = await this.hashprovider.generateHash(password);
 
-    const admin = await  this.administratorRepository.createAdministrator({name, email, password} as IAdministrator);
+    const admin = await  this.administratorRepository.createAdministrator({name, email, password});
 
     return admin;
   }

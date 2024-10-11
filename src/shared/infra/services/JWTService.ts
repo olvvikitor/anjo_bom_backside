@@ -4,13 +4,22 @@ import AppError from '@shared/errors/AppError';
 
 export const SECRET_KEY: Secret = process.env.APP_SECRET as string;
 
-
 export class JWTTokenService {
   generateToken(payload: object, subject: string): string {
-    return jwt.sign(payload, SECRET_KEY, {
-      expiresIn: '8h',
-      subject,
-    });
+    //utilizar para teste
+    if(SECRET_KEY === undefined){
+      return jwt.sign(payload, 'minhaChaveSecreta', {
+        expiresIn: '8h',
+        subject,
+      });
+    }
+    else{
+      return jwt.sign(payload, SECRET_KEY, {
+        expiresIn: '8h',
+        subject,
+      });
+    }
+    
   }
 
   verifyToken(token: string): string | JwtPayload {
