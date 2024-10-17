@@ -526,8 +526,6 @@ eventoController.createEvento);
  */
 adminRouter.delete('/deletarEvento/:id', eventoController.deleteEvento)
 
-adminRouter.get('/buscarTodosEventos', eventoController.getEvents);
-
 //JSDOC PARA A CRIAÇÂO DE UM PRODUCT
 /**
  * @swagger
@@ -770,7 +768,6 @@ adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
  */
 
 adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollectionPoint);
-
 
 
 //JSDOC PARA A EXCLUSÃO DE UM EVENTO

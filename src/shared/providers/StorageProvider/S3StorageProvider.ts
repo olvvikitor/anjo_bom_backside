@@ -13,6 +13,7 @@ export default class S3StorageProvider implements IStorageService{
 
     })
   }
+
   public async saveFile(file: string): Promise<string> {
     const originalPath = path.resolve(uploadConfig.tempFolder, file)
 
@@ -41,5 +42,9 @@ export default class S3StorageProvider implements IStorageService{
       Bucket: uploadConfig.config.aws.bucket,
       Key: file
     }).promise()
+  }
+  public getFile(file:string): string{
+    const url =  `https://api-anjobom.s3.amazonaws.com/${file}`
+    return url;
   }
 }

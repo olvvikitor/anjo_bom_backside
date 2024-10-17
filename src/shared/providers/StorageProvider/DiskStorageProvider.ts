@@ -3,6 +3,10 @@ import IStorageService from '@shared/domain/models/IStorageService';
 import fs from 'fs';
 import path from 'path';
 export default class DiskStorageProvider implements IStorageService {
+  getFile(file: string): string {
+    const url = `https://apianjobom.victordev.shop/uploads/${file}`;
+    return url;
+  }
   public async saveFile(file: string): Promise<string> {
     await fs.promises.rename(
       path.resolve(uploadConfig.tempFolder, file),

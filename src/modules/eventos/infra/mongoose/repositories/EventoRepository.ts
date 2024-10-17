@@ -13,6 +13,9 @@ class EventoRepository implements IEventoRepository {
   constructor() {
     this.model = Evento;
   }
+  showAllPaginate(options?: IPaginate): Promise<IEvento[]> {
+    throw new Error('Method not implemented.');
+  }
 
   
   async createEvent(event: IEvento): Promise<IEvento> {
@@ -24,8 +27,8 @@ class EventoRepository implements IEventoRepository {
     await this.model.updateOne({_id: event._id}, event);
     return event;
   }
-  async showAll(options:IPaginate):Promise<IEvento[]> {
-    const events = (await this.model.find().paginate(options)).docs;
+  async showAll():Promise<IEvento[]> {
+    const events = await this.model.find()
     return events
   }
   async delete(id:string):Promise<void>{

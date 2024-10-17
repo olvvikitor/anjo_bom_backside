@@ -7,11 +7,13 @@ import { IAddress } from '@modules/address/domain/models/IAddress';
 import { IPaginate } from '@shared/domain/paginate/IPaginate';
 import RedisCache from '@shared/infra/cache/RedisCache';
 import { ICacheService } from '@shared/domain/models/ICacheService';
+import IStorageService from '@shared/domain/models/IStorageService';
 
 interface IResponse {
+  id:any
   titulo: string;
   descricao: string;
-  photos: string[];
+  photosUrl: string[];
   address: IAddress;
   data_inicio: Date;
   data_fim: Date;
@@ -22,6 +24,7 @@ class ShowAllEventosService {
   private eventoRepository : IEventoRepository;
   private photoRepository : IPhotoRepository;
   private cache: ICacheService;
+  private storageService: IStorageService;
   
   constructor(
     @inject('IEventoRepository')
@@ -29,11 +32,16 @@ class ShowAllEventosService {
     @inject('IPhotoRepository')
     photoRepository : IPhotoRepository,
     @inject('ICacheService')
-    cacheSercvice: ICacheService){
+    cacheSercvice: ICacheService,
+    @inject('IStorageService')
+    storageService: IStorageService
+  
+  ){
       
     this.eventoRepository = eventoRepository
     this.photoRepository = photoRepository;
     this.cache = cacheSercvice;
+    this.storageService = storageService;
   }
 
 
@@ -57,11 +65,13 @@ class ShowAllEventosService {
     // Adicionar fotos aos eventos e formatar a resposta
     const eventsWithPhotos: IResponse[] = events.map((event, index) => {
       const photos = photosResults[index].map(photo => photo.url);
-
+      const photosUrl:string[] = photos.map(p => this.storageService.getFile(p));
+      console.log(photosUrl);
       return {
+        id: event._id,
         titulo: event.titulo,
         descricao: event.descricao,
-        photos,
+        photosUrl,
         address: event.address, 
         data_inicio: event.data_inicio,
         data_fim: event.data_fim
@@ -72,7 +82,7 @@ class ShowAllEventosService {
       return eventsWithPhotos
     }
      if(options.page && options.limit){
-       return eventsCache.slice((options.page - 1 ) * options.limit, options.page + options.limit);
+       return eventsCache.slice((options.page - 1 )* options.limit, options.page * options.limit);
      }
 
      return eventsCache

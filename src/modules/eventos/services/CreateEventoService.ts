@@ -13,7 +13,7 @@ import IStorageService from '@shared/domain/models/IStorageService';
 interface IRequest {
   titulo: string;
   descricao: string;
-  photos: string[]; // Arquivos de fotos enviados
+  photos: string[]; 
   address: IAddress;
   data_inicio: Date;
   data_fim: Date;
@@ -49,9 +49,6 @@ class CreateEventoService {
     data_inicio,
     data_fim,
   }: IRequest): Promise<IEvento> {
-  
-    const storageProvider = new DiskStorageProvider();
-    const s3Storage = new S3StorageProvider()
 
     const evento = await this.eventoRepository.createEvent({
       titulo,

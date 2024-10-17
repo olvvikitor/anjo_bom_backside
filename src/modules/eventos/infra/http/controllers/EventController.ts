@@ -15,8 +15,11 @@ export default class EventoController{
         page: parseInt(page as string, 10),
         limit: parseInt(limit as string, 10) 
       }
+     
+    
     
     const eventos = await showAllEventosService.execute(options);
+    console.log(eventos.length)
     
     return response.status(200).json(eventos);
   }
