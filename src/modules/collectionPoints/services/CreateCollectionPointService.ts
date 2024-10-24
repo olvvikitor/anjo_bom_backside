@@ -20,6 +20,7 @@ export default class CreateCollectionPointService{
     const createdPoint = await this.collectionPointRepository.createCollectionPoint(point);
 
     const showPoint: IShowCollectionPoint = {
+      id: createdPoint._id,
       name: createdPoint.name,
       urlMap: createdPoint.urlMap,
       address: createdPoint.address,

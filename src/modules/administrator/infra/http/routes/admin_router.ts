@@ -812,6 +812,7 @@ adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollecti
  *         description: Erro interno no servidor.
  */
 adminRouter.delete('/deletarPontoDeColeta/:id', collectionPointController.deleteCollectionPoints);
+adminRouter.put('/atualizarPontoDeColeta/:id', collectionPointController.updateCollectionPoint)
 
 /**
  * @swagger

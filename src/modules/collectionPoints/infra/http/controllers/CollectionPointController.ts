@@ -5,6 +5,7 @@ import ShowAllCollectionPointsService from '@modules/collectionPoints/services/S
 import { Request, Response } from 'express'
 import { container } from 'tsyringe';
 import { isValidObjectId } from 'mongoose';
+import { UpdateCollectionPointsService } from '@modules/collectionPoints/services/UpdateCollectionPointsService';
 
 
 export default class CollectionPointController {
@@ -42,5 +43,25 @@ export default class CollectionPointController {
     await deleteColectionPointService.execute(id)
     
     return response.status(200).json()
+  }
+  public async updateCollectionPoint(request: Request, response: Response):Promise<Response>{
+    const updateService = container.resolve(UpdateCollectionPointsService);
+    const { name, urlMap,address } = request.body
+    const id = request.params.id
+    const { cep, estado, cidade, bairro, rua, numero, } = address;
+    const collectionPointData = {
+      name,
+      urlMap,
+      address: {
+        cep,
+        estado,
+        cidade,
+        bairro,
+        rua,
+        numero,
+      } as IAddress
+    }
+    await updateService.execute(id, collectionPointData)
+    return response.status(204).json({message: 'Produto atualizado com sucesso!'})
   }
 }
