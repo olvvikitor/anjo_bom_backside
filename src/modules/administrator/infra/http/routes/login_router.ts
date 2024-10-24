@@ -13,7 +13,7 @@ const loginAdministratorController = new LoginAdministratorController();
  *     summary: Login de administrador
  *     description: Endpoint para login de administradores. Retorna um token JWT se as credenciais estiverem corretas.
  *     tags:
- *       - Administrador
+ *       - Administrador Login
  *     requestBody:
  *       required: true
  *       content:

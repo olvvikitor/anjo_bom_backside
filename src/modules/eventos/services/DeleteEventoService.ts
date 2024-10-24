@@ -6,6 +6,7 @@ import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvid
 import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
 import upload from '@config/upload';
 import IStorageService from '@shared/domain/models/IStorageService';
+import { ICacheService } from '@shared/domain/models/ICacheService';
 
 interface IRequest {
   id: string;
@@ -15,18 +16,22 @@ interface IRequest {
 class DeleteEventoService {
   private eventoRepository: IEventoRepository;
   private photoRepository: IPhotoRepository;
-  private storageService: IStorageService
+  private storageService: IStorageService;
+  private cacheService: ICacheService
   constructor(
     @inject('IEventoRepository')
     eventoRepository: IEventoRepository,
     @inject('IPhotoRepository')
     photoRepository: IPhotoRepository,
+    @inject('ICacheService')
+    cacheSercvice: ICacheService,
     @inject('IStorageService')
     storageService: IStorageService
   ) {
     this.eventoRepository = eventoRepository;
     this.photoRepository = photoRepository;
     this.storageService = storageService;
+    this.cacheService = cacheSercvice
   }
 
   public async execute({ id }: IRequest): Promise<void> {
@@ -46,7 +51,9 @@ class DeleteEventoService {
       }))
       await this.eventoRepository.delete(id);
     }
+    await this.cacheService.invalidate('api_anjobom_EVENTS_LIST')
     await this.eventoRepository.delete(id);
+    
   }
 }
 

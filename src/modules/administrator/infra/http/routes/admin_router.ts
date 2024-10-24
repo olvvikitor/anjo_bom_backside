@@ -323,7 +323,7 @@ adminRouter.get('/mostrarDoadores', personController.getAllDonors);
  *     summary: Exibe todas as doações aprovadas
  *     description: Recupera uma lista de todas as doações que foram aprovadas. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Doação mostrar doacao pix
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -399,7 +399,7 @@ adminRouter.get('/mostrarDoacoesPix', donatesPixController.findAllDonatesApprove
  *     summary: Cria um novo evento
  *     description: Cria um novo evento com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Eventos
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -497,7 +497,7 @@ eventoController.createEvento);
  *     summary: Deleta um evento
  *     description: Remove um evento específico baseado no ID fornecido. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Eventos
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -539,7 +539,7 @@ adminRouter.delete('/deletarEvento/:id', eventoController.deleteEvento)
  *     security:
  *       - bearerAuth: []
  *     tags:
- *       - Administrador
+ *       - Administrador Produtos
  *     requestBody:
  *       required: true
  *       content:
@@ -613,7 +613,7 @@ adminRouter.post('/criarProduto', productController.createProduct)
  *     security:
  *       - bearerAuth: []
  *     tags:
- *       - Administrador
+ *       - Administrador Produtos
  *     parameters:
  *       - name: id
  *         in: path
@@ -683,7 +683,7 @@ adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
  *     summary: Cria um novo ponto de coleta
  *     description: Cria um novo ponto de coleta com nome, URL do mapa e endereço. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Ponto de coleta
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -781,7 +781,7 @@ adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollecti
  *     summary: Deleta um Ponto de coleta
  *     description: Remove um Ponto de coleta específico baseado no ID fornecido. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Ponto de coleta
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -812,6 +812,64 @@ adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollecti
  *         description: Erro interno no servidor.
  */
 adminRouter.delete('/deletarPontoDeColeta/:id', collectionPointController.deleteCollectionPoints);
+
+/**
+ * @swagger
+ * admin/doacoes:
+ *   get:
+ *     summary: Retorna a lista de doações
+ *     tags: [Administrador Cesta de doação]
+ *     responses:
+ *       200:
+ *         description: Lista de doações
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   doador:
+ *                     type: object
+ *                     properties:
+ *                       name:
+ *                         type: string
+ *                         description: Nome do doador
+ *                         example: "João"
+ *                       address:
+ *                         type: string
+ *                         nullable: true
+ *                         description: Endereço do doador (pode ser nulo)
+ *                         example: null
+ *                       telefone:
+ *                         type: string
+ *                         description: Telefone do doador
+ *                         example: "75983633860"
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       produtos:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             _id:
+ *                               type: string
+ *                               description: ID do produto
+ *                               example: "66fc13fe582e54c349c9629c"
+ *                             name:
+ *                               type: string
+ *                               description: Nome do produto doado
+ *                               example: "Arroz"
+ *                             quantity:
+ *                               type: integer
+ *                               description: Quantidade do produto doado
+ *                               example: 2
+ *                   status:
+ *                     type: string
+ *                     description: Status da doação
+ *                     example: "PENDENTE"
+ */
 adminRouter.get('/cestas', cestaController.findAll)
 export default adminRouter;
 

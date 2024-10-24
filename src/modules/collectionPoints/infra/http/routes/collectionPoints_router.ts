@@ -11,7 +11,7 @@ const collectionPointController = new CollectionPointController();
  *     summary: Exibe todos os pontos de coleta
  *     description: Recupera uma lista de todos os pontos de coleta.
  *     tags:
- *       - Pontos De Coleta
+ *       - Doador Pontos De Coleta
  *     responses:
  *       200:
  *         description: Lista de todos os pontos de coleta.

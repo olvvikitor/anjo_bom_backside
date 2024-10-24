@@ -1,8 +1,9 @@
 import { inject, injectable } from 'tsyringe';
-import { ICestaRepository } from './domain/repositories/ICestaRepository';
-import { IItemsDonates } from './domain/models/IItemsDonates';
+
 import { IPersonRepository } from '@modules/donor/domain/repositories/IPersonRepository';
 import { IAddress } from '@modules/address/domain/models/IAddress';
+import { IItemsDonates } from '../domain/models/IItemsDonates';
+import { ICestaRepository } from '../domain/repositories/ICestaRepository';
 
 export interface IResponsePerson{
   name: string | null

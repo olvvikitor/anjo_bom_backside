@@ -13,7 +13,7 @@ const personController = new PersonController();
  *     summary: Cria uma nova pessoa.
  *     description: Registra uma nova pessoa com os dados fornecidos.
  *     tags:
- *       - Doador
+ *       - Cadastro Doador
  *     requestBody:
  *       description: Dados necessários para registrar uma nova pessoa.
  *       content:
@@ -99,7 +99,7 @@ personRouter.post(
  *     summary: Gera um código para validação antes da criação de um doador.
  *     description: Retorna um código de validação para o usuário.
  *     tags:
- *       - Doador
+ *       - Cadastro Doador
  *     parameters:
  *       - in: path
  *         name: phone
@@ -123,7 +123,7 @@ personRouter.get('/code/:phone', personController.generateCode);
  *     summary: Verifica se o número de telefone já está cadastrado e gera um código de autenticação.
  *     description: Verifica se o número de telefone informado já está registrado no sistema e, caso positivo, gera um código de autenticação para ser enviado ao usuário.
  *     tags:
- *       - Doador
+ *       - Login Doador
  *     parameters:
  *       - in: path
  *         name: phone
@@ -158,7 +158,7 @@ personRouter.get('/verificaNumero/:phone', personController.checkPhoneExist);
  *     summary: Autentica o usuário com o código e retorna os dados do endereço associado.
  *     description: Verifica o código de autenticação enviado pelo usuário e retorna os dados do usuário autenticado, incluindo o endereço associado ao telefone.
  *     tags:
- *       - Doador
+ *       - Login Doador
  *     parameters:
  *       - in: path
  *         name: phone

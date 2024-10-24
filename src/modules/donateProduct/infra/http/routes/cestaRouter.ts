@@ -13,7 +13,7 @@ const cestaController = new CestaController();
  *     summary: Criação de uma nova Cesta
  *     description: Endpoint para criar uma nova cesta com itens e associar a uma pessoa através do ID passado como parâmetro.
  *     tags:
- *       - Cesta de doação
+ *       - Doador Cesta de doação
  *     parameters:
  *       - in: path
  *         name: person_id
