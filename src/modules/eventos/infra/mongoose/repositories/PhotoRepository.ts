@@ -11,6 +11,9 @@ class PhotoRepository implements IPhotoRepository {
   constructor() {
     this.model = PhotoEvent;;
   }
+  async update(id: any, photos: IPhotoEvent): Promise<void> {
+    await this.model.updateOne({_id: id}, photos)
+  }
   async findById(id: any): Promise<IPhotoEvent|null> {
     const photos = await this.model.findOne({_id: id});
     return photos

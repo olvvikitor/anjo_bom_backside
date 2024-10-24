@@ -1,5 +1,6 @@
 import { IPaginate } from '@shared/domain/paginate/IPaginate'
 import { IEvento } from '../models/IEvento'
+import { IUpdateEvento } from '../models/IUpdateEvento'
 
 export interface IEventoRepository{
    createEvent(event: IEvento): Promise<IEvento> 
@@ -8,5 +9,6 @@ export interface IEventoRepository{
    showAll():Promise<IEvento[]>
    delete(id:string):Promise<void>
    findById(id: string): Promise<IEvento | null>
+   update(id:string, evento: IUpdateEvento) :Promise<IEvento|null>
 
 }

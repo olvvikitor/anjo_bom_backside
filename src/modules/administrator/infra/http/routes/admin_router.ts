@@ -529,78 +529,101 @@ eventoController.createEvento);
  */
 adminRouter.delete('/deletarEvento/:id', eventoController.deleteEvento)
 
+adminRouter.put('/atualizarEvento/:id',uploader.array('photos_event'), eventoController.update)
+
 //JSDOC PARA A CRIAÇÂO DE UM PRODUCT
-/**
- * @swagger
- * /admin/criarProduto:
- *   post:
- *     summary: Cria um novo produto
- *     description: Endpoint para criar um novo produto com nome e nível de necessidade. Requer autenticação com um token Bearer.
- *     security:
- *       - bearerAuth: []
- *     tags:
- *       - Administrador Produtos
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: Nome do produto a ser criado.
- *                 example: "Brinquedo2erssssp"
- *               requirement:
- *                 type: string
- *                 enum: [CRITICO, ALTO, MEDIO, BAIXO]
- *                 description: Nível de necessidade do produto.
- *                 example: "CRITICO"
- *     responses:
- *       201:
- *         description: Produto criado com sucesso.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 _id:
- *                   type: string
- *                   description: ID do produto criado.
- *                   example: "66dbf6aa5904b4954bddc1b6"
- *                 name:
- *                   type: string
- *                   description: Nome do produto criado.
- *                   example: "Brinquedo"
- *                 requirement:
- *                   type: string
- *                   description: Nível de necessidade do produto.
- *                   example: "CRITICO"
- *                 created_at:
- *                   type: string
- *                   format: date-time
- *                   description: Data e hora da criação do produto.
- *                   example: "2024-10-03T06:46:02.613Z"
- *                 updated_at:
- *                   type: string
- *                   format: date-time
- *                   description: Data e hora da última atualização do produto.
- *                   example: "2024-10-03T06:46:02.613Z"
- *       400:
- *         description: Requisição inválida, parâmetros obrigatórios ausentes ou inválidos.
- *       401:
- *         description: Não autorizado, token de autenticação ausente ou inválido.
- *       500:
- *         description: Erro interno do servidor.
- *       409:
- *         description: Já existe um produto com esse nome
- *     headers:
- *       authorization:
- *         description: Token JWT necessário para autenticação.
- *         schema:
- *           type: string
- *           example: "Bearer <seu-token-aqui>"
- */
+/* @swagger
+* /admin/criarPontoDeColeta:
+*   post:
+*     summary: Cria um novo ponto de coleta
+*     description: Cria um novo ponto de coleta com nome, URL do mapa e endereço. Requer autenticação Bearer token.
+*     tags:
+*       - Administrador Ponto de coleta
+*     security:
+*       - bearerAuth: []
+*     requestBody:
+*       required: true
+*       content:
+*         multipart/form-data:
+*           schema:
+*             type: object
+*             properties:
+*               name:
+*                 type: string
+*                 description: O nome do local.
+*                 example: Atakarejo
+*               urlMap:
+*                 type: string
+*                 description: URL do mapa do local.
+*                 example: https://www.google.com/maps/place/Atakad%C3%A3o+Atakarejo+-+Feira+de+Santana/@-12.2412767,-38.9642868,15z
+*               address:
+*                 type: object
+*                 description: O endereço do evento no formato JSON string.
+*                 properties:
+*                   cep:
+*                     type: string
+*                     description: Código postal.
+*                     example: "444444444"
+*                   estado:
+*                     type: string
+*                     description: Estado.
+*                     example: "Ba"
+*                   cidade:
+*                     type: string
+*                     description: Cidade.
+*                     example: "Feira de Santana"
+*                   bairro:
+*                     type: string
+*                     description: Bairro.
+*                     example: "Novo Horizonte"
+*                   rua:
+*                     type: string
+*                     description: Rua.
+*                     example: "Central"
+*                   numero:
+*                     type: string
+*                     description: Número da residência.
+*                     example: "53A"
+*     responses:
+*       201:
+*         description: Ponto de coleta criado com sucesso.
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 id:
+*                   type: string
+*                   description: O ID do ponto de coleta criado.
+*                 name:
+*                   type: string
+*                   description: O nome do local.
+*                 urlMap:
+*                   type: string
+*                   description: URL do mapa do local.
+*                 address:
+*                   type: object
+*                   description: O endereço do ponto de coleta.
+*                   properties:
+*                     cep:
+*                       type: string
+*                     estado:
+*                       type: string
+*                     cidade:
+*                       type: string
+*                     bairro:
+*                       type: string
+*                     rua:
+*                       type: string
+*                     numero:
+*                       type: string
+*       400:
+*         description: Erro na validação dos dados.
+*       401:
+*         description: Não autorizado, token de autenticação inválido ou ausente.
+*       500:
+*         description: Erro interno no servidor.
+**/
 adminRouter.post('/criarProduto', productController.createProduct)
 
 //JSDOC PARA ATUALIZAR NIVEL DE CARENCIA DE UM PRODUTO
@@ -676,16 +699,65 @@ adminRouter.post('/criarProduto', productController.createProduct)
  */
 adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
 
+
+adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollectionPoint);
+//JSDOC PARA A EXCLUSÃO DE UM EVENTO
 /**
  * @swagger
- * /admin/criarPontoDeColeta:
- *   post:
- *     summary: Cria um novo ponto de coleta
- *     description: Cria um novo ponto de coleta com nome, URL do mapa e endereço. Requer autenticação Bearer token.
+ *  /admin/deletarPontoDeColeta/{id}:
+ *   delete:
+ *     summary: Deleta um Ponto de coleta
+ *     description: Remove um Ponto de coleta específico baseado no ID fornecido. Requer autenticação Bearer token.
  *     tags:
  *       - Administrador Ponto de coleta
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O ID do Ponto de coleta a ser deletado.
+ *     responses:
+ *       200:
+ *         description: Ponto de coleta deletado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Evento deletado com sucesso.
+ *       400:
+ *         description: Erro ao deletar o Ponto de coleta, ID inválido.
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       404:
+ *         description: Ponto de coleta não encontrado.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+adminRouter.delete('/deletarPontoDeColeta/:id', collectionPointController.deleteCollectionPoints);
+
+/**
+ * @swagger
+ * /admin/atualizarPontoDeColeta/{id}:
+ *   put:
+ *     summary: Atualiza um ponto de coleta existente
+ *     description: Atualiza um ponto de coleta existente com base no ID fornecido. Requer autenticação Bearer token.
+ *     tags:
+ *       - Administrador Ponto de coleta
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O ID do Ponto de coleta a ser atualizado.
  *     requestBody:
  *       required: true
  *       content:
@@ -730,8 +802,8 @@ adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
  *                     description: Número da residência.
  *                     example: "53A"
  *     responses:
- *       201:
- *         description: Ponto de coleta criado com sucesso.
+ *       200:
+ *         description: Ponto de coleta atualizado com sucesso.
  *         content:
  *           application/json:
  *             schema:
@@ -739,7 +811,7 @@ adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
  *               properties:
  *                 id:
  *                   type: string
- *                   description: O ID do ponto de coleta criado.
+ *                   description: O ID do ponto de coleta atualizado.
  *                 name:
  *                   type: string
  *                   description: O nome do local.
@@ -766,52 +838,11 @@ adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
  *         description: Erro na validação dos dados.
  *       401:
  *         description: Não autorizado, token de autenticação inválido ou ausente.
- *       500:
- *         description: Erro interno no servidor.
- */
-
-adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollectionPoint);
-
-
-//JSDOC PARA A EXCLUSÃO DE UM EVENTO
-/**
- * @swagger
- *  /admin/deletarPontoDeColeta/{id}:
- *   delete:
- *     summary: Deleta um Ponto de coleta
- *     description: Remove um Ponto de coleta específico baseado no ID fornecido. Requer autenticação Bearer token.
- *     tags:
- *       - Administrador Ponto de coleta
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: O ID do Ponto de coleta a ser deletado.
- *     responses:
- *       200:
- *         description: Ponto de coleta deletado com sucesso.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Evento deletado com sucesso.
- *       400:
- *         description: Erro ao deletar o Ponto de coleta, ID inválido.
- *       401:
- *         description: Não autorizado, token de autenticação inválido ou ausente.
  *       404:
  *         description: Ponto de coleta não encontrado.
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.delete('/deletarPontoDeColeta/:id', collectionPointController.deleteCollectionPoints);
 adminRouter.put('/atualizarPontoDeColeta/:id', collectionPointController.updateCollectionPoint)
 
 /**
@@ -872,6 +903,7 @@ adminRouter.put('/atualizarPontoDeColeta/:id', collectionPointController.updateC
  *                     example: "PENDENTE"
  */
 adminRouter.get('/cestas', cestaController.findAll)
+
 export default adminRouter;
 
 

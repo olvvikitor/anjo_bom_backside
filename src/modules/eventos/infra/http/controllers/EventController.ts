@@ -1,6 +1,7 @@
 import CreateEventoService from '@modules/eventos/services/CreateEventoService';
 import DeleteEventoService from '@modules/eventos/services/DeleteEventoService';
 import ShowAllEventosService from '@modules/eventos/services/ShowAllEventosService';
+import { UpdateEventoService } from '@modules/eventos/services/UpdateEventoService';
 import { IPaginate } from '@shared/domain/paginate/IPaginate';
 import{Request, Response} from 'express'
 import { isValidObjectId } from 'mongoose';
@@ -8,6 +9,22 @@ import { container } from 'tsyringe';
 
 
 export default class EventoController{
+  public async update(request: Request, response:Response):Promise<Response> {
+    const updateEventoService = container.resolve(UpdateEventoService);
+
+    const {titulo, descricao, address, data_inicio, data_fim} = request.body;
+    const id = request.params.id
+
+    const adressJson = JSON.parse(address)
+
+    const files =  request.files as Express.Multer.File[]; // Tipagem explícita para request.files
+
+    const photos =  files?.map((file: Express.Multer.File) => file.filename); // Tipagem explícita para o parâmetro file
+
+    const evento = await updateEventoService.execute(id, {titulo, descricao, photos , address: adressJson, data_inicio, data_fim});   
+    return response.status(201).json(evento);    
+
+  }
     public async getEvents(request:Request, response:Response) :Promise<Response>{
     const showAllEventosService = container.resolve(ShowAllEventosService)
     const { page, limit} = request.query;

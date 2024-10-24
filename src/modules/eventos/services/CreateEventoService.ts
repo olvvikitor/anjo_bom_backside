@@ -76,6 +76,7 @@ class CreateEventoService {
     
     //apagando do cache apos a criação
     await this.cacheService.invalidate('api_anjobom_EVENTS_LIST');
+    
     return evento;
   }
 }
