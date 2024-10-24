@@ -9,6 +9,9 @@ class CestaRepository implements ICestaRepository{
   constructor(){
     this.model = Cesta;
   }
+  async findAll(): Promise<ICesta[]> {
+    return await this.model.find()
+  }
   public async createCesta(cesta: ICreateCesta): Promise<ICesta> {
     const newCesta = await this.model.create({items: cesta.items, person_id: cesta.person_id});
     await newCesta.save();

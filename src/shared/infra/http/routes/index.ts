@@ -9,6 +9,7 @@ import personRouter from '@modules/donor/infra/http/routes/person_router';
 import eventoRouter from '@modules/eventos/infra/http/routes/eventoRouter';
 import cestaRouter from '@modules/donateProduct/infra/http/routes/cestaRouter';
 import collectionPointsRouter from '@modules/collectionPoints/infra/http/routes/collectionPoints_router';
+import productRouter from '@modules/products/infra/http/routes/productRouter';
 
 export const routes = Router();
 
@@ -24,6 +25,7 @@ routes. use('/eventos', eventoRouter)
 
 routes.use('/coletas', collectionPointsRouter)
 
+routes.use('/produtos', productRouter)
 
 routes.use('/admin' ,adminRouter);
 

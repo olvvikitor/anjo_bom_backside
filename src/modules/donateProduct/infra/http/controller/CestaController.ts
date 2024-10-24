@@ -1,3 +1,4 @@
+import  FindAllDonatesCesta from '@modules/donateProduct/FindAllDonatesCestaService';
 import CreateCestaService from '@modules/donateProduct/services/CreateCestaService';
 import {Request, Response } from 'express'
 import { isValidObjectId } from 'mongoose';
@@ -14,6 +15,10 @@ export class CestaController {
     const createCestaService = container.resolve(CreateCestaService)
     const res = await createCestaService.execute({items, person_id: person_id})
     return response.status(200).json(res)
-  
-}
+  }
+  public async findAll(request:Request,response:Response, ):Promise<Response>{
+    const findAllCestaService = container.resolve(FindAllDonatesCesta)
+    const cestas = await findAllCestaService.execute()
+    return response.status(200).json(cestas)
+  }
 }

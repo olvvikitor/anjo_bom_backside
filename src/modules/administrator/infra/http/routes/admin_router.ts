@@ -11,6 +11,8 @@ import EventController from '@modules/eventos/infra/http/controllers/EventContro
 import PersonConroller from '@modules/donor/infra/http/controllers/PersonController';
 import DonatesController from '@modules/donates/infra/http/controllers/DonatesController';
 import { JWTTokenService } from '@shared/infra/services/JWTService';
+import cestaRouter from '@modules/donateProduct/infra/http/routes/cestaRouter';
+import { CestaController } from '@modules/donateProduct/infra/http/controller/CestaController';
 
 const jwtService = new JWTTokenService()
 
@@ -22,11 +24,12 @@ const collectionPointController = new CollectionPointController();
 const eventoController = new EventController();
 const personController = new PersonConroller()
 const donatesPixController = new DonatesController();
+const cestaController = new CestaController();
 
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
 /**
  * @swagger
-    /admin/:
+/admin/:
  *   post:
  *     summary: Cria um novo administrador
  *     description: Endpoint para criar um novo administrador no sistema. Requer autenticação com um token Bearer.
@@ -809,8 +812,7 @@ adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollecti
  *         description: Erro interno no servidor.
  */
 adminRouter.delete('/deletarPontoDeColeta/:id', collectionPointController.deleteCollectionPoints);
-
-
+adminRouter.get('/cestas', cestaController.findAll)
 export default adminRouter;
 
 

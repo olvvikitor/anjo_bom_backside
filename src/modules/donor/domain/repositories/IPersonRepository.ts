@@ -6,4 +6,5 @@ export interface IPersonRepository {
   update(id: string, updateData: Partial<IPerson>): Promise<void>;
   delete(id: any): Promise<void>;
   findByEmailOrPhone(param: string): Promise<IPerson | null>;
+  findById(id:any):Promise<IPerson|null>
 }

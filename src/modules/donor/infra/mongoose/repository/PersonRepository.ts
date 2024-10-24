@@ -13,6 +13,9 @@ class PersonRepository implements IPersonRepository{
   constructor() {
     this.model = Person;
   }
+  async findById(id: Types.ObjectId): Promise<IPerson | null> {
+    return await this.model.findOne(id)
+  }
 
   async create(person:IPerson): Promise<IPerson> {
      const persons = await this.model.create(person);

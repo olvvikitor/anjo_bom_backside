@@ -38,7 +38,7 @@ class CreateCestaService{
 
     
     if(productsNotFound.length > 0){
-      throw new AppError(`Product(s) ${productsNotFound.join(', ')} not found`, 400);
+      throw new AppError(`Product(s) ${productsNotFound.join(', ')} not found`, 404);
     }
     
     const cesta = await this.cestaRepository.createCesta({items, person_id: person_id});

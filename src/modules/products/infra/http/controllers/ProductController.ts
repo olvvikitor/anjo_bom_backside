@@ -1,5 +1,6 @@
 
 import CreateProductService from '@modules/products/services/CreateProductService';
+import { FindAllProductsService } from '@modules/products/services/FindAllProducts';
 import UpdateProductService from '@modules/products/services/UpdateProductService';
 import{Request, Response} from 'express'
 import { isValidObjectId } from 'mongoose';
@@ -23,6 +24,12 @@ class ProductController{
     const updateProductService = container.resolve(UpdateProductService);
     await updateProductService.execute({id, requirement});
     return response.status(200).json();
+  }
+  public async findAll(request: Request, response:Response):Promise<Response>{
+
+    const findAllProductsServices = container.resolve(FindAllProductsService);
+    const products = await findAllProductsServices.execute();
+    return response.status(200).json(products)
   }
 }
 export default ProductController;

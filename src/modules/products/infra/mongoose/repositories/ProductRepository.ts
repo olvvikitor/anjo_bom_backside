@@ -13,7 +13,7 @@ class ProductRepository implements IProductRepository{
     return product;
   }
   async getProducts(): Promise<IProduct[]> {
-    throw new Error('Method not implemented.');
+    return await this.model.find();
   }
   async getProductById(id: string): Promise<IProduct | null> {
     const product = await this.model.findOne({ _id: id });
