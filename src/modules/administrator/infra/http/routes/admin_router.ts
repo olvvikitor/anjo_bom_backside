@@ -529,7 +529,108 @@ eventoController.createEvento);
  */
 adminRouter.delete('/deletarEvento/:id', eventoController.deleteEvento)
 
-
+/**
+ * @swagger
+ *  admin/atualizarEvento/{id}:
+ *   put:
+ *     summary: Atualiza um evento existente
+ *     description: Atualiza um evento existente com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
+ *     tags:
+ *       - Administrador Eventos
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O ID do evento a ser atualizado.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *                 description: O título atualizado do evento.
+ *                 example: Evento Atualizado
+ *               descricao:
+ *                 type: string
+ *                 description: A descrição atualizada do evento.
+ *                 example: Descrição atualizada para o evento
+ *               address:
+ *                 type: string
+ *                 description: O endereço atualizado do evento no formato JSON string.
+ *                 example: '{"cep": "12345-678", "estado": "SP", "cidade": "São Paulo", "bairro": "Centro", "rua": "Avenida Paulista", "numero": "1000"}'
+ *               data_inicio:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Data de início atualizada do evento no formato ISO.
+ *                 example: 2024-09-01T10:00:00
+ *               data_fim:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Data de fim atualizada do evento no formato ISO.
+ *                 example: 2024-09-01T18:00:00
+ *               photos_event:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Arquivos de fotos atualizados associados ao evento.
+ *     responses:
+ *       200:
+ *         description: Evento atualizado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: O ID do evento atualizado.
+ *                 titulo:
+ *                   type: string
+ *                   description: O título atualizado do evento.
+ *                 descricao:
+ *                   type: string
+ *                   description: A descrição atualizada do evento.
+ *                 address:
+ *                   type: object
+ *                   description: O endereço atualizado do evento.
+ *                   properties:
+ *                     cep:
+ *                       type: string
+ *                     estado:
+ *                       type: string
+ *                     cidade:
+ *                       type: string
+ *                     bairro:
+ *                       type: string
+ *                     rua:
+ *                       type: string
+ *                     numero:
+ *                       type: string
+ *                 data_inicio:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Data de início atualizada do evento.
+ *                 data_fim:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Data de fim atualizada do evento.
+ *       400:
+ *         description: Erro na validação dos dados.
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       404:
+ *         description: Evento não encontrado.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
 adminRouter.put('/atualizarEvento/:id',uploader.array('photos_event'), eventoController.update)
 
 //JSDOC PARA A CRIAÇÂO DE UM PRODUCT
