@@ -21,7 +21,7 @@ export default class EventoController{
 
     const photos =  files?.map((file: Express.Multer.File) => file.filename); // Tipagem explícita para o parâmetro file
 
-    const evento = await updateEventoService.execute(id, {titulo, descricao, photos , address: adressJson, data_inicio, data_fim});   
+    const evento = await updateEventoService.execute(id,{titulo, descricao, photos , address: adressJson, data_inicio, data_fim});   
     return response.status(201).json(evento);    
 
   }

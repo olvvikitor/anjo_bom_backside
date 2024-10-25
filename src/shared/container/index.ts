@@ -43,5 +43,5 @@ container.register<IToken>('ITokenService', JWTTokenService)
 container.register<IPayment>('IPaymentService', MercadoPagoService);
 container.register<ISmsService>('ISmsService', TwilloSmsService);
 container.register<ICacheService>('ICacheService', RedisCache);
-container.register<IStorageService>('IStorageService', DiskStorageProvider);
+container.register<IStorageService>('IStorageService', S3StorageProvider);
 container.register<IHashProvider>('IHashProvider', BcryptHashProvider)
