@@ -5,9 +5,6 @@ import { IPhotoRepository } from '../domain/repositories/IPhotoRepository';
 import { inject, injectable } from 'tsyringe';
 import { IAddress } from '@modules/address/domain/models/IAddress';
 import { ICacheService } from '@shared/domain/models/ICacheService';
-import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvider';
-import upload from '@config/upload';
-import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvider';
 import IStorageService from '@shared/domain/models/IStorageService';
 
 interface IRequest {
@@ -76,7 +73,7 @@ class CreateEventoService {
     
     //apagando do cache apos a criação
     await this.cacheService.invalidate('api_anjobom_EVENTS_LIST');
-    
+
     return evento;
   }
 }
