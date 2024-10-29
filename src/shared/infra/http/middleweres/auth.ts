@@ -10,7 +10,7 @@ export const SECRET_KEY: Secret = process.env.APP_SECRET as string;
 export const auth = (jwtService: JWTTokenService) => {
   return async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const authHeader = request.headers.authorization?.replace('Bearer', '');
+      const authHeader = request.headers.authorization?.replace('Bearer ', '');
       
       if (!authHeader) {
         throw new AppError('Usuário não autenticado/Sessão expirada', 401);
