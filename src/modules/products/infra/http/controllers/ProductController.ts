@@ -26,7 +26,6 @@ class ProductController{
     return response.status(200).json();
   }
   public async findAll(request: Request, response:Response):Promise<Response>{
-
     const findAllProductsServices = container.resolve(FindAllProductsService);
     const products = await findAllProductsServices.execute();
     return response.status(200).json(products)
