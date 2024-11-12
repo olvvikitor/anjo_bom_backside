@@ -1021,7 +1021,7 @@ adminRouter.put('/atualizarPontoDeColeta/:id', collectionPointController.updateC
 
 /**
  * @swagger
- * admin/doacoes:
+ * /admin/doacoes:
  *   get:
  *     summary: Retorna a lista de doações
  *     tags: [Administrador Cesta de doação]
