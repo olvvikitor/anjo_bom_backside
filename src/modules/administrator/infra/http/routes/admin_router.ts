@@ -1021,13 +1021,17 @@ adminRouter.put('/atualizarPontoDeColeta/:id', collectionPointController.updateC
 
 /**
  * @swagger
- * /admin/doacoes:
+ *  /admin/cestas:
  *   get:
- *     summary: Retorna a lista de doações
- *     tags: [Administrador Cesta de doação]
+ *     summary: Retorna a lista de cestas de doações
+ *     description: Esta rota recupera todas as cestas de doações no sistema. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador Cesta de doação
  *     responses:
  *       200:
- *         description: Lista de doações
+ *         description: Lista de cestas de doações
  *         content:
  *           application/json:
  *             schema:
@@ -1052,38 +1056,32 @@ adminRouter.put('/atualizarPontoDeColeta/:id', collectionPointController.updateC
  *                         description: Telefone do doador
  *                         example: "75983633860"
  *                   items:
- *                     type: object
- *                     properties:
- *                       produtos:
- *                         type: array
- *                         items:
- *                           type: object
- *                           properties:
- *                             _id:
- *                               type: string
- *                               description: ID do produto
- *                               example: "66fc13fe582e54c349c9629c"
- *                             name:
- *                               type: string
- *                               description: Nome do produto doado
- *                               example: "Arroz"
- *                             quantity:
- *                               type: integer
- *                               description: Quantidade do produto doado
- *                               example: 2
+ *                     type: array
+ *                     description: Lista de produtos da cesta doada
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         _id:
+ *                           type: string
+ *                           description: ID do produto
+ *                           example: "66fc13fe582e54c349c9629c"
+ *                         name:
+ *                           type: string
+ *                           description: Nome do produto doado
+ *                           example: "Arroz"
+ *                         quantity:
+ *                           type: integer
+ *                           description: Quantidade do produto doado
+ *                           example: 2
  *                   status:
  *                     type: string
  *                     description: Status da doação
  *                     example: "PENDENTE"
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       500:
+ *         description: Erro interno no servidor.
  */
 adminRouter.get('/cestas', cestaController.findAll)
 
 export default adminRouter;
-
-
-
-
-
-
-
-

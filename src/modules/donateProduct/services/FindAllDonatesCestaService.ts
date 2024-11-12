@@ -31,8 +31,7 @@ export default class FindAllDonatesCesta {
   public async execute(): Promise<IResponse[]> {
     const cestas = await this.cestaRepository.findAll()
     return await Promise.all(cestas.map(async (cesta) => {
-      console.log(cesta)
-      console.log(cesta.person_id)
+
       let doadoresNaoEncontrados = []
 
       const doador = await this.personRepository.findById(cesta.person_id)
