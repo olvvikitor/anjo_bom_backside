@@ -394,7 +394,7 @@ adminRouter.get('/mostrarDoacoesPix', donatesPixController.findAllDonatesApprove
 //JSDOC PARA A CRIAÇÂO DE UM  EVENTO
 /**
  * @swagger
- *  admin/criarEvento:
+ *  /admin/criarEvento:
  *   post:
  *     summary: Cria um novo evento
  *     description: Cria um novo evento com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
@@ -531,7 +531,7 @@ adminRouter.delete('/deletarEvento/:id', eventoController.deleteEvento)
 
 /**
  * @swagger
- *  admin/atualizarEvento/{id}:
+ *  /admin/atualizarEvento/{id}:
  *   put:
  *     summary: Atualiza um evento existente
  *     description: Atualiza um evento existente com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
