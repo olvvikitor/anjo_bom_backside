@@ -1091,7 +1091,7 @@ adminRouter.put('/cestas/:id', cestaController.updateStatus)
  *  /admin/cestas/{id}:
  *   put:
  *     summary: Atualiza os dados de uma cesta de doações
- *     description: Esta rota atualiza as informações de uma cesta de doações. Requer autenticação com um token Bearer.
+ *     description: Esta rota atualiza as informações de uma cesta de doações com base no ID fornecido. Requer autenticação com um token Bearer.
  *     security:
  *       - bearerAuth: []
  *     tags:
@@ -1105,30 +1105,8 @@ adminRouter.put('/cestas/:id', cestaController.updateStatus)
  *             properties:
  *               id:
  *                 type: string
- *                 description: ID da cesta a ser atualizada
+ *                 description: ID único da cesta a ser atualizada
  *                 example: "66fc13fe582e54c349c9629c"
- *               status:
- *                 type: string
- *                 description: Novo status da doação
- *                 example: "CONCLUÍDO"
- *               items:
- *                 type: array
- *                 description: Lista atualizada de produtos da cesta doada
- *                 items:
- *                   type: object
- *                   properties:
- *                     _id:
- *                       type: string
- *                       description: ID do produto
- *                       example: "66fc13fe582e54c349c9629c"
- *                     name:
- *                       type: string
- *                       description: Nome do produto doado
- *                       example: "Arroz"
- *                     quantity:
- *                       type: integer
- *                       description: Quantidade do produto doado
- *                       example: 2
  *     responses:
  *       204:
  *         description: Cesta de doações atualizada com sucesso, nenhum conteúdo retornado.
@@ -1159,4 +1137,5 @@ adminRouter.put('/cestas/:id', cestaController.updateStatus)
  *       500:
  *         description: Erro interno no servidor.
  */
+
 export default adminRouter;
