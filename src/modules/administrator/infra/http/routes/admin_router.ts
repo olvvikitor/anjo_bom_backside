@@ -1086,4 +1086,77 @@ adminRouter.get('/cestas', cestaController.findAll)
 
 adminRouter.put('/cestas/:id', cestaController.updateStatus)
 
+/**
+ * @swagger
+ *  /admin/cestas/{id}:
+ *   put:
+ *     summary: Atualiza os dados de uma cesta de doações
+ *     description: Esta rota atualiza as informações de uma cesta de doações. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador Cesta de doação
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 description: ID da cesta a ser atualizada
+ *                 example: "66fc13fe582e54c349c9629c"
+ *               status:
+ *                 type: string
+ *                 description: Novo status da doação
+ *                 example: "CONCLUÍDO"
+ *               items:
+ *                 type: array
+ *                 description: Lista atualizada de produtos da cesta doada
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: ID do produto
+ *                       example: "66fc13fe582e54c349c9629c"
+ *                     name:
+ *                       type: string
+ *                       description: Nome do produto doado
+ *                       example: "Arroz"
+ *                     quantity:
+ *                       type: integer
+ *                       description: Quantidade do produto doado
+ *                       example: 2
+ *     responses:
+ *       204:
+ *         description: Cesta de doações atualizada com sucesso, nenhum conteúdo retornado.
+ *       400:
+ *         description: ID inválido. O ID fornecido não é um ObjectId válido.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensagem de erro
+ *                   example: "O ID fornecido não é válido."
+ *       404:
+ *         description: Cesta de doações não encontrada.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensagem de erro
+ *                   example: "Cesta de doações não encontrada."
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
 export default adminRouter;
