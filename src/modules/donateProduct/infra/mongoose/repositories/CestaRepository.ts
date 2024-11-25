@@ -17,14 +17,16 @@ class CestaRepository implements ICestaRepository{
     await newCesta.save();
     return newCesta;
   }
-  public async updateCesta(cestaId: any, cesta: ICesta): Promise<ICesta> {
-    throw new Error('Method not implemented.');
+  public async updateCesta(cestaId: any, cesta: ICesta): Promise<void> {
+     await this.model.updateOne({_id: cestaId}, cesta)
   }
   public async deleteCesta(cestaId: any): Promise<any> {
     throw new Error('Method not implemented.');
   }
-  public async getCestaById(cestaId: ICesta): Promise<ICesta> {
-    throw new Error('Method not implemented.');
+  public async getCestaById(cestaId: any): Promise<ICesta | null> {
+    return await this.model.findOne({
+      _id: cestaId
+    })
   }
 
 }

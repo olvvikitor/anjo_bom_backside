@@ -1084,4 +1084,6 @@ adminRouter.put('/atualizarPontoDeColeta/:id', collectionPointController.updateC
  */
 adminRouter.get('/cestas', cestaController.findAll)
 
+adminRouter.put('/cestas/:id', cestaController.updateStatus)
+
 export default adminRouter;

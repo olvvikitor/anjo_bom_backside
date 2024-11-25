@@ -1,5 +1,6 @@
 import CreateCestaService from '@modules/donateProduct/services/CreateCestaService';
 import FindAllDonatesCesta from '@modules/donateProduct/services/FindAllDonatesCestaService';
+import { FindByIdDonateCestaService } from '@modules/donateProduct/services/FindByIdDonateCestaService';
 import {Request, Response } from 'express'
 import { isValidObjectId } from 'mongoose';
 import { container } from 'tsyringe';
@@ -20,5 +21,14 @@ export class CestaController {
     const findAllCestaService = container.resolve(FindAllDonatesCesta)
     const cestas = await findAllCestaService.execute()
     return response.status(200).json(cestas)
+  }
+  public async updateStatus(request:Request, response:Response):Promise<Response>{
+    const findByIdService = container.resolve(FindByIdDonateCestaService)
+    const id = request.params.id
+    if(!isValidObjectId(id)){
+      return response.status(400).json({message: 'Id inválido'})
+    }
+    const cestaUpdated = await findByIdService.execute(id)
+    return response.status(201).json(cestaUpdated)
   }
 }
