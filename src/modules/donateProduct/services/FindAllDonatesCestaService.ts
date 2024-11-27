@@ -15,6 +15,7 @@ export interface IDonateResponse{
 }
 
 export interface IResponse {
+  id: any
   doador: IResponsePerson;
   items: IDonateResponse
   status: 'COLETADO' | 'PENDENTE'
@@ -51,6 +52,7 @@ export default class FindAllDonatesCesta {
       }
 
       const response : IResponse = {
+        id: cesta._id,
         doador: person,
         items,
         status: cesta.status

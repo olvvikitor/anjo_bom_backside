@@ -18,6 +18,7 @@ const jwtService = new JWTTokenService()
 
 const adminRouter = Router();
 adminRouter.use(auth(jwtService));
+
 const adminController = new AdministratorController();
 const productController = new ProductController();
 const collectionPointController = new CollectionPointController();
@@ -1084,7 +1085,6 @@ adminRouter.put('/atualizarPontoDeColeta/:id', collectionPointController.updateC
  */
 adminRouter.get('/cestas', cestaController.findAll)
 
-adminRouter.put('/cestas/:id', cestaController.updateStatus)
 
 /**
  * @swagger
@@ -1137,5 +1137,7 @@ adminRouter.put('/cestas/:id', cestaController.updateStatus)
  *       500:
  *         description: Erro interno no servidor.
  */
+adminRouter.put('/cestas/:id', cestaController.updateStatus)
+
 
 export default adminRouter;
