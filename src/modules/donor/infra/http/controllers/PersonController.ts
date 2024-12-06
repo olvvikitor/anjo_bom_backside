@@ -9,6 +9,7 @@ import CheckPhoneExistService from '@modules/donor/services/login/CheckPhoneExis
 import AuthDonorService from '@modules/donor/services/login/AuthDonorService';
 import GetAllDonorsService from '@modules/donor/services/GetAllDonorsService';
 import { IPaginate } from '@shared/domain/paginate/IPaginate';
+import { EditEnderecoDoadorService } from '@modules/donor/services/EditEnderecoDoadorService';
 
 class PersonConroller{
   public async createPerson(request:Request, response: Response):Promise<Response>{
@@ -68,5 +69,12 @@ class PersonConroller{
       
     const donors = await getAllDonorsService.execute(options);
     return response.status(200).json(donors);
+  }
+  public async editEndereco(request:Request, response:Response):Promise<Response>{
+    const {cep, estado, cidade, bairro, rua, numero} = request.body;
+    const id = request.params.id
+    const editEnderecoService =  container.resolve(EditEnderecoDoadorService)
+    await editEnderecoService.execute(id, {cep, estado, cidade, bairro, rua, numero}) 
+    return response.json().status(204)
   }
 }export default PersonConroller;

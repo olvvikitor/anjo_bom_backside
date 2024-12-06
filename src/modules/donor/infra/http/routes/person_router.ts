@@ -210,4 +210,60 @@ personRouter.get('/verificaNumero/:phone', personController.checkPhoneExist);
  *         description: Erro interno no servidor.
  */
 personRouter.post('/sucesso/:phone', personController.getDonor);
+
+/**
+ * @swagger
+ * /editarEndereco/{id}:
+ *   put:
+ *     summary: Edita o endereço de um doador.
+ *     description: Atualiza os dados de endereço de um doador existente com base no ID fornecido.
+ *     tags:
+ *       - Editar Endereço Doador
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do doador cujo endereço será editado.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               cep:
+ *                 type: string
+ *                 description: CEP do endereço.
+ *                 example: "12345-678"
+ *               estado:
+ *                 type: string
+ *                 description: Estado do endereço.
+ *                 example: "Bahia"
+ *               cidade:
+ *                 type: string
+ *                 description: Cidade do endereço.
+ *                 example: "Feira de Santana"
+ *               bairro:
+ *                 type: string
+ *                 description: Bairro do endereço.
+ *                 example: "Centro"
+ *               rua:
+ *                 type: string
+ *                 description: Rua do endereço.
+ *                 example: "Avenida Getúlio Vargas"
+ *               numero:
+ *                 type: string
+ *                 description: Número do endereço.
+ *                 example: "123"
+ *     responses:
+ *       204:
+ *         description: Endereço atualizado com sucesso. Nenhum conteúdo retornado.
+ *       400:
+ *         description: Dados inválidos ou ID não encontrado.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+personRouter.put('/editarEndereco/:id', personController.editEndereco)
 export default personRouter;

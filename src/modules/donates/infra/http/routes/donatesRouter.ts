@@ -8,7 +8,7 @@ const donatesController = new DonatesController();
 
 /**
  * @swagger
- *   /doador/DoacaoPix:
+ *   /doador/doarPix:
  *   post:
  *     summary: Cria um link para fazer uma doação via Pix.
  *     description: Cria uma nova transação Pix com os dados fornecidos. 

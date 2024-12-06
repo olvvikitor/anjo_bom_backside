@@ -13,8 +13,8 @@ class PersonRepository implements IPersonRepository{
   constructor() {
     this.model = Person;
   }
-  async findById(id: Types.ObjectId): Promise<IPerson | null> {
-    return await this.model.findOne(id)
+  async findById(id: string): Promise<IPerson | null> {
+    return await this.model.findOne({_id:id})
   }
 
   async create(person:IPerson): Promise<IPerson> {
@@ -28,7 +28,7 @@ class PersonRepository implements IPersonRepository{
     return person.docs
   }
 
-  async update(id: string, updateData: IPerson): Promise<void> {
+  async update(id: any, updateData: IPerson): Promise<void> {
     await this.model.updateOne({_id: id}, updateData);
   }
 
