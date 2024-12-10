@@ -632,7 +632,7 @@ adminRouter.delete('/deletarEvento/:id', eventoController.deleteEvento)
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.put('/atualizarEvento/:id',uploader.array('photos_event'), eventoController.update)
+adminRouter.put('/atualizarEvento/:id',uploader.array('fotos_adicionadas'), eventoController.update)
 
 //JSDOC PARA A CRIAÇÂO DE UM PRODUCT
 /**

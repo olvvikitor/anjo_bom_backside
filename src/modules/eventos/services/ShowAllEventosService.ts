@@ -57,16 +57,17 @@ class ShowAllEventosService {
     if (!events) {
       throw new AppError('Eventos não encontrados', 404);
     }
+    
 
     // Buscar fotos associadas a cada evento
     const photoPromises = events.map(event => this.photoRepository.findAllPhotosByEventId(event._id));
-    const photosResults = await Promise.all(photoPromises);
 
     // Adicionar fotos aos eventos e formatar a resposta
-    const eventsWithPhotos: IResponse[] = events.map((event, index) => {
-      const photos = photosResults[index].map(photo => photo.url);
-      const photosUrl:string[] = photos.map(p => this.storageService.getFile(p));
-      console.log(photosUrl);
+    const eventsWithPhotos: IResponse[] = await Promise.all(events.map(async (event) => {
+      const photos = await this.photoRepository.findAllPhotosByEventId(event._id)
+      const key =  photos.map(ft => ft.url)
+      const photosUrl = key.map(x=>this.storageService.getFile(x))
+
       return {
         id: event._id,
         titulo: event.titulo,
@@ -76,7 +77,7 @@ class ShowAllEventosService {
         data_inicio: event.data_inicio,
         data_fim: event.data_fim
       };
-    });
+    }));
       
       await this.cache.save('api_anjobom_EVENTS_LIST',eventsWithPhotos);
       return eventsWithPhotos
