@@ -213,7 +213,7 @@ personRouter.post('/sucesso/:phone', personController.getDonor);
 
 /**
  * @swagger
- * /editarEndereco/{id}:
+ * /doador/editarEndereco/{id}:
  *   put:
  *     summary: Edita o endereço de um doador.
  *     description: Atualiza os dados de endereço de um doador existente com base no ID fornecido.
@@ -266,4 +266,7 @@ personRouter.post('/sucesso/:phone', personController.getDonor);
  *         description: Erro interno no servidor.
  */
 personRouter.put('/editarEndereco/:id', personController.editEndereco)
+
+personRouter.get('/buscarDoador/:id', personController.findById)
+
 export default personRouter;

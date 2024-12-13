@@ -10,6 +10,7 @@ import AuthDonorService from '@modules/donor/services/login/AuthDonorService';
 import GetAllDonorsService from '@modules/donor/services/GetAllDonorsService';
 import { IPaginate } from '@shared/domain/paginate/IPaginate';
 import { EditEnderecoDoadorService } from '@modules/donor/services/EditEnderecoDoadorService';
+import FindPersonService from '@modules/donor/services/FindPersonService';
 
 class PersonConroller{
   public async createPerson(request:Request, response: Response):Promise<Response>{
@@ -76,5 +77,11 @@ class PersonConroller{
     const editEnderecoService =  container.resolve(EditEnderecoDoadorService)
     await editEnderecoService.execute(id, {cep, estado, cidade, bairro, rua, numero}) 
     return response.json().status(204)
+  }
+  public async findById(request:Request, response:Response):Promise<Response>{
+    const id: string = request.params.id
+    const findPersonService = container.resolve(FindPersonService)
+    const donor = await findPersonService.findById({param:id})
+    return response.status(200).json(donor)
   }
 }export default PersonConroller;

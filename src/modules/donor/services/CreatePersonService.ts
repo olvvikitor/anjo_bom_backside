@@ -51,6 +51,7 @@ class CreatePersonService {
 			address,
 		} as IPerson);
 		return person;
+		
 	}
 }
 export default CreatePersonService;

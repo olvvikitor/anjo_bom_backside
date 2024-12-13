@@ -12,7 +12,7 @@ export default class EventoController{
   public async update(request: Request, response:Response):Promise<Response> {
     const updateEventoService = container.resolve(UpdateEventoService);
 
-    const {titulo, descricao,fotos_remove, address, data_inicio, data_fim} = request.body;
+    const {titulo, descricao,fotos_remove, address, data_inicio, data_fim} = request.body; 
     const id = request.params.id
 
     const adressJson = JSON.parse(address)

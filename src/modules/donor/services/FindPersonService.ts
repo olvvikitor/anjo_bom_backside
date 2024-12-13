@@ -15,8 +15,14 @@ class FindPersonService{
     this.personRepository = personRepository;
   }
   public async execute({param}:IRequest): Promise<IPerson>{
-    
     const person = await this.personRepository.findByEmailOrPhone(param);
+    if(!person){
+      throw new AppError('No Person found', 404);
+    }
+    return person;
+  }
+  public async findById({param}:IRequest):Promise<IPerson>{
+    const person = await this.personRepository.findById(param)
     if(!person){
       throw new AppError('No Person found', 404);
     }
