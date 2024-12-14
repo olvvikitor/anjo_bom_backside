@@ -26,7 +26,7 @@ export class EditEnderecoDoadorService{
     user.address.cep = body.cep
     user.address.cidade = body.cidade
     user.address.estado = body.estado
-    user.address.numero = body.rua
+    user.address.numero = body.numero
     user.address.rua = body.rua
 
     await this.doadorRepository.update(user._id, user)
