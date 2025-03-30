@@ -5,15 +5,15 @@ import LoginAdministratorController from '../controllers/LoginAdminController';
 
 const loginAdministratorRouter = Router();
 const loginAdministratorController = new LoginAdministratorController();
-//JSDOC PARA O LOGIN DE UM ADMIN
+//JSDOC PARA O LOGIN DE UM ADMINISTRADOR
 /**
  * @swagger
- * http://localhost:5000/admin/auth:
+ *  /admin/auth/:
  *   post:
  *     summary: Login de administrador
  *     description: Endpoint para login de administradores. Retorna um token JWT se as credenciais estiverem corretas.
  *     tags:
- *       - Administrador
+ *       - Administrador Login
  *     requestBody:
  *       required: true
  *       content:

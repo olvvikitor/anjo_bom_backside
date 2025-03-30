@@ -16,8 +16,7 @@ class UpdtateStatusAdmin{
     this.administratorRepository = administratorRepository;
   }
   public async execute({id}: IRequest):Promise<void>{
-
-
+    console.log(id)
     const admin = await this.administratorRepository.findById(id);
 
     if(!admin){
@@ -27,7 +26,6 @@ class UpdtateStatusAdmin{
     admin.isActive = !admin.isActive;
 
     await this.administratorRepository.update(id, admin);
-    
   }
 }
 export default UpdtateStatusAdmin;

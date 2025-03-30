@@ -6,7 +6,7 @@ const eventoController = new EventController();
 
 /**
  * @swagger
- * http://localhost:5000/events/:
+ * /eventos/:
  *   get:
  *     summary: Recupera todos os eventos.
  *     description: Retorna uma lista de todos os eventos registrados no sistema. Permite paginação.
@@ -22,7 +22,7 @@ const eventoController = new EventController();
  *           default: 1
  *           example: 2
  *       - in: query
- *         name: perPage
+ *         name: limit
  *         required: false
  *         description: Número máximo de eventos a serem retornados por página.
  *         schema:

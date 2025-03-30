@@ -8,12 +8,12 @@ const donatesController = new DonatesController();
 
 /**
  * @swagger
- * http://localhost:5000/person/payment:
+ *   /doador/doarPix:
  *   post:
  *     summary: Cria um link para fazer uma doação via Pix.
  *     description: Cria uma nova transação Pix com os dados fornecidos. 
  *     tags:
- *       - PersonPayment
+ *       - Doador Doação com pix
  *     requestBody:
  *       description: Dados necessários para realizar a doação via Pix.
  *       content:
@@ -71,12 +71,12 @@ donatesRouter.post(
 
 /**
  * @swagger
- * http://localhost:5000/person/payment:
+ *   /doador/doarPix/DoacaoPix:
  *   put:
  *     summary: Atualiza informações de uma doação existente.
  *     description: Atualiza os detalhes de todas as doações.
  *     tags:
- *       - PersonPayment
+ *       - Doador Doação com pix
  *     responses:
  *       200:
  *         description: Informações da doação atualizadas com sucesso.

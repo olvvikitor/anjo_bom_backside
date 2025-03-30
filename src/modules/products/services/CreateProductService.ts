@@ -1,9 +1,9 @@
-import { inject, injectable } from 'tsyringe';
-import { IProduct } from '../models/IProduct';
-import { IProductRepository } from '../repositories/IproductRepository';
 import AppError from '@shared/errors/AppError';
-import { ICreateProduct } from '../models/ICreateProduct';
-import { Requirement } from '../models/enums/Requirement';
+import { injectable, inject } from 'tsyringe';
+import { Requirement } from '../domain/models/enums/Requirement';
+import { ICreateProduct } from '../domain/models/ICreateProduct';
+import { IProduct } from '../domain/models/IProduct';
+import { IProductRepository } from '../domain/repositories/IproductRepository';
 
 @injectable()
 class CreateProductService{

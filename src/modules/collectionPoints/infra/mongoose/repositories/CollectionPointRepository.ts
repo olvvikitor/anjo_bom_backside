@@ -20,17 +20,16 @@ export default class CollectionPointRepository implements ICollectionPointReposi
  async getCollectionPointById(id: string): Promise<ICollectionPoint | null> {
     const collectionPoint = this.model.findById({_id: id});
     return collectionPoint;
-  }
+}
  async createCollectionPoint(point: ICreateCollectionPoint): Promise<ICollectionPoint> {
     const pontoDeColeta = await this.model.create(point);
     await pontoDeColeta.save();
     return pontoDeColeta;
   }
- async updateCollectionPoint(id: string, point: ICollectionPoint): Promise<void> {
-    const pontoDeColeta = this.model.findOne({ _id: id });
-    await this.model.updateOne({ _id: id }, pontoDeColeta);
+ async updateCollectionPoint(id: string, point: ICreateCollectionPoint): Promise<void> {
+    await this.model.updateOne({ _id: id }, point);
   }
   async deleteCollectionPoint(id: any): Promise<void> {
-    throw new Error('Method not implemented.');
+    await this.model.deleteOne({ _id: id });
   }
 }

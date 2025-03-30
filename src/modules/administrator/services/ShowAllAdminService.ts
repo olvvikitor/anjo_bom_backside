@@ -5,7 +5,7 @@ import { IAdministratorRepository } from '../domain/repositories/IAdministratorR
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
-class ShowAllAdmin{
+class ShowAllAdminService{
   private administratorRepository : IAdministratorRepository;
 
   constructor (
@@ -18,4 +18,4 @@ class ShowAllAdmin{
     return admins;
   }
 }
-export default ShowAllAdmin;
+export default ShowAllAdminService;

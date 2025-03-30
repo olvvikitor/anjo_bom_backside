@@ -1,14 +1,17 @@
 import { IAdministrator } from '../models/IAdministrator'
+import { ICreateAdministrator } from '../models/ICreateAdministrator'
 
 export interface IAdministratorRepository{
   
-createAdministrator(administrator: IAdministrator): Promise<IAdministrator>
+createAdministrator(administrator: ICreateAdministrator): Promise<IAdministrator>
 
-findByEmail(email: string): Promise<IAdministrator | null>
+save(administrator: IAdministrator): Promise<IAdministrator>
+
+findByEmail(email: string): Promise<IAdministrator | undefined | null>
 
 findAll():Promise<IAdministrator[] | null>
 
-findById(id:string):Promise<IAdministrator| null>
+findById(id:string):Promise<IAdministrator | undefined | null>
 
 update(id: string, updateData: IAdministrator): Promise<void>
 

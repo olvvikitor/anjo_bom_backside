@@ -8,21 +8,29 @@ import AdministratorController from '../controllers/AdministratorController';
 import ProductController from '@modules/products/infra/http/controllers/ProductController';
 import CollectionPointController from '@modules/collectionPoints/infra/http/controllers/CollectionPointController';
 import EventController from '@modules/eventos/infra/http/controllers/EventController';
-import e from 'cors';
+import PersonConroller from '@modules/donor/infra/http/controllers/PersonController';
+import DonatesController from '@modules/donates/infra/http/controllers/DonatesController';
+import { JWTTokenService } from '@shared/infra/services/JWTService';
+import cestaRouter from '@modules/donateProduct/infra/http/routes/cestaRouter';
+import { CestaController } from '@modules/donateProduct/infra/http/controller/CestaController';
 
-
+const jwtService = new JWTTokenService()
 
 const adminRouter = Router();
-// adminRouter.use(auth);
+adminRouter.use(auth(jwtService));
+
 const adminController = new AdministratorController();
 const productController = new ProductController();
 const collectionPointController = new CollectionPointController();
 const eventoController = new EventController();
+const personController = new PersonConroller()
+const donatesPixController = new DonatesController();
+const cestaController = new CestaController();
 
 //JSDOC PARA A CRIAÇÂO DE UM NOVO ADMIN
 /**
  * @swagger
- * http://localhost:5000/admin/:
+/admin/:
  *   post:
  *     summary: Cria um novo administrador
  *     description: Endpoint para criar um novo administrador no sistema. Requer autenticação com um token Bearer.
@@ -99,12 +107,75 @@ adminRouter.post(
 
   }}),adminController.createAdministrator);
 
-adminRouter.get('/admin//show-all', adminController.showAll);
+//JSDOC PARA A CONSULTA DE TODOS OS ADMINIS
+/**
+ * @swagger
+ *    /admin/mostrarAdmins:
+ *   get:
+ *     summary: Recupera todos os administradores com status ativo
+ *     description: Esta rota recupera todos os administradores ativos no sistema. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador
+ *     responses:
+ *       200:
+ *         description: Lista de administradores ativos recuperada com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: Identificador único do administrador.
+ *                     example: "66dbf6aa5904b4954bddc1b6"
+ *                   name:
+ *                     type: string
+ *                     description: Nome do administrador.
+ *                     example: "João Victor"
+ *                   email:
+ *                     type: string
+ *                     format: email
+ *                     description: Email do administrador.
+ *                     example: "victor@gmail.com"
+ *                   isActive:
+ *                     type: boolean
+ *                     description: Indica se o administrador está ativo.
+ *                     example: true
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Data e hora em que o administrador foi criado.
+ *                     example: "2024-09-07T06:46:02.613Z"
+ *                   updated_at:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Data e hora da última atualização do administrador.
+ *                     example: "2024-09-07T06:46:02.613Z"
+ *                   __v:
+ *                     type: integer
+ *                     description: Versão do documento no banco de dados.
+ *                     example: 0
+ *       401:
+ *         description: Não autorizado, token de autenticação ausente ou inválido.
+ *       500:
+ *         description: Erro interno do servidor.
+ *     headers:
+ *       authorization:
+ *         description: Token JWT necessário para autenticação.
+ *         schema:
+ *           type: string
+ *           example: "Bearer <seu-token-aqui>"
+ */
+adminRouter.get('/mostrarAdmins', adminController.showAll);
 
 //JSDOC REVOGUE ADMIN
 /**
  * @swagger
- * http://localhost:5000/admin/revogue/{id}:
+ * /admin/revogarAcesso/{id}:
  *   put:
  *     summary: Inativa um administrador
  *     description: Endpoint para inativar um administrador existente no sistema. Requer autenticação com token Bearer.
@@ -140,82 +211,120 @@ adminRouter.get('/admin//show-all', adminController.showAll);
  *       500:
  *         description: Erro interno do servidor.
  */
-adminRouter.put('/revogue/:id', adminController.revogueAdmin);
+adminRouter.put('/revogarAcesso/:id', adminController.revogueAdmin);
 
-//JSDOC PARA A CONSULTA DE TODOS OS ADMINIS
-/**
-     * @swagger
-     * http://localhost:5000/admin/show-all:
-     *   get:
-     *     summary: Recupera todos os administradores com status ativo
-     *     description: Esta rota recupera todos os administradores ativos no sistema. Requer autenticação com um token Bearer.
-     *     security:
-     *       - bearerAuth: []
-     *     tags:
-     *       - Administrador
-     *     responses:
-     *       200:
-     *         description: Lista de administradores ativos recuperada com sucesso.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: array
-     *               items:
-     *                 type: object
-     *                 properties:
-     *                   _id:
-     *                     type: string
-     *                     description: Identificador único do administrador.
-     *                     example: "66dbf6aa5904b4954bddc1b6"
-     *                   name:
-     *                     type: string
-     *                     description: Nome do administrador.
-     *                     example: "João Victor"
-     *                   email:
-     *                     type: string
-     *                     format: email
-     *                     description: Email do administrador.
-     *                     example: "victor@gmail.com"
-     *                   isActive:
-     *                     type: boolean
-     *                     description: Indica se o administrador está ativo.
-     *                     example: true
-     *                   created_at:
-     *                     type: string
-     *                     format: date-time
-     *                     description: Data e hora em que o administrador foi criado.
-     *                     example: "2024-09-07T06:46:02.613Z"
-     *                   updated_at:
-     *                     type: string
-     *                     format: date-time
-     *                     description: Data e hora da última atualização do administrador.
-     *                     example: "2024-09-07T06:46:02.613Z"
-     *                   __v:
-     *                     type: integer
-     *                     description: Versão do documento no banco de dados.
-     *                     example: 0
-     *       401:
-     *         description: Não autorizado, token de autenticação ausente ou inválido.
-     *       500:
-     *         description: Erro interno do servidor.
-     *     headers:
-     *       authorization:
-     *         description: Token JWT necessário para autenticação.
-     *         schema:
-     *           type: string
-     *           example: "Bearer <seu-token-aqui>"
-     */
-adminRouter.get('/show-donors', adminController.getAllDonors);
-
-//JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES PIX
 /**
  * @swagger
- * http://localhost:5000/admin/show-donates/:
+ * /admin/mostrarDoadores:
+ *   get:
+ *     summary: Recupera todos os doadores
+ *     description: Esta rota recupera todos os doadores ativos no sistema. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *         description: Número de doadores por página.
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: Página atual a ser retornada.
+ *     responses:
+ *       200:
+ *         description: Lista de doadores ativos recuperada com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: Identificador único do doador.
+ *                     example: "66dbf6aa5904b4954bddc1b6"
+ *                   name:
+ *                     type: string
+ *                     description: Nome do doador.
+ *                     example: "Pedro Paulo"
+ *                   last_name:
+ *                     type: string
+ *                     description: Sobrenome do doador.
+ *                     example: "Silva"
+ *                   email:
+ *                     type: string
+ *                     format: email
+ *                     description: Email do doador.
+ *                     example: "Pedro@gmail.com"
+ *                   phone:
+ *                     type: string
+ *                     description: Telefone do doador.
+ *                     example: "313"
+ *                   motivation:
+ *                     type: string
+ *                     description: Motivação do doador.
+ *                     example: "Ajudar pessoas necessitadas"
+ *                   isActive:
+ *                     type: boolean
+ *                     description: Indica se o doador está ativo.
+ *                     example: true
+ *                   address:
+ *                     type: object
+ *                     description: Endereço do doador.
+ *                     properties:
+ *                       cep:
+ *                         type: string
+ *                         description: O CEP do endereço.
+ *                         example: "44444-444"
+ *                       estado:
+ *                         type: string
+ *                         description: O estado do endereço.
+ *                         example: "BA"
+ *                       cidade:
+ *                         type: string
+ *                         description: A cidade do endereço.
+ *                         example: "Santo Antônio de Jesus"
+ *                       bairro:
+ *                         type: string
+ *                         description: O bairro do endereço.
+ *                         example: "Nossa Senhora das Graças"
+ *                       rua:
+ *                         type: string
+ *                         description: A rua do endereço.
+ *                         example: "Rua Via Coletora B"
+ *                       numero:
+ *                         type: string
+ *                         description: O número do endereço.
+ *                         example: "12"
+ *       401:
+ *         description: Não autorizado, token de autenticação ausente ou inválido.
+ *       500:
+ *         description: Erro interno do servidor.
+ *     headers:
+ *       authorization:
+ *         description: Token JWT necessário para autenticação.
+ *         schema:
+ *           type: string
+ *           example: "Bearer <seu-token-aqui>"
+ */
+adminRouter.get('/mostrarDoadores', personController.getAllDonors);
+
+//JSDOC PARA A EXIBIÇÃO DE TODAS AS DOAÇÕES PIX
+/*
+ * @swagger
+ *  /admin/mostrarDoacoesPix/:
  *   get:
  *     summary: Exibe todas as doações aprovadas
  *     description: Recupera uma lista de todas as doações que foram aprovadas. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Doação mostrar doacao pix
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -281,20 +390,17 @@ adminRouter.get('/show-donors', adminController.getAllDonors);
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
-
-
-
+adminRouter.get('/mostrarDoacoesPix', donatesPixController.findAllDonatesApproved)
 
 //JSDOC PARA A CRIAÇÂO DE UM  EVENTO
 /**
  * @swagger
- * http://localhost:5000/admin/create-evento:
+ *  /admin/criarEvento:
  *   post:
  *     summary: Cria um novo evento
  *     description: Cria um novo evento com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Eventos
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -380,19 +486,19 @@ adminRouter.get('/show-donates', adminController.findAllDonatesApproved)
  *       500:
  *         description: Erro interno no servidor.
  */
-const uploader = multer(upload)
-adminRouter.post('/create-evento' ,uploader.array('photos_event'), 
+const uploader = multer(upload.multer)
+adminRouter.post('/criarEvento' ,uploader.array('photos_event'), 
 eventoController.createEvento);
 
 //JSDOC PARA A EXCLUSÃO DE UM EVENTO
 /**
  * @swagger
- * http://localhost:5000/admin/delete-event/{id}:
+ *  /admin/deletarEvento/{id}:
  *   delete:
  *     summary: Deleta um evento
  *     description: Remove um evento específico baseado no ID fornecido. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Eventos
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -422,28 +528,259 @@ eventoController.createEvento);
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.delete('/delete-event/:id', eventoController.deleteEvento)
+adminRouter.delete('/deletarEvento/:id', eventoController.deleteEvento)
 
-
-
-
-//JSDOC PARA A CRIAÇÂO DE UM PRODUCT
-adminRouter.post('/create-product', productController.createProduct)
-
-adminRouter.put('/update-products/:id', productController.updateProduct)
-
-
-
-
-//JSDOC PARA A CRIAÇÂO DE UM  PONTO DE COLETA
 /**
  * @swagger
- * http://localhost:5000/admin/create-collectionPoint:
+ *  /admin/atualizarEvento/{id}:
+ *   put:
+ *     summary: Atualiza um evento existente
+ *     description: Atualiza um evento existente com título, descrição, endereço, datas e fotos associadas. Requer autenticação Bearer token.
+ *     tags:
+ *       - Administrador Eventos
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O ID do evento a ser atualizado.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *                 description: O título atualizado do evento.
+ *                 example: Evento Atualizado
+ *               descricao:
+ *                 type: string
+ *                 description: A descrição atualizada do evento.
+ *                 example: Descrição atualizada para o evento
+ *               address:
+ *                 type: string
+ *                 description: O endereço atualizado do evento no formato JSON string.
+ *                 example: '{"cep": "12345-678", "estado": "SP", "cidade": "São Paulo", "bairro": "Centro", "rua": "Avenida Paulista", "numero": "1000"}'
+ *               data_inicio:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Data de início atualizada do evento no formato ISO.
+ *                 example: 2024-09-01T10:00:00
+ *               data_fim:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Data de fim atualizada do evento no formato ISO.
+ *                 example: 2024-09-01T18:00:00
+ *               photos_event:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Arquivos de fotos atualizados associados ao evento.
+ *     responses:
+ *       200:
+ *         description: Evento atualizado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: O ID do evento atualizado.
+ *                 titulo:
+ *                   type: string
+ *                   description: O título atualizado do evento.
+ *                 descricao:
+ *                   type: string
+ *                   description: A descrição atualizada do evento.
+ *                 address:
+ *                   type: object
+ *                   description: O endereço atualizado do evento.
+ *                   properties:
+ *                     cep:
+ *                       type: string
+ *                     estado:
+ *                       type: string
+ *                     cidade:
+ *                       type: string
+ *                     bairro:
+ *                       type: string
+ *                     rua:
+ *                       type: string
+ *                     numero:
+ *                       type: string
+ *                 data_inicio:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Data de início atualizada do evento.
+ *                 data_fim:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Data de fim atualizada do evento.
+ *       400:
+ *         description: Erro na validação dos dados.
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       404:
+ *         description: Evento não encontrado.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+adminRouter.put('/atualizarEvento/:id',uploader.array('fotos_adicionadas'), eventoController.update)
+
+//JSDOC PARA A CRIAÇÂO DE UM PRODUCT
+/**
+ * @swagger
+ *  /admin/criarProduto:
+ *   post:
+ *     summary: Admin Cria um novo produto
+ *     description: Cria um novo produto com um nome e um nível de necessidade. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador Produtos
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nome do produto a ser criado.
+ *                 example: Alimento
+ *               requirement:
+ *                 type: string
+ *                 enum: [CRITICO, ALTO, MEDIO, BAIXO]
+ *                 description: Nível de necessidade do produto.
+ *                 example: CRITICO
+ *     responses:
+ *       201:
+ *         description: Produto criado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   description: ID do produto criado.
+ *                   example: "6719a7ea83a8c0d27a299a5f"
+ *                 name:
+ *                   type: string
+ *                   description: Nome do produto.
+ *                   example: Alimento
+ *                 requirement:
+ *                   type: string
+ *                   description: Nível de necessidade do produto.
+ *                   example: CRITICO
+ *                 __v:
+ *                   type: integer
+ *                   description: Versão do produto.
+ *                   example: 0
+ *       400:
+ *         description: Requisição inválida, parâmetros obrigatórios ausentes ou inválidos.
+ *       401:
+ *         description: Não autorizado, token de autenticação ausente ou inválido.
+ *       500:
+ *         description: Erro interno do servidor.
+ *     headers:
+ *       authorization:
+ *         description: Token JWT necessário para autenticação.
+ *         schema:
+ *           type: string
+ *           example: "Bearer <seu-token-aqui>"
+ */
+adminRouter.post('/criarProduto', productController.createProduct)
+
+//JSDOC PARA ATUALIZAR NIVEL DE CARENCIA DE UM PRODUTO
+/**
+ * @swagger
+ * /admin/atualizarProduto/{id}:
+ *   put:
+ *     summary: Atualiza um produto existente
+ *     description: Atualiza o nível de necessidade de um produto. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador Produtos
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID do produto a ser atualizado.
+ *         schema:
+ *           type: string
+ *           example: "66dbf6aa5904b4954bddc1b6"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               requirement:
+ *                 type: string
+ *                 enum: [CRITICO, ALTO, MEDIO, BAIXO]
+ *                 description: Novo nível de necessidade do produto.
+ *                 example: "MEDIO"
+ *     responses:
+ *       200:
+ *         description: Produto atualizado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   description: ID do produto atualizado.
+ *                   example: "66dbf6aa5904b4954bddc1b6"
+ *                 name:
+ *                   type: string
+ *                   description: Nome do produto.
+ *                   example: "Brinquedo"
+ *                 requirement:
+ *                   type: string
+ *                   description: Novo nível de necessidade do produto.
+ *                   example: "MEDIO"
+ *                 updated_at:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Data e hora da última atualização do produto.
+ *                   example: "2024-10-03T06:46:02.613Z"
+ *       400:
+ *         description: Requisição inválida, parâmetros obrigatórios ausentes ou inválidos.
+ *       401:
+ *         description: Não autorizado, token de autenticação ausente ou inválido.
+ *       404:
+ *         description: Produto não encontrado.
+ *       500:
+ *         description: Erro interno do servidor.
+ *     headers:
+ *       authorization:
+ *         description: Token JWT necessário para autenticação.
+ *         schema:
+ *           type: string
+ *           example: "Bearer <seu-token-aqui>"
+ */
+adminRouter.put('/atualizarProduto/:id', productController.updateProduct)
+
+/**
+ * @swagger
+ * /admin/criarPontoDeColeta:
  *   post:
  *     summary: Cria um novo ponto de coleta
- *     description: Cria um novo ponto de coleta com nome, e endereço. Requer autenticação Bearer token.
+ *     description: Cria um novo ponto de coleta com nome, URL do mapa e endereço. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Ponto de coleta
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -453,17 +790,45 @@ adminRouter.put('/update-products/:id', productController.updateProduct)
  *           schema:
  *             type: object
  *             properties:
- *               nome:
+ *               name:
  *                 type: string
  *                 description: O nome do local.
- *                 example: Atacadão
- *               address:
+ *                 example: Atakarejo
+ *               urlMap:
  *                 type: string
- *                 description: O endereço do evento no formato JSON string.
- *                 example: '{"cep": "12345-678", "estado": "SP", "cidade": "São Paulo", "bairro": "Centro", "rua": "Avenida Paulista", "numero": "1000"}'
+ *                 description: URL do mapa do local.
+ *                 example: https://www.google.com/maps/place/Atakad%C3%A3o+Atakarejo+-+Feira+de+Santana/@-12.2412767,-38.9642868,15z
+ *               address:
+ *                 type: object
+ *                 description: O endereço do ponto de coleta.
+ *                 properties:
+ *                   cep:
+ *                     type: string
+ *                     description: Código postal.
+ *                     example: "444444444"
+ *                   estado:
+ *                     type: string
+ *                     description: Estado.
+ *                     example: "BA"
+ *                   cidade:
+ *                     type: string
+ *                     description: Cidade.
+ *                     example: "Feira de Santana"
+ *                   bairro:
+ *                     type: string
+ *                     description: Bairro.
+ *                     example: "Novo Horizonte"
+ *                   rua:
+ *                     type: string
+ *                     description: Rua.
+ *                     example: "Central"
+ *                   numero:
+ *                     type: string
+ *                     description: Número da residência.
+ *                     example: "53A"
  *     responses:
  *       201:
- *         description: ponto de coleta criado com sucesso.
+ *         description: Ponto de coleta criado com sucesso.
  *         content:
  *           application/json:
  *             schema:
@@ -472,9 +837,18 @@ adminRouter.put('/update-products/:id', productController.updateProduct)
  *                 id:
  *                   type: string
  *                   description: O ID do ponto de coleta criado.
+ *                   example: "6719a7ea83a8c0d27a299a5f"
+ *                 name:
+ *                   type: string
+ *                   description: O nome do local.
+ *                   example: Atakarejo
+ *                 urlMap:
+ *                   type: string
+ *                   description: URL do mapa do local.
+ *                   example: https://www.google.com/maps/place/Atakad%C3%A3o+Atakarejo+-+Feira+de+Santana/@-12.2412767,-38.9642868,15z
  *                 address:
  *                   type: object
- *                   description: O endereço do evento.
+ *                   description: O endereço do ponto de coleta.
  *                   properties:
  *                     cep:
  *                       type: string
@@ -494,32 +868,135 @@ adminRouter.put('/update-products/:id', productController.updateProduct)
  *         description: Não autorizado, token de autenticação inválido ou ausente.
  *       500:
  *         description: Erro interno no servidor.
+ *     headers:
+ *       authorization:
+ *         description: Token JWT necessário para autenticação.
+ *         schema:
+ *           type: string
+ *           example: "Bearer <seu-token-aqui>"
  */
-adminRouter.post('/create-collectionPoint', collectionPointController.createCollectionPoint);
-
-//JSDOC PARA A EXIBIÇÃO DE TODOS OS PONTOS DE COLETA
+adminRouter.post('/criarPontoDeColeta', collectionPointController.createCollectionPoint);
+//JSDOC PARA A EXCLUSÃO DE UM EVENTO
 /**
  * @swagger
- * http://localhost:5000/admin/show-collectionPoints:
- *   get:
- *     summary: Exibe todos os pontos de coleta
- *     description: Recupera uma lista de todos os pontos de coleta.
+ *  /admin/deletarPontoDeColeta/{id}:
+ *   delete:
+ *     summary: Deleta um Ponto de coleta
+ *     description: Remove um Ponto de coleta específico baseado no ID fornecido. Requer autenticação Bearer token.
  *     tags:
- *       - Administrador
+ *       - Administrador Ponto de coleta
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O ID do Ponto de coleta a ser deletado.
  *     responses:
  *       200:
- *         description: Lista de todos os pontos de coleta.
+ *         description: Ponto de coleta deletado com sucesso.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                  name:
+ *                 message:
  *                   type: string
- *                   description: Nome do local
- *                  address:
- *                    type: object
- *                    properties:
+ *                   example: Evento deletado com sucesso.
+ *       400:
+ *         description: Erro ao deletar o Ponto de coleta, ID inválido.
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       404:
+ *         description: Ponto de coleta não encontrado.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+adminRouter.delete('/deletarPontoDeColeta/:id', collectionPointController.deleteCollectionPoints);
+
+/**
+ * @swagger
+ * /admin/atualizarPontoDeColeta/{id}:
+ *   put:
+ *     summary: Atualiza um ponto de coleta existente
+ *     description: Atualiza um ponto de coleta existente com base no ID fornecido. Requer autenticação Bearer token.
+ *     tags:
+ *       - Administrador Ponto de coleta
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O ID do Ponto de coleta a ser atualizado.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: O nome do local.
+ *                 example: Atakarejo
+ *               urlMap:
+ *                 type: string
+ *                 description: URL do mapa do local.
+ *                 example: https://www.google.com/maps/place/Atakad%C3%A3o+Atakarejo+-+Feira+de+Santana/@-12.2412767,-38.9642868,15z
+ *               address:
+ *                 type: object
+ *                 description: O endereço do evento no formato JSON string.
+ *                 properties:
+ *                   cep:
+ *                     type: string
+ *                     description: Código postal.
+ *                     example: "444444444"
+ *                   estado:
+ *                     type: string
+ *                     description: Estado.
+ *                     example: "Ba"
+ *                   cidade:
+ *                     type: string
+ *                     description: Cidade.
+ *                     example: "Feira de Santana"
+ *                   bairro:
+ *                     type: string
+ *                     description: Bairro.
+ *                     example: "Novo Horizonte"
+ *                   rua:
+ *                     type: string
+ *                     description: Rua.
+ *                     example: "Central"
+ *                   numero:
+ *                     type: string
+ *                     description: Número da residência.
+ *                     example: "53A"
+ *     responses:
+ *       200:
+ *         description: Ponto de coleta atualizado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: O ID do ponto de coleta atualizado.
+ *                 name:
+ *                   type: string
+ *                   description: O nome do local.
+ *                 urlMap:
+ *                   type: string
+ *                   description: URL do mapa do local.
+ *                 address:
+ *                   type: object
+ *                   description: O endereço do ponto de coleta.
+ *                   properties:
  *                     cep:
  *                       type: string
  *                     estado:
@@ -532,19 +1009,135 @@ adminRouter.post('/create-collectionPoint', collectionPointController.createColl
  *                       type: string
  *                     numero:
  *                       type: string
+ *       400:
+ *         description: Erro na validação dos dados.
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       404:
+ *         description: Ponto de coleta não encontrado.
  *       500:
  *         description: Erro interno no servidor.
  */
-adminRouter.get('/find-collectionPoints', collectionPointController.getAllCollectionPoints);
+adminRouter.put('/atualizarPontoDeColeta/:id', collectionPointController.updateCollectionPoint)
 
+/**
+ * @swagger
+ *  /admin/cestas:
+ *   get:
+ *     summary: Retorna a lista de cestas de doações
+ *     description: Esta rota recupera todas as cestas de doações no sistema. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador Cesta de doação
+ *     responses:
+ *       200:
+ *         description: Lista de cestas de doações
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   doador:
+ *                     type: object
+ *                     properties:
+ *                       name:
+ *                         type: string
+ *                         description: Nome do doador
+ *                         example: "João"
+ *                       address:
+ *                         type: string
+ *                         nullable: true
+ *                         description: Endereço do doador (pode ser nulo)
+ *                         example: null
+ *                       telefone:
+ *                         type: string
+ *                         description: Telefone do doador
+ *                         example: "75983633860"
+ *                   items:
+ *                     type: array
+ *                     description: Lista de produtos da cesta doada
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         _id:
+ *                           type: string
+ *                           description: ID do produto
+ *                           example: "66fc13fe582e54c349c9629c"
+ *                         name:
+ *                           type: string
+ *                           description: Nome do produto doado
+ *                           example: "Arroz"
+ *                         quantity:
+ *                           type: integer
+ *                           description: Quantidade do produto doado
+ *                           example: 2
+ *                   status:
+ *                     type: string
+ *                     description: Status da doação
+ *                     example: "PENDENTE"
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+adminRouter.get('/cestas', cestaController.findAll)
+
+
+/**
+ * @swagger
+ *  /admin/cestas/{id}:
+ *   put:
+ *     summary: Atualiza os dados de uma cesta de doações
+ *     description: Esta rota atualiza as informações de uma cesta de doações com base no ID fornecido. Requer autenticação com um token Bearer.
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Administrador Cesta de doação
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 description: ID único da cesta a ser atualizada
+ *                 example: "66fc13fe582e54c349c9629c"
+ *     responses:
+ *       204:
+ *         description: Cesta de doações atualizada com sucesso, nenhum conteúdo retornado.
+ *       400:
+ *         description: ID inválido. O ID fornecido não é um ObjectId válido.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensagem de erro
+ *                   example: "O ID fornecido não é válido."
+ *       404:
+ *         description: Cesta de doações não encontrada.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensagem de erro
+ *                   example: "Cesta de doações não encontrada."
+ *       401:
+ *         description: Não autorizado, token de autenticação inválido ou ausente.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
+adminRouter.put('/cestas/:id', cestaController.updateStatus)
 
 
 export default adminRouter;
-
-
-
-
-
-
-
-
